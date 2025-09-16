@@ -940,6 +940,8 @@ function addInteractiveFeatures() {
                     runHTMLPlayground();
                 } else if (document.getElementById('cssPlaygroundCode')) {
                     runCSSPlayground();
+                } else if (document.getElementById('phpPlaygroundCode')) {
+                    runPHPPlayground();
                 }
             }
         }
@@ -1120,4 +1122,96 @@ function showPlaygroundFeedback(message, type) {
             }
         }, 300);
     }, 3000);
+}
+
+// PHP Playground Functions
+function runPHPPlayground() {
+    const code = document.getElementById('phpPlaygroundCode').value;
+    const output = document.getElementById('phpPlaygroundOutput');
+
+    if (!output) return;
+
+    try {
+        // Since we can't execute PHP directly in the browser, we'll simulate it
+        // In a real environment, this would send the code to a PHP server
+        output.innerHTML = '<div class="php-simulation">';
+        output.innerHTML += '<p><strong>ملاحظة:</strong> هذا محاكي لـ PHP. في البيئة الحقيقية، سيتم إرسال الكود إلى خادم PHP.</p>';
+        output.innerHTML += '<div class="code-output">';
+        
+        // Simple PHP simulation for basic echo statements
+        let simulatedOutput = simulatePHPOutput(code);
+        output.innerHTML += simulatedOutput;
+        output.innerHTML += '</div></div>';
+        
+        showPlaygroundFeedback('تم تشغيل الكود بنجاح!', 'success');
+    } catch (error) {
+        showPlaygroundFeedback('خطأ في PHP: ' + error.message, 'error');
+    }
+}
+
+function simulatePHPOutput(code) {
+    let output = '';
+    
+    // Remove PHP tags for simulation
+    let cleanCode = code.replace(/<\?php/g, '').replace(/\?>/g, '');
+    
+    // Simple echo simulation
+    const echoMatches = cleanCode.match(/echo\s+['"]([^'"]*)['"];?/g);
+    if (echoMatches) {
+        echoMatches.forEach(match => {
+            const text = match.match(/echo\s+['"]([^'"]*)['"];?/);
+            if (text) {
+                output += text[1] + '<br>';
+            }
+        });
+    }
+    
+    // Simulate variable output
+    const varMatches = cleanCode.match(/echo\s+['"]([^'"]*)\s*\.\s*\$(\w+)/g);
+    if (varMatches) {
+        varMatches.forEach(match => {
+            const parts = match.match(/echo\s+['"]([^'"]*)\s*\.\s*\$(\w+)/);
+            if (parts) {
+                output += parts[1] + '[قيمة المتغير: ' + parts[2] + ']<br>';
+            }
+        });
+    }
+    
+    // Simulate for loop
+    if (cleanCode.includes('for')) {
+        output += 'نتائج الحلقة:<br>';
+        for (let i = 1; i <= 5; i++) {
+            output += i + '<br>';
+        }
+    }
+    
+    if (!output) {
+        output = 'لا يوجد مخرجات للعرض. جرب استخدام echo لطباعة النتائج.';
+    }
+    
+    return output;
+}
+
+function clearPHPPlayground() {
+    document.getElementById('phpPlaygroundCode').value = `<?php
+// اكتب كود PHP هنا
+echo 'مرحباً بالعالم!';
+echo '<br>';
+echo 'أهلاً وسهلاً في ملعب PHP';
+
+// مثال على المتغيرات
+$name = 'أحمد';
+$age = 25;
+echo '<br><br>';
+echo 'الاسم: ' . $name;
+echo '<br>';
+echo 'العمر: ' . $age;
+
+// مثال على الحلقات
+echo '<br><br>الأرقام من 1 إلى 5:<br>';
+for ($i = 1; $i <= 5; $i++) {
+    echo $i . '<br>';
+}
+?>`;
+    document.getElementById('phpPlaygroundOutput').innerHTML = '';
 }

@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دورة PHP - تعلم البرمجة بلغة PHP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="assets/Syrian_logo_icon_gold.png" alt="Ministry of Finance Logo" class="logo">
+                </div>
+                <div class="title-section">
+                    <h1>دورة PHP</h1>
+                    <p>تعلم البرمجة بلغة PHP من الصفر إلى الاحتراف</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navigation">
+        <div class="container">
+            <ul class="nav-list">
+
+                <li><a href="#introduction" class="nav-link active" data-level="introduction">مقدمة</a></li>
+                <li><a href="#basics" class="nav-link" data-level="basics">أساسيات PHP</a></li>
+                <li><a href="#control" class="nav-link" data-level="control">هياكل التحكم</a></li>
+                <li><a href="#functions" class="nav-link" data-level="functions">الدوال</a></li>
+                <li><a href="#advanced" class="nav-link" data-level="advanced">متقدم</a></li>
+                <li><a href="#database" class="nav-link" data-level="database">قواعد البيانات</a></li>
+                <li><a href="#playground" class="nav-link" data-level="playground">ملعب PHP</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Introduction -->
+            <section id="introduction" class="lesson-section active">
+                <h2><i class="fas fa-info-circle"></i> مقدمة في PHP</h2>
+                <div class="lesson">
+                    <div class="learning-objectives">
+                        <h3><i class="fas fa-target"></i> أهداف التعلم</h3>
+                        <ul>
+                            <li>فهم ماهية PHP واستخداماتها</li>
+                            <li>تعلم كيفية إعداد بيئة التطوير</li>
+                            <li>كتابة أول برنامج PHP</li>
+                            <li>فهم بنية ملفات PHP</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="explanation">
+                        <h3><i class="fas fa-lightbulb"></i> ما هي PHP؟</h3>
+                        <p>PHP (PHP: Hypertext Preprocessor) هي لغة برمجة مفتوحة المصدر تُستخدم بشكل أساسي لتطوير تطبيقات الويب. تتميز PHP بسهولة التعلم والاستخدام، وتدعم العديد من قواعد البيانات.</p>
+                        
+                        <h4>مميزات PHP:</h4>
+                        <ul>
+                            <li>لغة مفتوحة المصدر ومجانية</li>
+                            <li>سهلة التعلم للمبتدئين</li>
+                            <li>تدعم العديد من قواعد البيانات</li>
+                            <li>متوافقة مع جميع أنظمة التشغيل</li>
+                            <li>مجتمع كبير من المطورين</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h3><i class="fas fa-code"></i> أول برنامج PHP</h3>
+                        <pre><code>&lt;?php
+// هذا تعليق في PHP
+echo "مرحباً بالعالم!";
+echo "&lt;br&gt;";
+echo "أهلاً وسهلاً في دورة PHP";
+?&gt;</code></pre>
+                        <p><strong>شرح الكود:</strong></p>
+                        <ul>
+                            <li><code>&lt;?php</code> - بداية كود PHP</li>
+                            <li><code>//</code> - تعليق من سطر واحد</li>
+                            <li><code>echo</code> - أمر طباعة النص</li>
+                            <li><code>?&gt;</code> - نهاية كود PHP</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PHP Basics -->
+            <section id="basics" class="lesson-section">
+                <h2><i class="fas fa-play"></i> أساسيات PHP</h2>
+                
+                <div class="lesson">
+                    <h3>المتغيرات في PHP</h3>
+                    <div class="learning-objectives">
+                        <h4><i class="fas fa-target"></i> أهداف التعلم</h4>
+                        <ul>
+                            <li>تعلم كيفية إنشاء المتغيرات</li>
+                            <li>فهم أنواع البيانات المختلفة</li>
+                            <li>تعلم قواعد تسمية المتغيرات</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="explanation">
+                        <h4><i class="fas fa-lightbulb"></i> المتغيرات</h4>
+                        <p>المتغير في PHP هو حاوية لتخزين البيانات. تبدأ جميع المتغيرات في PHP بعلامة الدولار ($).</p>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> أمثلة على المتغيرات</h4>
+                        <pre><code>&lt;?php
+// متغير نصي
+$name = "أحمد";
+$message = "مرحباً";
+
+// متغير رقمي
+$age = 25;
+$price = 99.99;
+
+// متغير منطقي
+$is_student = true;
+$is_working = false;
+
+// طباعة المتغيرات
+echo $name;
+echo "&lt;br&gt;";
+echo "العمر: " . $age;
+echo "&lt;br&gt;";
+echo "السعر: $" . $price;
+?&gt;</code></pre>
+                        <p><strong>شرح الكود:</strong></p>
+                        <ul>
+                            <li><code>$name</code> - متغير نصي (String)</li>
+                            <li><code>$age</code> - متغير رقمي صحيح (Integer)</li>
+                            <li><code>$price</code> - متغير رقمي عشري (Float)</li>
+                            <li><code>$is_student</code> - متغير منطقي (Boolean)</li>
+                            <li><code>.</code> - عامل ربط النصوص</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <h3>أنواع البيانات</h3>
+                    <div class="explanation">
+                        <h4><i class="fas fa-lightbulb"></i> أنواع البيانات الأساسية</h4>
+                        <ul>
+                            <li><strong>String (نصي):</strong> لتخزين النصوص</li>
+                            <li><strong>Integer (صحيح):</strong> لتخزين الأرقام الصحيحة</li>
+                            <li><strong>Float (عشري):</strong> لتخزين الأرقام العشرية</li>
+                            <li><strong>Boolean (منطقي):</strong> true أو false</li>
+                            <li><strong>Array (مصفوفة):</strong> لتخزين عدة قيم</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> أمثلة على أنواع البيانات</h4>
+                        <pre><code>&lt;?php
+// String
+$text = "مرحباً بالعالم";
+$number_as_text = "123";
+
+// Integer
+$whole_number = 42;
+$negative_number = -10;
+
+// Float
+$decimal = 3.14;
+$price = 19.99;
+
+// Boolean
+$is_true = true;
+$is_false = false;
+
+// Array
+$colors = array("أحمر", "أخضر", "أزرق");
+$numbers = [1, 2, 3, 4, 5];
+
+// طباعة نوع البيانات
+echo gettype($text); // string
+echo "&lt;br&gt;";
+echo gettype($whole_number); // integer
+?&gt;</code></pre>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <h3>المصفوفات (Arrays)</h3>
+                    <div class="explanation">
+                        <h4><i class="fas fa-lightbulb"></i> المصفوفات</h4>
+                        <p>المصفوفة هي متغير يمكنه تخزين عدة قيم في متغير واحد. يمكن الوصول للعناصر باستخدام الفهرس.</p>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> أمثلة على المصفوفات</h4>
+                        <pre><code>&lt;?php
+// مصفوفة بسيطة
+$fruits = array("تفاح", "موز", "برتقال");
+// أو
+$fruits = ["تفاح", "موز", "برتقال"];
+
+// الوصول للعناصر
+echo $fruits[0]; // تفاح
+echo "&lt;br&gt;";
+echo $fruits[1]; // موز
+
+// مصفوفة بروابط نصية
+$person = array(
+    "name" => "أحمد",
+    "age" => 25,
+    "city" => "دمشق"
+);
+
+echo $person["name"]; // أحمد
+echo "&lt;br&gt;";
+echo $person["age"]; // 25
+
+// إضافة عنصر جديد
+$fruits[] = "عنب";
+$person["job"] = "مبرمج";
+?&gt;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Control Structures -->
+            <section id="control" class="lesson-section">
+                <h2><i class="fas fa-sitemap"></i> هياكل التحكم</h2>
+                
+                <div class="lesson">
+                    <h3>الشروط (If Statements)</h3>
+                    <div class="learning-objectives">
+                        <h4><i class="fas fa-target"></i> أهداف التعلم</h4>
+                        <ul>
+                            <li>تعلم استخدام if, else, elseif</li>
+                            <li>فهم عوامل المقارنة</li>
+                            <li>تعلم العوامل المنطقية</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> أمثلة على الشروط</h4>
+                        <pre><code>&lt;?php
+$age = 20;
+$grade = 85;
+
+// if بسيط
+if ($age >= 18) {
+    echo "أنت بالغ";
+}
+
+// if else
+if ($grade >= 60) {
+    echo "نجحت في الامتحان";
+} else {
+    echo "راسب في الامتحان";
+}
+
+// if elseif else
+if ($grade >= 90) {
+    echo "ممتاز";
+} elseif ($grade >= 80) {
+    echo "جيد جداً";
+} elseif ($grade >= 70) {
+    echo "جيد";
+} else {
+    echo "مقبول";
+}
+
+// عوامل المقارنة
+$num1 = 10;
+$num2 = 20;
+
+if ($num1 == $num2) {  // يساوي
+    echo "الرقمان متساويان";
+}
+
+if ($num1 != $num2) {  // لا يساوي
+    echo "الرقمان غير متساويين";
+}
+
+if ($num1 < $num2) {   // أصغر من
+    echo "الرقم الأول أصغر";
+}
+
+// العوامل المنطقية
+$is_student = true;
+$has_id = true;
+
+if ($is_student && $has_id) {  // و
+    echo "يمكنك الدخول";
+}
+
+if ($is_student || $has_id) {  // أو
+    echo "يمكنك الدخول";
+}
+?&gt;</code></pre>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <h3>الحلقات (Loops)</h3>
+                    <div class="explanation">
+                        <h4><i class="fas fa-lightbulb"></i> أنواع الحلقات</h4>
+                        <ul>
+                            <li><strong>for:</strong> للحلقات المحددة العدد</li>
+                            <li><strong>while:</strong> للحلقات غير المحددة</li>
+                            <li><strong>foreach:</strong> للتكرار عبر المصفوفات</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> أمثلة على الحلقات</h4>
+                        <pre><code>&lt;?php
+// حلقة for
+echo "الأرقام من 1 إلى 5:&lt;br&gt;";
+for ($i = 1; $i <= 5; $i++) {
+    echo $i . "&lt;br&gt;";
+}
+
+// حلقة while
+$count = 1;
+echo "&lt;br&gt;الأرقام الزوجية:&lt;br&gt;";
+while ($count <= 10) {
+    if ($count % 2 == 0) {
+        echo $count . "&lt;br&gt;";
+    }
+    $count++;
+}
+
+// حلقة foreach للمصفوفات
+$colors = ["أحمر", "أخضر", "أزرق", "أصفر"];
+echo "&lt;br&gt;الألوان:&lt;br&gt;";
+foreach ($colors as $color) {
+    echo "- " . $color . "&lt;br&gt;";
+}
+
+// foreach للمصفوفات المرتبطة
+$person = [
+    "name" => "أحمد",
+    "age" => 25,
+    "city" => "دمشق"
+];
+
+echo "&lt;br&gt;معلومات الشخص:&lt;br&gt;";
+foreach ($person as $key => $value) {
+    echo $key . ": " . $value . "&lt;br&gt;";
+}
+?&gt;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Functions -->
+            <section id="functions" class="lesson-section">
+                <h2><i class="fas fa-cogs"></i> الدوال (Functions)</h2>
+                
+                <div class="lesson">
+                    <h3>إنشاء واستخدام الدوال</h3>
+                    <div class="learning-objectives">
+                        <h4><i class="fas fa-target"></i> أهداف التعلم</h4>
+                        <ul>
+                            <li>تعلم كيفية إنشاء الدوال</li>
+                            <li>فهم المعاملات والقيم المرجعة</li>
+                            <li>تعلم الدوال المدمجة في PHP</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> إنشاء الدوال</h4>
+                        <pre><code>&lt;?php
+// دالة بسيطة
+function sayHello() {
+    echo "مرحباً بالعالم!";
+}
+
+// استدعاء الدالة
+sayHello();
+
+// دالة مع معاملات
+function greet($name) {
+    echo "مرحباً " . $name;
+}
+
+greet("أحمد");
+
+// دالة مع عدة معاملات
+function add($a, $b) {
+    return $a + $b;
+}
+
+$result = add(5, 3);
+echo "&lt;br&gt;النتيجة: " . $result;
+
+// دالة مع قيمة افتراضية
+function greetWithDefault($name = "زائر") {
+    echo "&lt;br&gt;مرحباً " . $name;
+}
+
+greetWithDefault(); // ستستخدم القيمة الافتراضية
+greetWithDefault("سارة");
+
+// دالة مع نوع البيانات
+function calculateArea(float $length, float $width): float {
+    return $length * $width;
+}
+
+$area = calculateArea(5.5, 3.2);
+echo "&lt;br&gt;المساحة: " . $area;
+?&gt;</code></pre>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <h3>الدوال المدمجة</h3>
+                    <div class="explanation">
+                        <h4><i class="fas fa-lightbulb"></i> بعض الدوال المهمة</h4>
+                        <ul>
+                            <li><code>strlen()</code> - طول النص</li>
+                            <li><code>strtoupper()</code> - تحويل للحروف الكبيرة</li>
+                            <li><code>strtolower()</code> - تحويل للحروف الصغيرة</li>
+                            <li><code>date()</code> - التاريخ والوقت</li>
+                            <li><code>count()</code> - عدد عناصر المصفوفة</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> أمثلة على الدوال المدمجة</h4>
+                        <pre><code>&lt;?php
+$text = "مرحباً بالعالم";
+
+// دوال النصوص
+echo "طول النص: " . strlen($text) . "&lt;br&gt;";
+echo "النص بالأحرف الكبيرة: " . strtoupper($text) . "&lt;br&gt;";
+echo "النص بالأحرف الصغيرة: " . strtolower($text) . "&lt;br&gt;";
+
+// دوال التاريخ
+echo "التاريخ الحالي: " . date("Y-m-d") . "&lt;br&gt;";
+echo "الوقت الحالي: " . date("H:i:s") . "&lt;br&gt;";
+
+// دوال المصفوفات
+$numbers = [1, 2, 3, 4, 5];
+echo "عدد العناصر: " . count($numbers) . "&lt;br&gt;";
+echo "أكبر رقم: " . max($numbers) . "&lt;br&gt;";
+echo "أصغر رقم: " . min($numbers) . "&lt;br&gt;";
+
+// دوال الأرقام
+$number = 3.14159;
+echo "الرقم مقرب: " . round($number, 2) . "&lt;br&gt;";
+echo "الرقم مرفوع: " . ceil($number) . "&lt;br&gt;";
+echo "الرقم مقلوب: " . floor($number) . "&lt;br&gt;";
+?&gt;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced PHP -->
+            <section id="advanced" class="lesson-section">
+                <h2><i class="fas fa-rocket"></i> PHP المتقدم</h2>
+                
+                <div class="lesson">
+                    <h3>معالجة النماذج (Forms)</h3>
+                    <div class="learning-objectives">
+                        <h4><i class="fas fa-target"></i> أهداف التعلم</h4>
+                        <ul>
+                            <li>تعلم كيفية معالجة بيانات النماذج</li>
+                            <li>فهم $_GET و $_POST</li>
+                            <li>تعلم التحقق من صحة البيانات</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> معالجة النماذج</h4>
+                        <pre><code>&lt;?php
+// التحقق من إرسال النموذج
+if ($_POST) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+    
+    // التحقق من صحة البيانات
+    if (empty($name)) {
+        echo "الاسم مطلوب&lt;br&gt;";
+    } elseif (empty($email)) {
+        echo "البريد الإلكتروني مطلوب&lt;br&gt;";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "البريد الإلكتروني غير صحيح&lt;br&gt;";
+    } else {
+        echo "تم إرسال البيانات بنجاح!&lt;br&gt;";
+        echo "الاسم: " . htmlspecialchars($name) . "&lt;br&gt;";
+        echo "البريد: " . htmlspecialchars($email) . "&lt;br&gt;";
+        echo "الرسالة: " . htmlspecialchars($message) . "&lt;br&gt;";
+    }
+}
+?&gt;
+
+&lt;!-- نموذج HTML --&gt;
+&lt;form method="POST" action=""&gt;
+    &lt;label for="name"&gt;الاسم:&lt;/label&gt;
+    &lt;input type="text" id="name" name="name" required&gt;&lt;br&gt;&lt;br&gt;
+    
+    &lt;label for="email"&gt;البريد الإلكتروني:&lt;/label&gt;
+    &lt;input type="email" id="email" name="email" required&gt;&lt;br&gt;&lt;br&gt;
+    
+    &lt;label for="message"&gt;الرسالة:&lt;/label&gt;
+    &lt;textarea id="message" name="message" rows="4" cols="50"&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+    
+    &lt;input type="submit" value="إرسال"&gt;
+&lt;/form&gt;</code></pre>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <h3>جلسات المستخدم (Sessions)</h3>
+                    <div class="explanation">
+                        <h4><i class="fas fa-lightbulb"></i> الجلسات</h4>
+                        <p>الجلسات تسمح بتخزين معلومات المستخدم عبر عدة صفحات. تبدأ الجلسة بـ session_start() وتستخدم $_SESSION لتخزين البيانات.</p>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> استخدام الجلسات</h4>
+                        <pre><code>&lt;?php
+// بدء الجلسة
+session_start();
+
+// تخزين بيانات في الجلسة
+$_SESSION['username'] = "أحمد";
+$_SESSION['user_id'] = 123;
+$_SESSION['login_time'] = date('Y-m-d H:i:s');
+
+// عرض بيانات الجلسة
+echo "اسم المستخدم: " . $_SESSION['username'] . "&lt;br&gt;";
+echo "معرف المستخدم: " . $_SESSION['user_id'] . "&lt;br&gt;";
+echo "وقت تسجيل الدخول: " . $_SESSION['login_time'] . "&lt;br&gt;";
+
+// تحديث بيانات الجلسة
+$_SESSION['last_activity'] = date('Y-m-d H:i:s');
+
+// حذف متغير من الجلسة
+unset($_SESSION['last_activity']);
+
+// إنهاء الجلسة
+// session_destroy();
+?&gt;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Database -->
+            <section id="database" class="lesson-section">
+                <h2><i class="fas fa-database"></i> قواعد البيانات</h2>
+                
+                <div class="lesson">
+                    <h3>الاتصال بقاعدة البيانات</h3>
+                    <div class="learning-objectives">
+                        <h4><i class="fas fa-target"></i> أهداف التعلم</h4>
+                        <ul>
+                            <li>تعلم الاتصال بقاعدة بيانات MySQL</li>
+                            <li>فهم PDO و MySQLi</li>
+                            <li>تعلم تنفيذ استعلامات SQL</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> الاتصال بقاعدة البيانات باستخدام PDO</h4>
+                        <pre><code>&lt;?php
+try {
+    // إعدادات الاتصال
+    $host = 'localhost';
+    $dbname = 'my_database';
+    $username = 'root';
+    $password = '';
+    
+    // إنشاء الاتصال
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    echo "تم الاتصال بقاعدة البيانات بنجاح!";
+    
+} catch(PDOException $e) {
+    echo "خطأ في الاتصال: " . $e->getMessage();
+}
+
+// إنشاء جدول
+$sql = "CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+
+$pdo->exec($sql);
+echo "&lt;br&gt;تم إنشاء الجدول بنجاح!";
+?&gt;</code></pre>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <h3>عمليات قاعدة البيانات (CRUD)</h3>
+                    <div class="explanation">
+                        <h4><i class="fas fa-lightbulb"></i> عمليات CRUD</h4>
+                        <ul>
+                            <li><strong>Create:</strong> إدراج بيانات جديدة</li>
+                            <li><strong>Read:</strong> قراءة البيانات</li>
+                            <li><strong>Update:</strong> تحديث البيانات</li>
+                            <li><strong>Delete:</strong> حذف البيانات</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> أمثلة على عمليات CRUD</h4>
+                        <pre><code>&lt;?php
+// افتراض وجود الاتصال $pdo
+
+// CREATE - إدراج بيانات جديدة
+$stmt = $pdo->prepare("INSERT INTO users (name, email) VALUES (?, ?)");
+$stmt->execute(['أحمد محمد', 'ahmed@example.com']);
+echo "تم إدراج المستخدم بنجاح!&lt;br&gt;";
+
+// READ - قراءة البيانات
+$stmt = $pdo->query("SELECT * FROM users");
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+echo "&lt;h3&gt;قائمة المستخدمين:&lt;/h3&gt;";
+foreach ($users as $user) {
+    echo "ID: " . $user['id'] . " - ";
+    echo "الاسم: " . $user['name'] . " - ";
+    echo "البريد: " . $user['email'] . "&lt;br&gt;";
+}
+
+// UPDATE - تحديث البيانات
+$stmt = $pdo->prepare("UPDATE users SET name = ? WHERE id = ?");
+$stmt->execute(['أحمد علي', 1]);
+echo "&lt;br&gt;تم تحديث المستخدم بنجاح!&lt;br&gt;";
+
+// DELETE - حذف البيانات
+$stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
+$stmt->execute([1]);
+echo "تم حذف المستخدم بنجاح!&lt;br&gt;";
+
+// البحث في البيانات
+$search = 'أحمد';
+$stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE ?");
+$stmt->execute(["%$search%"]);
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+echo "&lt;h3&gt;نتائج البحث:&lt;/h3&gt;";
+foreach ($results as $user) {
+    echo "الاسم: " . $user['name'] . "&lt;br&gt;";
+}
+?&gt;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PHP Playground -->
+            <section id="playground" class="lesson-section">
+                <h2><i class="fas fa-code"></i> ملعب PHP</h2>
+                <div class="playground-container">
+                    <div class="code-editor">
+                        <h3>اكتب كود PHP هنا:</h3>
+                        <textarea id="phpPlaygroundCode" placeholder="&lt;?php
+// اكتب كود PHP هنا
+echo 'مرحباً بالعالم!';
+echo '&lt;br&gt;';
+echo 'أهلاً وسهلاً في ملعب PHP';
+
+// مثال على المتغيرات
+$name = 'أحمد';
+$age = 25;
+echo '&lt;br&gt;&lt;br&gt;';
+echo 'الاسم: ' . $name;
+echo '&lt;br&gt;';
+echo 'العمر: ' . $age;
+
+// مثال على الحلقات
+echo '&lt;br&gt;&lt;br&gt;الأرقام من 1 إلى 5:&lt;br&gt;';
+for ($i = 1; $i <= 5; $i++) {
+    echo $i . '&lt;br&gt;';
+}
+?&gt;">&lt;?php
+// اكتب كود PHP هنا
+echo 'مرحباً بالعالم!';
+echo '&lt;br&gt;';
+echo 'أهلاً وسهلاً في ملعب PHP';
+
+// مثال على المتغيرات
+$name = 'أحمد';
+$age = 25;
+echo '&lt;br&gt;&lt;br&gt;';
+echo 'الاسم: ' . $name;
+echo '&lt;br&gt;';
+echo 'العمر: ' . $age;
+
+// مثال على الحلقات
+echo '&lt;br&gt;&lt;br&gt;الأرقام من 1 إلى 5:&lt;br&gt;';
+for ($i = 1; $i <= 5; $i++) {
+    echo $i . '&lt;br&gt;';
+}
+?&gt;</textarea>
+                        <button class="run-code-btn" onclick="runPHPPlayground()">تشغيل الكود</button>
+                        <button class="clear-btn" onclick="clearPHPPlayground()">مسح</button>
+                    </div>
+                    <div class="playground-output">
+                        <h3>النتيجة:</h3>
+                        <div id="phpPlaygroundOutput"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Training Partners</h3>
+                    <div class="footer-logos">
+                        <a href="https://www.mof.gov.sy/ar">
+                            <img src="assets/Syrian_logo_icon_gold.png" alt="Ministry of Finance" class="footer-logo">
+                            <span>Ministry of Finance</span>
+                        </a>
+                        <a href="https://www.sceit.gov.sy/ar">
+                            <img src="assets/logo-sceit.png" alt="SCEIT" class="footer-logo">
+                            <span>Syrian Center of Excellence in IT</span>
+                        </a>
+                        <a href="https://naits.gov.sy/ar">
+                            <img src="assets/Asset 2@4x.png" alt="naits" class="footer-logo">
+                            <span>National Authority of IT Services</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="html-tutorial.html">HTML Tutorial</a></li>
+                        <li><a href="css-tutorial.html">CSS Tutorial</a></li>
+                        <li><a href="js.html">JavaScript Tutorial</a></li>
+                        <li><a href="php-tutorial.html">PHP Tutorial</a></li>
+                        <li><a href="about-tutor.html">About Tutor</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Information</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:eiaddar@gmail.com">eiaddar@gmail.com</a></li>
+                        <li><a href="tel:+963944408833">(0944) 408833</a></li>
+                        <li><i class="fas fa-map-marker-alt"></i> Damascus, Syria</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Web Development Training Program. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

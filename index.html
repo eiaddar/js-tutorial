@@ -9,11 +9,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="script.js"></script>
 </head>
 <body>
     <header class="header">
         <div class="container">
             <div class="header-content">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <div class="title-section">
                     <h1>وزارة المالية</h1>
                 </div>
@@ -47,7 +51,7 @@
             <section class="collaboration-section">
                 <h2><i class="fas fa-handshake"></i>  برنامج التدريب</h2>
                 <p class="collaboration-subtitle">برنامج شامل لتدريب تطوير الويب تم تطويره من خلال شراكة استراتيجية</p>
-                <p>برنامج تدريب تطوير الويب - HTML, CSS & JavaScript</p>
+                <p>برنامج تدريب تطوير الويب - HTML, CSS, JavaScript, PHP, Database & Laravel</p>
                 
                 <div class="collaboration-intro">
                     <p>يمثل برنامج التدريب هذا تعاوناً استراتيجياً بين مؤسستين رئيسيتين ملتزمتين بتطوير محو الأمية الرقمية والتعليم التقني في سوريا.</p>
@@ -134,22 +138,25 @@
                 
                 <div class="overview-content">
                     <div class="overview-text">
-                        <p>تم تصميم برنامج التدريب الشامل هذا لتطوير الويب لتزويد المشاركين بالمهارات الأساسية في تقنيات الويب الحديثة. يغطي البرنامج ثلاثة أركان أساسية لتطوير الويب:</p>
+                        <p>تم تصميم برنامج التدريب الشامل هذا لتطوير الويب لتزويد المشاركين بالمهارات الأساسية في تقنيات الويب الحديثة. يغطي البرنامج ستة أركان أساسية لتطوير الويب:</p>
                         
                         <ul class="program-features">
                             <li><i class="fab fa-html5"></i> <strong>HTML5:</strong> البنية والترميز الدلالي</li>
                             <li><i class="fab fa-css3-alt"></i> <strong>CSS3:</strong> التصميم والتصميم المتجاوب</li>
                             <li><i class="fab fa-js-square"></i> <strong>JavaScript:</strong> الوظائف التفاعلية والبرمجة</li>
+                            <li><i class="fab fa-php"></i> <strong>PHP:</strong> البرمجة من جانب الخادم</li>
+                            <li><i class="fas fa-database"></i> <strong>Database:</strong> إدارة قواعد البيانات</li>
+                            <li><i class="fab fa-laravel"></i> <strong>Laravel:</strong> إطار عمل PHP الحديث</li>
                         </ul>
                     </div>
                     
                     <div class="program-stats">
                         <div class="stat-item">
-                            <div class="stat-number">3</div>
+                            <div class="stat-number">6</div>
                             <div class="stat-label">التقنيات الأساسية</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-number">50+</div>
+                            <div class="stat-number">120+</div>
                             <div class="stat-label">دروس تفاعلية</div>
                         </div>
                         <div class="stat-item">
@@ -209,6 +216,51 @@
                         </ul>
                         <a href="js.html" class="module-btn">ابدأ دورة JavaScript <i class="fas fa-arrow-left"></i></a>
                     </div>
+
+                    <div class="module-card">
+                        <div class="module-icon">
+                            <i class="fab fa-php"></i>
+                        </div>
+                        <h3>برمجة PHP</h3>
+                        <p>تعلم البرمجة من جانب الخادم باستخدام PHP لإنشاء تطبيقات ويب ديناميكية وتفاعلية.</p>
+                        <ul class="module-topics">
+                            <li>أساسيات PHP والمتغيرات</li>
+                            <li>الدوال والمصفوفات</li>
+                            <li>معالجة النماذج والبيانات</li>
+                            <li>البرمجة الكائنية في PHP</li>
+                        </ul>
+                        <a href="php-tutorial.html" class="module-btn">ابدأ دورة PHP <i class="fas fa-arrow-left"></i></a>
+                    </div>
+
+                    <div class="module-card">
+                        <div class="module-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3>قواعد البيانات</h3>
+                        <p>أتقن إدارة قواعد البيانات باستخدام MySQL لإنشاء وتخزين واسترجاع البيانات بكفاءة.</p>
+                        <ul class="module-topics">
+                            <li>تصميم قواعد البيانات</li>
+                            <li>استعلامات SQL الأساسية</li>
+                            <li>العلاقات بين الجداول</li>
+                            <li>الأمان والأداء</li>
+                        </ul>
+                        <a href="#" class="module-btn">ابدأ دورة قواعد البيانات <i class="fas fa-arrow-left"></i></a>
+                    </div>
+
+                    <div class="module-card">
+                        <div class="module-icon">
+                            <i class="fab fa-laravel"></i>
+                        </div>
+                        <h3>إطار عمل Laravel</h3>
+                        <p>استخدم Laravel لبناء تطبيقات ويب متقدمة وآمنة مع ميزات حديثة وأدوات تطوير قوية.</p>
+                        <ul class="module-topics">
+                            <li>إعداد وتكوين Laravel</li>
+                            <li>نمط MVC والمسارات</li>
+                            <li>قواعد البيانات والهجرة</li>
+                            <li>المصادقة والأمان</li>
+                        </ul>
+                        <a href="#" class="module-btn">ابدأ دورة Laravel <i class="fas fa-arrow-left"></i></a>
+                    </div>
                 </div>
             </section>
 
@@ -246,6 +298,42 @@
                         <div class="step-content">
                             <h3>برمج بـ JavaScript</h3>
                             <p>أضف التفاعل والمحتوى الديناميكي والوظائف المتقدمة لإنشاء تجارب ويب جذابة.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="path-arrow">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    
+                    <div class="path-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>تعلم PHP</h3>
+                            <p>أتقن البرمجة من جانب الخادم لإنشاء تطبيقات ويب ديناميكية وتفاعلية.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="path-arrow">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    
+                    <div class="path-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3>أتقن قواعد البيانات</h3>
+                            <p>تعلم إدارة وتصميم قواعد البيانات باستخدام MySQL لإنشاء تطبيقات قوية.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="path-arrow">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    
+                    <div class="path-step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h3>استخدم Laravel</h3>
+                            <p>استخدم إطار عمل Laravel لبناء تطبيقات ويب متقدمة وآمنة بكفاءة عالية.</p>
                         </div>
                     </div>
                 </div>
@@ -320,6 +408,7 @@
                         <li><a href="html-tutorial.html">HTML Tutorial</a></li>
                         <li><a href="css-tutorial.html">CSS Tutorial</a></li>
                         <li><a href="js.html">JavaScript Tutorial</a></li>
+                        <li><a href="php-tutorial.html">PHP Tutorial</a></li>
                     </ul>
                 </div>
                 

@@ -854,6 +854,9 @@ function clearPlayground() {
 // Initialize the tutorial when DOM is loaded
 let tutorial;
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize mobile menu on all pages
+    initializeMobileMenu();
+    
     // Check if we're on a tutorial page
     if (document.querySelector('.lesson-section')) {
         tutorial = new JavaScriptTutorial();
@@ -902,6 +905,61 @@ function initializeIndexPage() {
     document.querySelectorAll('.stat-item').forEach(item => {
         observer.observe(item);
     });
+}
+
+// Mobile Menu Functionality
+function initializeMobileMenu() {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const navList = document.querySelector('.nav-list');
+    
+    if (mobileMenuToggle && navList) {
+        mobileMenuToggle.addEventListener('click', function() {
+            // Toggle active class on nav list
+            navList.classList.toggle('active');
+            
+            // Toggle active class on button
+            this.classList.toggle('active');
+            
+            // Change icon
+            const icon = this.querySelector('i');
+            if (navList.classList.contains('active')) {
+                icon.className = 'fas fa-times';
+            } else {
+                icon.className = 'fas fa-bars';
+            }
+        });
+        
+        // Close menu when clicking on nav links
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navList.classList.remove('active');
+                mobileMenuToggle.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.className = 'fas fa-bars';
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!mobileMenuToggle.contains(e.target) && !navList.contains(e.target)) {
+                navList.classList.remove('active');
+                mobileMenuToggle.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.className = 'fas fa-bars';
+            }
+        });
+        
+        // Close menu on window resize if screen becomes larger
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                navList.classList.remove('active');
+                mobileMenuToggle.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.className = 'fas fa-bars';
+            }
+        });
+    }
 }
 
 function animateStats(statItem) {

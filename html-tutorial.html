@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دورة HTML - تدريب تطوير الويب</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="assets/Syrian_logo_icon_gold.png" alt="Ministry of Finance Logo" class="logo">
+                </div>
+                <div class="title-section">
+                    <h1>دورة HTML - تدريب تطوير الويب</h1>
+                    <p>تعلم HTML5 من الأساسيات إلى المفاهيم المتقدمة</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navigation">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+                <li><a href="#basics" class="nav-link active" data-level="basics">أساسيات HTML</a></li>
+                <li><a href="#semantic" class="nav-link" data-level="semantic">HTML الدلالي</a></li>
+                <li><a href="#forms" class="nav-link" data-level="forms">النماذج</a></li>
+                <li><a href="#multimedia" class="nav-link" data-level="multimedia">الوسائط المتعددة</a></li>
+                <li><a href="#advanced" class="nav-link" data-level="advanced">متقدم</a></li>
+                <li><a href="#playground" class="nav-link" data-level="playground">ملعب HTML</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span class="progress-text" id="progressText">0% Complete</span>
+            </div>
+
+            <!-- HTML Basics Section -->
+            <section id="basics" class="lesson-section active">
+                <h2><i class="fab fa-html5"></i> أساسيات HTML</h2>
+                
+                <div class="lesson" data-lesson="1">
+                    <h3>1. مقدمة في HTML</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>فهم ما هو HTML ودوره في تطوير الويب</li>
+                                <li>تعلم البنية الأساسية لمستند HTML</li>
+                                <li>إتقان صيغة HTML وبنية العناصر</li>
+                            </ul>
+                            
+                            <h4>📚 المفاهيم الأساسية:</h4>
+                            <p><strong>HTML (لغة ترميز النص التشعبي)</strong> هي لغة الترميز القياسية لإنشاء صفحات الويب. تصف بنية صفحات الويب باستخدام الترميز.</p>
+                            <ul>
+                                <li><strong>العناصر:</strong> لبنات البناء الأساسية لـ HTML (العلامات مع المحتوى)</li>
+                                <li><strong>العلامات:</strong> الترميز الذي يحدد العناصر</li>
+                                <li><strong>الخصائص:</strong> معلومات إضافية حول العناصر</li>
+                                <li><strong>بنية المستند:</strong> الإطار الأساسي لكل صفحة HTML</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My First HTML Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Welcome to HTML!&lt;/h1&gt;
+    &lt;p&gt;This is a paragraph of text.&lt;/p&gt;
+    &lt;p&gt;HTML uses tags to structure content.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>DOCTYPE:</strong> يعلن عن نوع المستند وإصدار HTML (HTML5).</p>
+                            <p><strong>html:</strong> العنصر الجذر الذي يحتوي على جميع العناصر الأخرى.</p>
+                            <p><strong>head:</strong> يحتوي على البيانات الوصفية حول المستند (العنوان، الأنماط، النصوص البرمجية).</p>
+                            <p><strong>body:</strong> يحتوي على المحتوى المرئي لصفحة الويب.</p>
+                            <p><strong>h1:</strong> عنصر العنوان (أكبر مستوى عنوان).</p>
+                            <p><strong>p:</strong> عنصر الفقرة لمحتوى النص.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson" data-lesson="2">
+                    <h3>2. عناصر النص والعناوين</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>تعلم مستويات العناوين المختلفة وتسلسلها الهرمي</li>
+                                <li>فهم عناصر تنسيق النص</li>
+                                <li>إتقان عناصر الفقرات وكسر الأسطر</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-html">&lt;!-- Heading Hierarchy --&gt;
+&lt;h1&gt;Main Title (Most Important)&lt;/h1&gt;
+&lt;h2&gt;Section Heading&lt;/h2&gt;
+&lt;h3&gt;Subsection Heading&lt;/h3&gt;
+&lt;h4&gt;Minor Heading&lt;/h4&gt;
+&lt;h5&gt;Small Heading&lt;/h5&gt;
+&lt;h6&gt;Smallest Heading&lt;/h6&gt;
+
+&lt;!-- Text Formatting --&gt;
+&lt;p&gt;This is a normal paragraph.&lt;/p&gt;
+&lt;p&gt;This paragraph has &lt;strong&gt;bold text&lt;/strong&gt; and &lt;em&gt;italic text&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;You can also use &lt;b&gt;bold&lt;/b&gt; and &lt;i&gt;italic&lt;/i&gt; tags.&lt;/p&gt;
+&lt;p&gt;Here's some &lt;u&gt;underlined text&lt;/u&gt; and &lt;s&gt;strikethrough text&lt;/s&gt;.&lt;/p&gt;
+
+&lt;!-- Line Breaks and Horizontal Rules --&gt;
+&lt;p&gt;This is the first line.&lt;br&gt;This is the second line.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;This paragraph is separated by a horizontal rule.&lt;/p&gt;
+
+&lt;!-- Special Characters --&gt;
+&lt;p&gt;Copyright &copy; 2024 | Less than &lt; | Greater than &gt; | Ampersand &amp;&lt;/p&gt;</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>العناوين:</strong> استخدم h1-h6 لإنشاء تسلسل هرمي منطقي. استخدم h1 واحد فقط في كل صفحة.</p>
+                            <p><strong>strong/em:</strong> التأكيد الدلالي (مفضل على b/i لإمكانية الوصول).</p>
+                            <p><strong>br:</strong> كسر السطر (علامة ذاتية الإغلاق).</p>
+                            <p><strong>hr:</strong> خط أفقي للفصل البصري.</p>
+                            <p><strong>الكيانات:</strong> أحرف خاصة باستخدام صيغة &amp;entity;.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson" data-lesson="3">
+                    <h3>3. القوائم والروابط</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>إنشاء القوائم المرتبة وغير المرتبة</li>
+                                <li>بناء القوائم المتداخلة وقوائم التعريف</li>
+                                <li>إتقان الربط بين الصفحات والأقسام</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-html">&lt;!-- Unordered List (Bullet Points) --&gt;
+&lt;ul&gt;
+    &lt;li&gt;First item&lt;/li&gt;
+    &lt;li&gt;Second item&lt;/li&gt;
+    &lt;li&gt;Third item&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- Ordered List (Numbered) --&gt;
+&lt;ol&gt;
+    &lt;li&gt;First step&lt;/li&gt;
+    &lt;li&gt;Second step&lt;/li&gt;
+    &lt;li&gt;Third step&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- Nested Lists --&gt;
+&lt;ul&gt;
+    &lt;li&gt;Fruits
+        &lt;ul&gt;
+            &lt;li&gt;Apples&lt;/li&gt;
+            &lt;li&gt;Bananas&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;Vegetables
+        &lt;ol&gt;
+            &lt;li&gt;Carrots&lt;/li&gt;
+            &lt;li&gt;Broccoli&lt;/li&gt;
+        &lt;/ol&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- Definition List --&gt;
+&lt;dl&gt;
+    &lt;dt&gt;HTML&lt;/dt&gt;
+    &lt;dd&gt;HyperText Markup Language&lt;/dd&gt;
+    &lt;dt&gt;CSS&lt;/dt&gt;
+    &lt;dd&gt;Cascading Style Sheets&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;!-- Links --&gt;
+&lt;p&gt;Visit &lt;a href="https://www.example.com"&gt;Example Website&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Email us at &lt;a href="mailto:contact@example.com"&gt;contact@example.com&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Call us at &lt;a href="tel:+1234567890"&gt;+1 (234) 567-890&lt;/a&gt;&lt;/p&gt;
+
+&lt;!-- Internal Links --&gt;
+&lt;p&gt;Go to &lt;a href="#section1"&gt;Section 1&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="section1"&gt;Section 1&lt;/h2&gt;</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>ul:</strong> قائمة غير مرتبة للنقاط النقطية.</p>
+                            <p><strong>ol:</strong> قائمة مرتبة للعناصر المرقمة.</p>
+                            <p><strong>dl/dt/dd:</strong> قائمة تعريف للمصطلحات والتعريفات.</p>
+                            <p><strong>href:</strong> وجهة الرابط (URL، بريد إلكتروني، هاتف، أو مرساة داخلية).</p>
+                            <p><strong>id:</strong> معرف فريد للربط الداخلي.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Semantic HTML Section -->
+            <section id="semantic" class="lesson-section">
+                <h2><i class="fas fa-sitemap"></i> HTML الدلالي</h2>
+                
+                <div class="lesson" data-lesson="4">
+                    <h3>4. العناصر الدلالية</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>فهم أهمية HTML الدلالي</li>
+                                <li>تعلم عناصر HTML5 الدلالية</li>
+                                <li>تحسين إمكانية الوصول ومحركات البحث بالترميز الدلالي</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-html">&lt;!-- Semantic HTML5 Structure --&gt;
+&lt;header&gt;
+    &lt;h1&gt;Website Title&lt;/h1&gt;
+    &lt;nav&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#about"&gt;About&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+    &lt;article&gt;
+        &lt;header&gt;
+            &lt;h2&gt;Article Title&lt;/h2&gt;
+            &lt;p&gt;Published on &lt;time datetime="2024-01-15"&gt;January 15, 2024&lt;/time&gt;&lt;/p&gt;
+        &lt;/header&gt;
+        
+        &lt;section&gt;
+            &lt;h3&gt;Introduction&lt;/h3&gt;
+            &lt;p&gt;This is the introduction section...&lt;/p&gt;
+        &lt;/section&gt;
+        
+        &lt;section&gt;
+            &lt;h3&gt;Main Content&lt;/h3&gt;
+            &lt;p&gt;This is the main content section...&lt;/p&gt;
+            
+            &lt;aside&gt;
+                &lt;h4&gt;Related Information&lt;/h4&gt;
+                &lt;p&gt;This is related but separate content.&lt;/p&gt;
+            &lt;/aside&gt;
+        &lt;/section&gt;
+        
+        &lt;footer&gt;
+            &lt;p&gt;Article footer with author information.&lt;/p&gt;
+        &lt;/footer&gt;
+    &lt;/article&gt;
+&lt;/main&gt;
+
+&lt;aside&gt;
+    &lt;h2&gt;Sidebar&lt;/h2&gt;
+    &lt;p&gt;Additional content that's related to the main content.&lt;/p&gt;
+&lt;/aside&gt;
+
+&lt;footer&gt;
+    &lt;p&gt;&copy; 2024 Website Name. All rights reserved.&lt;/p&gt;
+&lt;/footer&gt;</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>header:</strong> المحتوى التمهيدي أو التنقل.</p>
+                            <p><strong>nav:</strong> روابط التنقل.</p>
+                            <p><strong>main:</strong> المحتوى الرئيسي للصفحة (واحد فقط في كل صفحة).</p>
+                            <p><strong>article:</strong> محتوى مستقل يمكن أن يقف بمفرده.</p>
+                            <p><strong>section:</strong> تجميع موضوعي للمحتوى.</p>
+                            <p><strong>aside:</strong> محتوى مرتبط بالمحتوى الرئيسي لكن منفصل عنه.</p>
+                            <p><strong>footer:</strong> محتوى التذييل للصفحة أو القسم.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Forms Section -->
+            <section id="forms" class="lesson-section">
+                <h2><i class="fas fa-wpforms"></i> النماذج</h2>
+                
+                <div class="lesson" data-lesson="5">
+                    <h3>5. عناصر النماذج وأنواع الإدخال</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>إنشاء نماذج تفاعلية بأنواع إدخال متنوعة</li>
+                                <li>فهم التحقق من صحة النماذج وإمكانية الوصول</li>
+                                <li>تعلم إرسال النماذج ومعالجة البيانات</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-html">&lt;!-- Basic Form Structure --&gt;
+&lt;form action="/submit" method="POST"&gt;
+    &lt;fieldset&gt;
+        &lt;legend&gt;Personal Information&lt;/legend&gt;
+        
+        &lt;div&gt;
+            &lt;label for="name"&gt;Full Name:&lt;/label&gt;
+            &lt;input type="text" id="name" name="name" required&gt;
+        &lt;/div&gt;
+        
+        &lt;div&gt;
+            &lt;label for="email"&gt;Email:&lt;/label&gt;
+            &lt;input type="email" id="email" name="email" required&gt;
+        &lt;/div&gt;
+        
+        &lt;div&gt;
+            &lt;label for="age"&gt;Age:&lt;/label&gt;
+            &lt;input type="number" id="age" name="age" min="1" max="120"&gt;
+        &lt;/div&gt;
+        
+        &lt;div&gt;
+            &lt;label for="birthdate"&gt;Birth Date:&lt;/label&gt;
+            &lt;input type="date" id="birthdate" name="birthdate"&gt;
+        &lt;/div&gt;
+    &lt;/fieldset&gt;
+    
+    &lt;fieldset&gt;
+        &lt;legend&gt;Preferences&lt;/legend&gt;
+        
+        &lt;div&gt;
+            &lt;label&gt;Gender:&lt;/label&gt;
+            &lt;input type="radio" id="male" name="gender" value="male"&gt;
+            &lt;label for="male"&gt;Male&lt;/label&gt;
+            
+            &lt;input type="radio" id="female" name="gender" value="female"&gt;
+            &lt;label for="female"&gt;Female&lt;/label&gt;
+        &lt;/div&gt;
+        
+        &lt;div&gt;
+            &lt;label&gt;Interests:&lt;/label&gt;
+            &lt;input type="checkbox" id="sports" name="interests" value="sports"&gt;
+            &lt;label for="sports"&gt;Sports&lt;/label&gt;
+            
+            &lt;input type="checkbox" id="music" name="interests" value="music"&gt;
+            &lt;label for="music"&gt;Music&lt;/label&gt;
+            
+            &lt;input type="checkbox" id="reading" name="interests" value="reading"&gt;
+            &lt;label for="reading"&gt;Reading&lt;/label&gt;
+        &lt;/div&gt;
+        
+        &lt;div&gt;
+            &lt;label for="country"&gt;Country:&lt;/label&gt;
+            &lt;select id="country" name="country"&gt;
+                &lt;option value=""&gt;Select a country&lt;/option&gt;
+                &lt;option value="syria"&gt;Syria&lt;/option&gt;
+                &lt;option value="lebanon"&gt;Lebanon&lt;/option&gt;
+                &lt;option value="jordan"&gt;Jordan&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/div&gt;
+        
+        &lt;div&gt;
+            &lt;label for="bio"&gt;Biography:&lt;/label&gt;
+            &lt;textarea id="bio" name="bio" rows="4" cols="50" placeholder="Tell us about yourself..."&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+    &lt;/fieldset&gt;
+    
+    &lt;div&gt;
+        &lt;button type="submit"&gt;Submit Form&lt;/button&gt;
+        &lt;button type="reset"&gt;Reset Form&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>form:</strong> حاوية لعناصر النموذج مع خصائص action و method.</p>
+                            <p><strong>fieldset/legend:</strong> يجمع عناصر التحكم ذات الصلة مع تسمية توضيحية.</p>
+                            <p><strong>label:</strong> يربط النص بعناصر التحكم لإمكانية الوصول.</p>
+                            <p><strong>أنواع input:</strong> text، email، number، date، radio، checkbox، إلخ.</p>
+                            <p><strong>select/option:</strong> قائمة منسدلة لاختيار الخيارات.</p>
+                            <p><strong>textarea:</strong> إدخال نص متعدد الأسطر.</p>
+                            <p><strong>required:</strong> خاصية التحقق من HTML5.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Multimedia Section -->
+            <section id="multimedia" class="lesson-section">
+                <h2><i class="fas fa-images"></i> الوسائط المتعددة</h2>
+                
+                <div class="lesson" data-lesson="6">
+                    <h3>6. الصور والصوت والفيديو</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>إضافة الصور مع نص بديل مناسب وتصميم متجاوب</li>
+                                <li>تضمين محتوى الصوت والفيديو</li>
+                                <li>فهم إمكانية الوصول والتحسين للوسائط المتعددة</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-html">&lt;!-- Images --&gt;
+&lt;!-- Basic image --&gt;
+&lt;img src="image.jpg" alt="Description of the image"&gt;
+
+&lt;!-- Responsive image with multiple sources --&gt;
+&lt;picture&gt;
+    &lt;source media="(min-width: 800px)" srcset="large-image.jpg"&gt;
+    &lt;source media="(min-width: 400px)" srcset="medium-image.jpg"&gt;
+    &lt;img src="small-image.jpg" alt="Responsive image"&gt;
+&lt;/picture&gt;
+
+&lt;!-- Image with figure and caption --&gt;
+&lt;figure&gt;
+    &lt;img src="chart.png" alt="Sales chart showing growth"&gt;
+    &lt;figcaption&gt;Figure 1: Quarterly sales growth&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- Audio --&gt;
+&lt;audio controls&gt;
+    &lt;source src="audio.mp3" type="audio/mpeg"&gt;
+    &lt;source src="audio.ogg" type="audio/ogg"&gt;
+    Your browser does not support the audio element.
+&lt;/audio&gt;
+
+&lt;!-- Video --&gt;
+&lt;video controls width="640" height="360"&gt;
+    &lt;source src="video.mp4" type="video/mp4"&gt;
+    &lt;source src="video.webm" type="video/webm"&gt;
+    Your browser does not support the video element.
+&lt;/video&gt;
+
+&lt;!-- Video with poster and subtitles --&gt;
+&lt;video controls poster="video-poster.jpg"&gt;
+    &lt;source src="video.mp4" type="video/mp4"&gt;
+    &lt;track kind="subtitles" src="subtitles.vtt" srclang="en" label="English"&gt;
+    &lt;track kind="captions" src="captions.vtt" srclang="en" label="English Captions"&gt;
+&lt;/video&gt;
+
+&lt;!-- Embedded content --&gt;
+&lt;iframe src="https://www.youtube.com/embed/VIDEO_ID" 
+        width="560" height="315" 
+        frameborder="0" 
+        allowfullscreen&gt;
+&lt;/iframe&gt;</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>img:</strong> يعرض الصور مع خصائص src و alt.</p>
+                            <p><strong>picture:</strong> يوفر مصادر صور متعددة للتصميم المتجاوب.</p>
+                            <p><strong>figure/figcaption:</strong> يجمع الصور مع التسميات التوضيحية لدلالة أفضل.</p>
+                            <p><strong>audio/video:</strong> يضم الوسائط المتعددة مع عناصر التحكم وتنسيقات متعددة.</p>
+                            <p><strong>track:</strong> يضيف الترجمات والتسميات التوضيحية لمحتوى الفيديو.</p>
+                            <p><strong>iframe:</strong> يضم المحتوى الخارجي مثل فيديوهات YouTube.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Section -->
+            <section id="advanced" class="lesson-section">
+                <h2><i class="fas fa-cogs"></i> HTML المتقدم</h2>
+                
+                <div class="lesson" data-lesson="7">
+                    <h3>7. الجداول والبيانات</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>إنشاء جداول منظمة لعرض البيانات</li>
+                                <li>فهم إمكانية الوصول والدلالة للجداول</li>
+                                <li>تعلم ميزات الجداول المتقدمة والتنسيق</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-html">&lt;!-- Basic Table Structure --&gt;
+&lt;table&gt;
+    &lt;caption&gt;Student Grades&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Student Name&lt;/th&gt;
+            &lt;th&gt;Math&lt;/th&gt;
+            &lt;th&gt;Science&lt;/th&gt;
+            &lt;th&gt;English&lt;/th&gt;
+            &lt;th&gt;Total&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Ahmed Ali&lt;/td&gt;
+            &lt;td&gt;85&lt;/td&gt;
+            &lt;td&gt;92&lt;/td&gt;
+            &lt;td&gt;78&lt;/td&gt;
+            &lt;td&gt;255&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Fatima Hassan&lt;/td&gt;
+            &lt;td&gt;90&lt;/td&gt;
+            &lt;td&gt;88&lt;/td&gt;
+            &lt;td&gt;95&lt;/td&gt;
+            &lt;td&gt;273&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Average&lt;/td&gt;
+            &lt;td&gt;87.5&lt;/td&gt;
+            &lt;td&gt;90&lt;/td&gt;
+            &lt;td&gt;86.5&lt;/td&gt;
+            &lt;td&gt;264&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+
+&lt;!-- Complex Table with Colspan and Rowspan --&gt;
+&lt;table&gt;
+    &lt;caption&gt;Course Schedule&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Time&lt;/th&gt;
+            &lt;th&gt;Monday&lt;/th&gt;
+            &lt;th&gt;Tuesday&lt;/th&gt;
+            &lt;th&gt;Wednesday&lt;/th&gt;
+            &lt;th&gt;Thursday&lt;/th&gt;
+            &lt;th&gt;Friday&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;9:00 AM&lt;/td&gt;
+            &lt;td rowspan="2"&gt;HTML Course&lt;/td&gt;
+            &lt;td&gt;CSS Course&lt;/td&gt;
+            &lt;td rowspan="2"&gt;JavaScript Course&lt;/td&gt;
+            &lt;td&gt;Project Work&lt;/td&gt;
+            &lt;td&gt;Review&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;10:00 AM&lt;/td&gt;
+            &lt;td&gt;Break&lt;/td&gt;
+            &lt;td&gt;Practice&lt;/td&gt;
+            &lt;td&gt;Q&amp;A Session&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;11:00 AM&lt;/td&gt;
+            &lt;td colspan="5"&gt;Lunch Break&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>table:</strong> حاوية للبيانات الجدولية.</p>
+                            <p><strong>caption:</strong> عنوان الجدول أو وصفه.</p>
+                            <p><strong>thead/tbody/tfoot:</strong> أقسام دلالية للجدول.</p>
+                            <p><strong>tr:</strong> صف الجدول.</p>
+                            <p><strong>th:</strong> خلية رأس الجدول.</p>
+                            <p><strong>td:</strong> خلية بيانات الجدول.</p>
+                            <p><strong>colspan/rowspan:</strong> دمج الخلايا عبر الأعمدة أو الصفوف.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson" data-lesson="8">
+                    <h3>8. إمكانية الوصول وأفضل الممارسات</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>فهم مبادئ إمكانية الوصول على الويب</li>
+                                <li>تعلم خصائص ARIA والترميز الدلالي</li>
+                                <li>إتقان أفضل ممارسات HTML والتحقق من الصحة</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-html">&lt;!-- Accessible Form --&gt;
+&lt;form&gt;
+    &lt;fieldset&gt;
+        &lt;legend&gt;Contact Information&lt;/legend&gt;
+        
+        &lt;div&gt;
+            &lt;label for="fullname"&gt;Full Name &lt;span aria-label="required"&gt;*&lt;/span&gt;&lt;/label&gt;
+            &lt;input type="text" 
+                   id="fullname" 
+                   name="fullname" 
+                   required 
+                   aria-describedby="name-help"
+                   aria-invalid="false"&gt;
+            &lt;div id="name-help"&gt;Enter your first and last name&lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;div&gt;
+            &lt;label for="phone"&gt;Phone Number&lt;/label&gt;
+            &lt;input type="tel" 
+                   id="phone" 
+                   name="phone"
+                   pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                   aria-describedby="phone-format"&gt;
+            &lt;div id="phone-format"&gt;Format: 123-456-7890&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/fieldset&gt;
+&lt;/form&gt;
+
+&lt;!-- Accessible Navigation --&gt;
+&lt;nav role="navigation" aria-label="Main navigation"&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;a href="#home" aria-current="page"&gt;Home&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#about"&gt;About&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#services"&gt;Services&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;!-- Accessible Image with Description --&gt;
+&lt;figure&gt;
+    &lt;img src="chart.png" 
+         alt="Bar chart showing sales data for Q1 2024. January: $50K, February: $65K, March: $80K"&gt;
+    &lt;figcaption&gt;Quarterly Sales Performance&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- Skip Links for Screen Readers --&gt;
+&lt;a href="#main-content" class="skip-link"&gt;Skip to main content&lt;/a&gt;
+&lt;a href="#navigation" class="skip-link"&gt;Skip to navigation&lt;/a&gt;
+
+&lt;!-- ARIA Live Region for Dynamic Content --&gt;
+&lt;div aria-live="polite" aria-atomic="true" id="status"&gt;&lt;/div&gt;
+
+&lt;!-- Button with Loading State --&gt;
+&lt;button type="submit" 
+        aria-describedby="submit-help"
+        data-loading="false"&gt;
+    &lt;span class="button-text"&gt;Submit Form&lt;/span&gt;
+    &lt;span class="loading-spinner" aria-hidden="true"&gt;&lt;/span&gt;
+&lt;/button&gt;
+&lt;div id="submit-help"&gt;Click to submit your information&lt;/div&gt;</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>aria-label:</strong> يوفر اسمًا يمكن الوصول إليه للعناصر.</p>
+                            <p><strong>aria-describedby:</strong> يشير إلى العناصر التي تصف العنصر الحالي.</p>
+                            <p><strong>aria-current:</strong> يشير إلى العنصر الحالي في مجموعة.</p>
+                            <p><strong>role:</strong> يحدد الغرض من العنصر لقارئات الشاشة.</p>
+                            <p><strong>aria-live:</strong> يعلن عن تغييرات المحتوى الديناميكي.</p>
+                            <p><strong>aria-hidden:</strong> يخفي العناصر الزخرفية من قارئات الشاشة.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HTML Playground -->
+            <section id="playground" class="lesson-section">
+                <h2><i class="fas fa-code"></i> ملعب HTML</h2>
+                <div class="playground-container">
+                    <div class="code-editor">
+                        <h3>اكتب كود HTML هنا:</h3>
+                        <textarea id="htmlPlaygroundCode" placeholder="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ar&quot;&gt;
+&lt;head&gt;
+    &lt;title&gt;صفحتي الأولى&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;مرحباً بالعالم!&lt;/h1&gt;
+    &lt;p&gt;هذه صفحتي الأولى&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;">&lt;!DOCTYPE html&gt;
+&lt;html lang="ar"&gt;
+&lt;head&gt;
+    &lt;title&gt;صفحتي الأولى&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;مرحباً بالعالم!&lt;/h1&gt;
+    &lt;p&gt;هذه صفحتي الأولى&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</textarea>
+                        <button class="run-code-btn" onclick="runHTMLPlayground()">عرض النتيجة</button>
+                        <button class="clear-btn" onclick="clearHTMLPlayground()">مسح</button>
+                    </div>
+                    <div class="playground-output">
+                        <h3>معاينة مباشرة:</h3>
+                        <iframe id="htmlPlaygroundOutput" sandbox="allow-scripts"></iframe>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Training Partners</h3>
+                    <div class="footer-logos">
+                        <a href="https://www.mof.gov.sy/ar">
+                            <img src="assets/Syrian_logo_icon_gold.png" alt="Ministry of Finance" class="footer-logo">
+                            <span>Ministry of Finance</span>
+                        </a>
+                        <a href="https://www.sceit.gov.sy/ar">
+                            <img src="assets/logo-sceit.png" alt="SCEIT" class="footer-logo">
+                            <span>Syrian Center of Excellence in IT</span>
+                        </a>
+                        <a href="https://naits.gov.sy/ar">
+                            <img src="assets/Asset 2@4x.png" alt="naits" class="footer-logo">
+                            <span>National Authority of IT Services</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="html-tutorial.html">HTML Tutorial</a></li>
+                        <li><a href="css-tutorial.html">CSS Tutorial</a></li>
+                        <li><a href="js.html">JavaScript Tutorial</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>HTML Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank">MDN HTML Guide</a></li>
+                        <li><a href="https://validator.w3.org/" target="_blank">HTML Validator</a></li>
+                        <li><a href="https://www.w3schools.com/html/" target="_blank">W3Schools HTML</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Web Development Training Program. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

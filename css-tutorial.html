@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دورة CSS - تدريب تطوير الويب</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="assets/Syrian_logo_icon_gold.png" alt="Ministry of Finance Logo" class="logo">
+                </div>
+                <div class="title-section">
+                    <h1>دورة CSS - تدريب تطوير الويب</h1>
+                    <p>تعلم CSS3 من الأساسيات إلى تقنيات التصميم المتقدمة</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navigation">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+                <li><a href="#basics" class="nav-link active" data-level="basics">أساسيات CSS</a></li>
+                <li><a href="#layout" class="nav-link" data-level="layout">التخطيط</a></li>
+                <li><a href="#responsive" class="nav-link" data-level="responsive">المتجاوب</a></li>
+                <li><a href="#advanced" class="nav-link" data-level="advanced">متقدم</a></li>
+                <li><a href="#playground" class="nav-link" data-level="playground">ملعب CSS</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span class="progress-text" id="progressText">0% Complete</span>
+            </div>
+
+            <!-- CSS Basics Section -->
+            <section id="basics" class="lesson-section active">
+                <h2><i class="fab fa-css3-alt"></i> أساسيات CSS</h2>
+                
+                <div class="lesson" data-lesson="1">
+                    <h3>1. مقدمة في CSS</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>فهم ما هو CSS وكيف يعمل مع HTML</li>
+                                <li>تعلم صيغة CSS والمحددات</li>
+                                <li>إتقان الطرق المختلفة لتضمين CSS في HTML</li>
+                            </ul>
+                            
+                            <h4>📚 المفاهيم الأساسية:</h4>
+                            <p><strong>CSS (صفحات الأنماط المتتالية)</strong> هي لغة ورقة الأنماط المستخدمة لوصف عرض مستندات HTML.</p>
+                            <ul>
+                                <li><strong>المحددات:</strong> تستهدف عناصر HTML للتنسيق</li>
+                                <li><strong>الخصائص:</strong> الجانب المراد تنسيقه (اللون، الحجم، إلخ)</li>
+                                <li><strong>القيم:</strong> كيفية تنسيق الخاصية</li>
+                                <li><strong>التتالي:</strong> كيفية تطبيق الأنماط وتجاوزها</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-css">/* CSS Syntax */
+selector {
+    property: value;
+    property: value;
+}
+
+/* Examples */
+h1 {
+    color: blue;
+    font-size: 24px;
+    text-align: center;
+}
+
+p {
+    color: #333;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+.button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>المحدد:</strong> يستهدف عناصر HTML (h1، p، .button).</p>
+                            <p><strong>الخاصية:</strong> ما يتم تنسيقه (اللون، حجم الخط، لون الخلفية).</p>
+                            <p><strong>القيمة:</strong> كيفية تنسيقه (أزرق، 24px، #007bff).</p>
+                            <p><strong>الفئة الزائفة:</strong> :hover تنسق العناصر في حالات مختلفة.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson" data-lesson="2">
+                    <h3>2. محددات CSS</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>إتقان أنواع مختلفة من محددات CSS</li>
+                                <li>فهم التخصصية والتتالي</li>
+                                <li>تعلم تقنيات المحددات المتقدمة</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-css">/* Element Selectors */
+h1 { color: red; }
+p { font-size: 16px; }
+div { border: 1px solid black; }
+
+/* Class Selectors */
+.highlight { background-color: yellow; }
+.button-primary { background-color: blue; }
+.text-center { text-align: center; }
+
+/* ID Selectors */
+#header { background-color: #333; }
+#main-content { padding: 20px; }
+#footer { margin-top: 50px; }
+
+/* Attribute Selectors */
+input[type="text"] { border: 2px solid blue; }
+a[href^="https"] { color: green; }
+img[alt] { border: 1px solid gray; }
+
+/* Descendant Selectors */
+nav ul li { display: inline-block; }
+article h2 { color: #333; }
+.container .item { margin: 10px; }
+
+/* Child Selectors */
+ul > li { list-style: none; }
+header > nav { background-color: #f8f9fa; }
+
+/* Adjacent Sibling Selectors */
+h1 + p { margin-top: 0; }
+.button + .button { margin-left: 10px; }
+
+/* General Sibling Selectors */
+h2 ~ p { color: #666; }
+
+/* Pseudo-class Selectors */
+a:hover { color: red; }
+input:focus { border-color: blue; }
+li:first-child { font-weight: bold; }
+li:last-child { border-bottom: none; }
+tr:nth-child(even) { background-color: #f2f2f2; }
+
+/* Pseudo-element Selectors */
+p::before { content: "→ "; }
+p::after { content: " ←"; }
+p::first-line { font-weight: bold; }
+p::first-letter { font-size: 2em; }</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>العنصر:</strong> يستهدف علامات HTML مباشرة.</p>
+                            <p><strong>الفئة:</strong> يستهدف العناصر بأسماء فئات محددة.</p>
+                            <p><strong>المعرف:</strong> يستهدف العناصر الفريدة بمعرفات محددة.</p>
+                            <p><strong>الخاصية:</strong> يستهدف العناصر بخصائص محددة.</p>
+                            <p><strong>النسل:</strong> يستهدف العناصر المتداخلة.</p>
+                            <p><strong>الفئة الزائفة:</strong> يستهدف العناصر في حالات محددة.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Layout Section -->
+            <section id="layout" class="lesson-section">
+                <h2><i class="fas fa-th"></i> تخطيط CSS</h2>
+                
+                <div class="lesson" data-lesson="3">
+                    <h3>3. تخطيط Flexbox</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>إتقان Flexbox للتخطيطات الحديثة</li>
+                                <li>فهم خصائص الحاوية والعناصر المرنة</li>
+                                <li>إنشاء تصاميم متجاوبة ومرنة</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-css">/* Flexbox Container */
+.flex-container {
+    display: flex;
+    flex-direction: row; /* row, column, row-reverse, column-reverse */
+    justify-content: center; /* flex-start, flex-end, center, space-between, space-around */
+    align-items: center; /* flex-start, flex-end, center, stretch, baseline */
+    flex-wrap: wrap; /* nowrap, wrap, wrap-reverse */
+    gap: 20px; /* Space between items */
+}
+
+/* Flexbox Items */
+.flex-item {
+    flex: 1; /* flex-grow flex-shrink flex-basis */
+    flex-grow: 1; /* How much to grow */
+    flex-shrink: 1; /* How much to shrink */
+    flex-basis: 200px; /* Initial size */
+    align-self: flex-start; /* Override container alignment */
+}
+
+/* Common Flexbox Patterns */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.card {
+    flex: 1 1 300px; /* grow shrink basis */
+    min-width: 0; /* Prevent overflow */
+}
+
+.centered-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>display: flex:</strong> ينشئ حاوية مرنة.</p>
+                            <p><strong>justify-content:</strong> يمحاذي العناصر على المحور الرئيسي.</p>
+                            <p><strong>align-items:</strong> يمحاذي العناصر على المحور العرضي.</p>
+                            <p><strong>flex:</strong> اختصار للنمو والانكماش والأساس.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson" data-lesson="4">
+                    <h3>4. تخطيط CSS Grid</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>إتقان CSS Grid للتخطيطات المعقدة</li>
+                                <li>فهم خصائص حاوية الشبكة والعناصر</li>
+                                <li>إنشاء أنظمة شبكة متجاوبة</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-css">/* Grid Container */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; /* Three columns */
+    grid-template-rows: auto 1fr auto; /* Three rows */
+    gap: 20px; /* Space between grid items */
+    grid-template-areas: 
+        "header header header"
+        "sidebar main aside"
+        "footer footer footer";
+}
+
+/* Grid Items */
+.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main { grid-area: main; }
+.aside { grid-area: aside; }
+.footer { grid-area: footer; }
+
+/* Responsive Grid */
+.responsive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+/* Grid with Named Lines */
+.layout {
+    display: grid;
+    grid-template-columns: [sidebar-start] 200px [sidebar-end main-start] 1fr [main-end];
+    grid-template-rows: [header-start] 60px [header-end content-start] 1fr [content-end footer-start] 40px [footer-end];
+}
+
+/* Grid Item Positioning */
+.grid-item {
+    grid-column: 1 / 3; /* Start at line 1, end at line 3 */
+    grid-row: 2 / 4; /* Start at line 2, end at line 4 */
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 4;
+}</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>display: grid:</strong> ينشئ حاوية شبكة.</p>
+                            <p><strong>grid-template-columns/rows:</strong> يحدد بنية الشبكة.</p>
+                            <p><strong>grid-template-areas:</strong> مناطق شبكة مسماة لتخطيط أسهل.</p>
+                            <p><strong>وحدة fr:</strong> وحدة كسرية للحجم المرن.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Responsive Section -->
+            <section id="responsive" class="lesson-section">
+                <h2><i class="fas fa-mobile-alt"></i> التصميم المتجاوب</h2>
+                
+                <div class="lesson" data-lesson="5">
+                    <h3>5. استعلامات الوسائط والتصميم المتجاوب</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>إتقان استعلامات الوسائط للتصميم المتجاوب</li>
+                                <li>فهم نهج الهاتف المحمول أولاً</li>
+                                <li>إنشاء تخطيطات متكيفة لجميع الأجهزة</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-css">/* Mobile First Approach */
+.container {
+    width: 100%;
+    padding: 1rem;
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+    .container {
+        max-width: 750px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+}
+
+/* Desktop Styles */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 1200px;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr 2fr 1fr;
+    }
+}
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+    .container {
+        max-width: 1400px;
+    }
+}
+
+/* Common Breakpoints */
+/* Mobile: 320px - 767px */
+/* Tablet: 768px - 1023px */
+/* Desktop: 1024px - 1439px */
+/* Large Desktop: 1440px+ */
+
+/* Orientation Media Query */
+@media (orientation: landscape) {
+    .hero {
+        height: 50vh;
+    }
+}
+
+@media (orientation: portrait) {
+    .hero {
+        height: 70vh;
+    }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .logo {
+        background-image: url('logo@2x.png');
+    }
+}
+
+/* Print Styles */
+@media print {
+    .no-print {
+        display: none;
+    }
+    
+    body {
+        font-size: 12pt;
+        line-height: 1.4;
+    }
+    
+    a {
+        text-decoration: none;
+        color: black;
+    }
+}</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>@media:</strong> يحدد الأنماط لشروط محددة.</p>
+                            <p><strong>min-width:</strong> يطبق الأنماط للشاشات الأوسع من المحدد.</p>
+                            <p><strong>max-width:</strong> يطبق الأنماط للشاشات الأضيق من المحدد.</p>
+                            <p><strong>الهاتف المحمول أولاً:</strong> ابدأ بأنماط الهاتف المحمول، ثم حسن للشاشات الأكبر.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Section -->
+            <section id="advanced" class="lesson-section">
+                <h2><i class="fas fa-magic"></i> CSS المتقدم</h2>
+                
+                <div class="lesson" data-lesson="6">
+                    <h3>6. الرسوم المتحركة والانتقالات في CSS</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>إنشاء انتقالات سلسة بين الحالات</li>
+                                <li>إتقان الرسوم المتحركة وإطارات المفاتيح في CSS</li>
+                                <li>بناء تفاعلات مستخدم جذابة</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-css">/* CSS Transitions */
+.button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Transition Properties */
+.element {
+    transition-property: background-color, transform;
+    transition-duration: 0.3s, 0.2s;
+    transition-timing-function: ease-in-out, ease;
+    transition-delay: 0s, 0.1s;
+}
+
+/* CSS Animations */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.slide-in {
+    animation: slideIn 0.5s ease-out;
+}
+
+/* Complex Animation */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+.bounce {
+    animation: bounce 2s infinite;
+}
+
+/* Animation Properties */
+.animated-element {
+    animation-name: slideIn;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0.5s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: both;
+    animation-play-state: running;
+}
+
+/* Hover Effects */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Loading Animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading {
+    animation: spin 1s linear infinite;
+}</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>transition:</strong> يحرك تغييرات الخصائص بسلاسة.</p>
+                            <p><strong>@keyframes:</strong> يحدد خطوات الرسوم المتحركة.</p>
+                            <p><strong>animation:</strong> يطبق رسوم متحركة بإطارات المفاتيح على العناصر.</p>
+                            <p><strong>transform:</strong> يعدل موضع العنصر أو حجمه أو دورانه.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CSS Playground -->
+            <section id="playground" class="lesson-section">
+                <h2><i class="fas fa-paint-brush"></i> ملعب CSS</h2>
+                <div class="playground-container">
+                    <div class="code-editor">
+                        <h3>اكتب كود CSS هنا:</h3>
+                        <textarea id="cssPlaygroundCode" placeholder="/* اكتب أنماط CSS هنا */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+
+.box:hover {
+    transform: scale(1.1) rotate(5deg);
+}">/* اكتب أنماط CSS هنا */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+
+.box:hover {
+    transform: scale(1.1) rotate(5deg);
+}</textarea>
+                        <button class="run-code-btn" onclick="runCSSPlayground()">عرض النتيجة</button>
+                        <button class="clear-btn" onclick="clearCSSPlayground()">مسح</button>
+                    </div>
+                    <div class="playground-output">
+                        <h3>معاينة مباشرة:</h3>
+                        <div id="cssPlaygroundOutput">
+                            <h1>عنوان تجريبي</h1>
+                            <div class="box"></div>
+                            <p>هذا نص تجريبي لاختبار الأنماط</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Training Partners</h3>
+                    <div class="footer-logos">
+                        <a href="https://www.mof.gov.sy/ar">
+                            <img src="assets/Syrian_logo_icon_gold.png" alt="Ministry of Finance" class="footer-logo">
+                            <span>Ministry of Finance</span>
+                        </a>
+                        <a href="https://www.sceit.gov.sy/ar">
+                            <img src="assets/logo-sceit.png" alt="SCEIT" class="footer-logo">
+                            <span>Syrian Center of Excellence in IT</span>
+                        </a>
+                        <a href="https://naits.gov.sy/ar">
+                            <img src="assets/Asset 2@4x.png" alt="naits" class="footer-logo">
+                            <span>National Authority of IT Services</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="html-tutorial.html">HTML Tutorial</a></li>
+                        <li><a href="css-tutorial.html">CSS Tutorial</a></li>
+                        <li><a href="js.html">JavaScript Tutorial</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>HTML Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank">MDN HTML Guide</a></li>
+                        <li><a href="https://validator.w3.org/" target="_blank">HTML Validator</a></li>
+                        <li><a href="https://www.w3schools.com/html/" target="_blank">W3Schools HTML</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Web Development Training Program. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

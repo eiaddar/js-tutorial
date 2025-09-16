@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رحلة تعلم JavaScript - من المبتدئ إلى المتقدم</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="assets/Syrian_logo_icon_gold.png" alt="Ministry of Finance Logo" class="logo">
+                </div>
+                <div class="title-section">
+                    <h1>دورة JavaScript - تدريب تطوير الويب</h1>
+                    <p>تعلم  من الأساسيات إلى تقنيات التصميم برمجيا</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navigation">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="#beginner" class="nav-link active" data-level="beginner">مبتدئ</a></li>
+                <li><a href="#intermediate" class="nav-link" data-level="intermediate">متوسط</a></li>
+                <li><a href="#advanced" class="nav-link" data-level="advanced">متقدم</a></li>
+                <li><a href="#playground" class="nav-link" data-level="playground">ملعب الكود</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span class="progress-text" id="progressText">0% مكتمل</span>
+            </div>
+
+            <!-- Beginner Section -->
+            <section id="beginner" class="lesson-section active">
+                <h2><i class="fas fa-baby"></i> المستوى المبتدئ</h2>
+                
+                <div class="lesson" data-lesson="1">
+                    <h3>1. المتغيرات وأنواع البيانات</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>فهم الفرق بين <code>let</code> و <code>const</code> و <code>var</code></li>
+                                <li>تعلم أنواع البيانات البدائية والمعقدة في JavaScript</li>
+                                <li>ممارسة إعلان واستخدام المتغيرات</li>
+                            </ul>
+                            
+                            <h4>📚 المفاهيم الأساسية:</h4>
+                            <p><strong>المتغيرات</strong> هي حاويات تخزن قيم البيانات. JavaScript لديه ثلاث طرق لإعلان المتغيرات:</p>
+                            <ul>
+                                <li><code>let</code> - نطاق الكتلة، يمكن إعادة تعيينها</li>
+                                <li><code>const</code> - نطاق الكتلة، لا يمكن إعادة تعيينها (ثابتة)</li>
+                                <li><code>var</code> - نطاق الدالة، يمكن إعادة تعيينها (صيغة قديمة)</li>
+                            </ul>
+                            
+                            <p><strong>أنواع البيانات</strong> تحدد نوع البيانات التي يمكن للمتغير الاحتفاظ بها:</p>
+                            <ul>
+                                <li><strong>الأنواع البدائية:</strong> string, number, boolean, undefined, null, symbol</li>
+                                <li><strong>الأنواع المعقدة:</strong> object, array (وهو نوع من object)</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-javascript">// VARIABLE DECLARATIONS
+// 'let' - Modern way to declare variables that can change
+let name = "John";           // String value
+let score = 0;               // Number value (can be reassigned later)
+
+// 'const' - For values that won't change (constants)
+const age = 25;              // This value cannot be changed
+const PI = 3.14159;          // Mathematical constant
+
+// 'var' - Older syntax (avoid in modern JavaScript)
+var city = "New York";       // Function-scoped, can cause confusion
+
+// DATA TYPES IN JAVASCRIPT
+// 1. String - Text data (wrapped in quotes)
+let string = "Hello World";
+let anotherString = 'Single quotes also work';
+let templateString = `Template literals with ${name}`;
+
+// 2. Number - Numeric data (integers and decimals)
+let number = 42;             // Integer
+let decimal = 3.14;          // Decimal number
+let negative = -10;          // Negative number
+
+// 3. Boolean - True or false values
+let boolean = true;          // Boolean true
+let isStudent = false;       // Boolean false
+
+// 4. Array - Ordered list of values (indexed starting from 0)
+let array = [1, 2, 3];       // Array of numbers
+let fruits = ["apple", "banana", "orange"];  // Array of strings
+let mixed = [1, "hello", true];              // Array with different types
+
+// 5. Object - Collection of key-value pairs
+let object = { 
+    name: "John",            // Key: "name", Value: "John"
+    age: 25,                 // Key: "age", Value: 25
+    isStudent: true          // Key: "isStudent", Value: true
+};
+
+// 6. Undefined - Variable declared but not assigned
+let undefinedVar;            // This will be undefined
+
+// 7. Null - Intentionally empty value
+let nullVar = null;          // Explicitly set to null</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>إعلان المتغيرات:</strong> نستخدم <code>let</code> للمتغيرات التي قد تتغير، و <code>const</code> للقيم التي يجب أن تبقى ثابتة.</p>
+                            <p><strong>أنواع البيانات:</strong> JavaScript يحدد نوع البيانات تلقائياً بناءً على القيمة المعينة. يمكنك التحقق من النوع باستخدام عامل <code>typeof</code>.</p>
+                            <p><strong>أفضل الممارسات:</strong> استخدم دائماً <code>const</code> ما لم تكن تعرف أن القيمة ستتغير، ثم استخدم <code>let</code>. تجنب <code>var</code> في JavaScript الحديث.</p>
+                        </div>
+                        
+                        <button class="run-code-btn" onclick="runLessonCode('lesson1')">تشغيل الكود</button>
+                        <div class="output" id="output1"></div>
+                    </div>
+                </div>
+
+                <div class="lesson" data-lesson="2">
+                    <h3>2. الدوال</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>فهم الطرق المختلفة لإنشاء الدوال في JavaScript</li>
+                                <li>تعلم المعاملات والوسائط وقيم الإرجاع</li>
+                                <li>ممارسة استخدام إعلانات الدوال والتعبيرات والدوال السهمية</li>
+                            </ul>
+                            
+                            <h4>📚 المفاهيم الأساسية:</h4>
+                            <p><strong>الدوال</strong> هي كتل من الكود قابلة لإعادة الاستخدام تؤدي مهام محددة. تساعد في تنظيم الكود وتجنب التكرار.</p>
+                            <ul>
+                                <li><strong>إعلان الدالة:</strong> الطريقة التقليدية باستخدام كلمة <code>function</code></li>
+                                <li><strong>تعبير الدالة:</strong> دالة معينة لمتغير</li>
+                                <li><strong>الدالة السهمية:</strong> صيغة حديثة ومختصرة باستخدام <code>=></code></li>
+                            </ul>
+                            
+                            <p><strong>مكونات الدالة:</strong></p>
+                            <ul>
+                                <li><strong>المعاملات:</strong> متغيرات محددة في إعلان الدالة</li>
+                                <li><strong>الوسائط:</strong> قيم تمرر عند استدعاء الدالة</li>
+                                <li><strong>الإرجاع:</strong> القيمة التي ترسلها الدالة مرة أخرى</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-javascript">// 1. FUNCTION DECLARATION
+// Traditional way - can be called before it's defined (hoisting)
+function greet(name) {
+    return "Hello, " + name + "!";
+}
+
+// 2. FUNCTION EXPRESSION
+// Function assigned to a variable - must be defined before use
+const add = function(a, b) {
+    return a + b;
+};
+
+// 3. ARROW FUNCTION (ES6+)
+// Modern, concise syntax - great for short functions
+const multiply = (a, b) => a * b;
+
+// Arrow function with multiple statements (need curly braces)
+const divide = (a, b) => {
+    if (b === 0) {
+        return "Cannot divide by zero!";
+    }
+    return a / b;
+};
+
+// Arrow function with single parameter (parentheses optional)
+const square = x => x * x;
+
+// Arrow function with no parameters
+const getCurrentTime = () => new Date().toLocaleTimeString();
+
+// 4. FUNCTION WITH DEFAULT PARAMETERS
+function greetWithDefault(name = "Guest") {
+    return `Welcome, ${name}!`;
+}
+
+// 5. FUNCTION WITH MULTIPLE PARAMETERS
+function createUser(name, age, email, isActive = true) {
+    return {
+        name: name,
+        age: age,
+        email: email,
+        isActive: isActive,
+        createdAt: new Date()
+    };
+}
+
+// CALLING FUNCTIONS
+console.log("Function Declaration:", greet("Alice"));
+console.log("Function Expression (5 + 3):", add(5, 3));
+console.log("Arrow Function (4 * 6):", multiply(4, 6));
+console.log("Division (10 / 2):", divide(10, 2));
+console.log("Division by zero:", divide(10, 0));
+console.log("Square of 5:", square(5));
+console.log("Current time:", getCurrentTime());
+console.log("Default parameter:", greetWithDefault());
+console.log("With argument:", greetWithDefault("John"));
+console.log("User object:", createUser("Jane", 25, "jane@email.com"));</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>إعلان الدالة:</strong> يستخدم كلمة <code>function</code> ويمكن استدعاؤها قبل تعريفها بسبب الرفع (hoisting).</p>
+                            <p><strong>تعبير الدالة:</strong> الدالة معينة لمتغير. أكثر مرونة ومستخدمة بشكل شائع في JavaScript الحديث.</p>
+                            <p><strong>الدوال السهمية:</strong> صيغة أقصر، ترجع التعبير تلقائياً إذا لم تستخدم الأقواس المجعدة. ليس لديها سياق <code>this</code> خاص بها.</p>
+                            <p><strong>المعاملات الافتراضية:</strong> توفر قيم احتياطية عندما لا يتم تمرير الوسائط.</p>
+                            <p><strong>أفضل الممارسات:</strong> استخدم الدوال السهمية للدوال القصيرة والبسيطة. استخدم إعلانات الدوال للمنطق الأكثر تعقيداً.</p>
+                        </div>
+                        
+                        <button class="run-code-btn" onclick="runLessonCode('lesson2')">تشغيل الكود</button>
+                        <div class="output" id="output2"></div>
+                    </div>
+                </div>
+
+                <div class="lesson" data-lesson="3">
+                    <h3>3. الحلقات والشروط</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>إتقان العبارات الشرطية (if, else if, else)</li>
+                                <li>فهم أنواع الحلقات المختلفة (for, while, for...of)</li>
+                                <li>تعلم متى تستخدم كل نوع من الحلقات</li>
+                                <li>ممارسة تدفق التحكم في JavaScript</li>
+                            </ul>
+                            
+                            <h4>📚 المفاهيم الأساسية:</h4>
+                            <p><strong>الشروط</strong> تسمح لبرنامجك باتخاذ قرارات بناءً على شروط مختلفة:</p>
+                            <ul>
+                                <li><strong>if:</strong> تنفيذ الكود إذا كان الشرط صحيحاً</li>
+                                <li><strong>else if:</strong> فحص شرط آخر إذا كان الأول خاطئاً</li>
+                                <li><strong>else:</strong> تنفيذ الكود إذا كانت جميع الشروط خاطئة</li>
+                            </ul>
+                            
+                            <p><strong>الحلقات</strong> تكرر الكود حتى يتم استيفاء شرط:</p>
+                            <ul>
+                                <li><strong>for:</strong> التكرار لعدد محدد من المرات</li>
+                                <li><strong>while:</strong> التكرار بينما الشرط صحيح</li>
+                                <li><strong>for...of:</strong> التكرار عبر المصفوفات أو النصوص</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-javascript">// CONDITIONAL STATEMENTS
+// Basic if-else structure
+let score = 85;
+console.log("Student score:", score);
+
+if (score >= 90) {
+    console.log("Grade: A - Excellent!");
+} else if (score >= 80) {
+    console.log("Grade: B - Good job!");
+} else if (score >= 70) {
+    console.log("Grade: C - Satisfactory");
+} else if (score >= 60) {
+    console.log("Grade: D - Needs improvement");
+} else {
+    console.log("Grade: F - Failed");
+}
+
+// Logical operators in conditions
+let age = 20;
+let hasLicense = true;
+
+if (age >= 18 && hasLicense) {
+    console.log("You can drive!");
+} else if (age >= 16 && !hasLicense) {
+    console.log("You can get a learner's permit");
+} else {
+    console.log("You cannot drive yet");
+}
+
+// Ternary operator (shorthand if-else)
+let temperature = 25;
+let weather = temperature > 20 ? "warm" : "cold";
+console.log(`It's ${weather} outside`);
+
+// FOR LOOPS
+console.log("\n=== FOR LOOPS ===");
+
+// Basic for loop - count from 1 to 5
+console.log("Counting 1 to 5:");
+for (let i = 1; i <= 5; i++) {
+    console.log("Count: " + i);
+}
+
+// For loop with step (count by 2s)
+console.log("Counting by 2s (0 to 10):");
+for (let i = 0; i <= 10; i += 2) {
+    console.log("Even number: " + i);
+}
+
+// For loop counting backwards
+console.log("Countdown from 5:");
+for (let i = 5; i >= 1; i--) {
+    console.log("Countdown: " + i);
+}
+
+// WHILE LOOPS
+console.log("\n=== WHILE LOOPS ===");
+
+// Basic while loop
+let count = 0;
+console.log("While loop counting to 3:");
+while (count < 3) {
+    console.log("While count: " + count);
+    count++; // Don't forget to increment!
+}
+
+// While loop with condition
+let number = 1;
+console.log("Powers of 2 (while < 20):");
+while (number < 20) {
+    console.log("2^" + Math.log2(number) + " = " + number);
+    number *= 2;
+}
+
+// FOR...OF LOOPS (for arrays and strings)
+console.log("\n=== FOR...OF LOOPS ===");
+
+// Iterating through an array
+const fruits = ["apple", "banana", "orange", "grape"];
+console.log("Fruits in the basket:");
+for (const fruit of fruits) {
+    console.log("- " + fruit);
+}
+
+// Iterating through a string
+const message = "Hello";
+console.log("Letters in 'Hello':");
+for (const letter of message) {
+    console.log("Letter: " + letter);
+}
+
+// SWITCH STATEMENTS
+console.log("\n=== SWITCH STATEMENTS ===");
+
+const dayOfWeek = "Monday";
+console.log("Day of week:", dayOfWeek);
+
+switch (dayOfWeek) {
+    case "Monday":
+        console.log("Start of work week - time to be productive!");
+        break;
+    case "Tuesday":
+    case "Wednesday":
+    case "Thursday":
+        console.log("Mid-week - keep going!");
+        break;
+    case "Friday":
+        console.log("TGIF! Almost weekend!");
+        break;
+    case "Saturday":
+    case "Sunday":
+        console.log("Weekend - time to relax!");
+        break;
+    default:
+        console.log("Invalid day");
+}
+
+// NESTED LOOPS
+console.log("\n=== NESTED LOOPS ===");
+console.log("Multiplication table (1-3):");
+for (let i = 1; i <= 3; i++) {
+    for (let j = 1; j <= 3; j++) {
+        console.log(`${i} × ${j} = ${i * j}`);
+    }
+}</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>الشروط:</strong> استخدم سلاسل <code>if-else</code> للتعامل مع شروط متعددة. عوامل <code>&&</code> (AND) و <code>||</code> (OR) تساعد في دمج الشروط.</p>
+                            <p><strong>حلقات For:</strong> مثالية عندما تعرف عدد مرات التكرار. البنية: <code>for (initialization; condition; increment)</code>.</p>
+                            <p><strong>حلقات While:</strong> استخدم عندما لا تعرف عدد مرات التكرار، ولكن لديك شرط للفحص.</p>
+                            <p><strong>حلقات For...of:</strong> رائعة للتكرار عبر المصفوفات والنصوص. أنظف بكثير من حلقات for التقليدية.</p>
+                            <p><strong>عبارات Switch:</strong> بديل لسلاسل if-else الطويلة عند فحص نفس المتغير مقابل قيم متعددة.</p>
+                            <p><strong>أفضل الممارسات:</strong> تأكد دائماً من أن الحلقات لها طريقة للانتهاء (زيادة العداد، تغيير الشرط) لتجنب الحلقات اللانهائية!</p>
+                        </div>
+                        
+                        <button class="run-code-btn" onclick="runLessonCode('lesson3')">تشغيل الكود</button>
+                        <div class="output" id="output3"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Intermediate Section -->
+            <section id="intermediate" class="lesson-section">
+                <h2><i class="fas fa-graduation-cap"></i> المستوى المتوسط</h2>
+                
+                <div class="lesson" data-lesson="4">
+                    <h3>4. الكائنات والمصفوفات</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>فهم كائنات JavaScript وخصائصها</li>
+                                <li>إتقان طرق المصفوفات لمعالجة البيانات</li>
+                                <li>تعلم كلمة <code>this</code> في الكائنات</li>
+                                <li>ممارسة البرمجة الوظيفية مع المصفوفات</li>
+                            </ul>
+                            
+                            <h4>📚 المفاهيم الأساسية:</h4>
+                            <p><strong>الكائنات</strong> هي مجموعات من أزواج المفتاح-القيمة التي تمثل كيانات من العالم الحقيقي:</p>
+                            <ul>
+                                <li><strong>الخصائص:</strong> البيانات المخزنة في كائن</li>
+                                <li><strong>الطرق:</strong> الدوال التي تنتمي إلى كائن</li>
+                                <li><strong>this:</strong> تشير إلى سياق الكائن الحالي</li>
+                            </ul>
+                            
+                            <p><strong>المصفوفات</strong> هي قوائم مرتبة يمكنها الاحتفاظ بقيم متعددة:</p>
+                            <ul>
+                                <li><strong>الفهرس:</strong> موقع عنصر (يبدأ من 0)</li>
+                                <li><strong>الطول:</strong> عدد العناصر في المصفوفة</li>
+                                <li><strong>الطرق:</strong> دوال مدمجة لمعالجة المصفوفات</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-javascript">// OBJECTS IN JAVASCRIPT
+// Creating an object with properties and methods
+const person = {
+    // Properties (key-value pairs)
+    name: "John",
+    age: 30,
+    email: "john@email.com",
+    hobbies: ["reading", "coding", "gaming"],
+    address: {
+        street: "123 Main St",
+        city: "New York",
+        zipCode: "10001"
+    },
+    
+    // Methods (functions inside objects)
+    greet: function() {
+        return `Hello, I'm ${this.name}`;
+    },
+    
+    // Arrow function method (note: 'this' behaves differently)
+    introduce: () => {
+        return `Hi, I'm ${person.name}`; // Must use object name, not 'this'
+    },
+    
+    // Method to update age
+    haveBirthday: function() {
+        this.age++;
+        return `Happy birthday! I'm now ${this.age} years old.`;
+    },
+    
+    // Method to add hobby
+    addHobby: function(newHobby) {
+        this.hobbies.push(newHobby);
+        return `Added ${newHobby} to hobbies!`;
+    }
+};
+
+console.log("=== OBJECT DEMONSTRATION ===");
+console.log("Person object:", person);
+console.log("Name:", person.name);
+console.log("Age:", person.age);
+console.log("Hobbies:", person.hobbies);
+console.log("Address:", person.address.city);
+
+// Calling object methods
+console.log("Greeting:", person.greet());
+console.log("Introduction:", person.introduce());
+console.log("Birthday:", person.haveBirthday());
+console.log("Add hobby:", person.addHobby("swimming"));
+console.log("Updated hobbies:", person.hobbies);
+
+// ARRAY METHODS - FUNCTIONAL PROGRAMMING
+console.log("\n=== ARRAY METHODS ===");
+
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+console.log("Original array:", numbers);
+
+// 1. MAP - Transform each element
+const doubled = numbers.map(n => n * 2);
+console.log("Doubled (map):", doubled);
+
+const squared = numbers.map(n => n * n);
+console.log("Squared (map):", squared);
+
+// 2. FILTER - Select elements that meet a condition
+const evens = numbers.filter(n => n % 2 === 0);
+console.log("Even numbers (filter):", evens);
+
+const greaterThan5 = numbers.filter(n => n > 5);
+console.log("Numbers > 5 (filter):", greaterThan5);
+
+// 3. REDUCE - Combine all elements into a single value
+const sum = numbers.reduce((acc, n) => acc + n, 0);
+console.log("Sum (reduce):", sum);
+
+const product = numbers.reduce((acc, n) => acc * n, 1);
+console.log("Product (reduce):", product);
+
+// 4. FIND - Find the first element that meets a condition
+const firstEven = numbers.find(n => n % 2 === 0);
+console.log("First even number (find):", firstEven);
+
+// 5. SOME - Check if any element meets a condition
+const hasEven = numbers.some(n => n % 2 === 0);
+console.log("Has even numbers (some):", hasEven);
+
+// 6. EVERY - Check if all elements meet a condition
+const allPositive = numbers.every(n => n > 0);
+console.log("All positive (every):", allPositive);
+
+// 7. FOREACH - Execute function for each element
+console.log("ForEach demonstration:");
+numbers.forEach((n, index) => {
+    console.log(`Index ${index}: ${n}`);
+});
+
+// WORKING WITH STRING ARRAYS
+console.log("\n=== STRING ARRAYS ===");
+
+const fruits = ["apple", "banana", "orange", "grape", "kiwi"];
+console.log("Fruits:", fruits);
+
+// Transform to uppercase
+const upperFruits = fruits.map(fruit => fruit.toUpperCase());
+console.log("Uppercase fruits:", upperFruits);
+
+// Filter fruits with more than 5 characters
+const longFruits = fruits.filter(fruit => fruit.length > 5);
+console.log("Long fruits:", longFruits);
+
+// Find fruit starting with 'a'
+const startsWithA = fruits.find(fruit => fruit.startsWith('a'));
+console.log("Fruit starting with 'a':", startsWithA);
+
+// COMPLEX OBJECT WITH ARRAYS
+console.log("\n=== COMPLEX OBJECTS ===");
+
+const library = {
+    name: "City Library",
+    books: [
+        { title: "JavaScript Guide", author: "John Doe", pages: 300, isAvailable: true },
+        { title: "Python Basics", author: "Jane Smith", pages: 250, isAvailable: false },
+        { title: "Web Development", author: "Bob Johnson", pages: 400, isAvailable: true }
+    ],
+    
+    // Method to find available books
+    getAvailableBooks: function() {
+        return this.books.filter(book => book.isAvailable);
+    },
+    
+    // Method to find books by author
+    getBooksByAuthor: function(authorName) {
+        return this.books.filter(book => book.author === authorName);
+    },
+    
+    // Method to calculate total pages
+    getTotalPages: function() {
+        return this.books.reduce((total, book) => total + book.pages, 0);
+    }
+};
+
+console.log("Library:", library.name);
+console.log("Available books:", library.getAvailableBooks());
+console.log("Books by John Doe:", library.getBooksByAuthor("John Doe"));
+console.log("Total pages in library:", library.getTotalPages());</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>الكائنات:</strong> استخدم الكائنات لتجميع البيانات والوظائف ذات الصلة. الخصائص تخزن البيانات، والطرق تؤدي الإجراءات. كلمة <code>this</code> تشير إلى الكائن الحالي.</p>
+                            <p><strong>طرق المصفوفات:</strong> JavaScript يوفر طرق قوية لمعالجة المصفوفات. <code>map</code> تحول، <code>filter</code> تختار، <code>reduce</code> تجمع، و <code>find</code> تجد العناصر.</p>
+                            <p><strong>البرمجة الوظيفية:</strong> هذه الطرق تنشئ مصفوفات جديدة بدلاً من تعديل الأصلية، مما يجعل الكود أكثر قابلية للتنبؤ وأسهل في التصحيح.</p>
+                            <p><strong>ربط الطرق:</strong> يمكنك ربط عدة طرق مصفوفة معاً لتحويلات البيانات المعقدة.</p>
+                            <p><strong>أفضل الممارسات:</strong> استخدم أسماء خصائص وصفية وأبقي الطرق مركزة على مسؤوليات واحدة.</p>
+                        </div>
+                        
+                        <button class="run-code-btn" onclick="runLessonCode('lesson4')">تشغيل الكود</button>
+                        <div class="output" id="output4"></div>
+                    </div>
+                </div>
+
+                <div class="lesson" data-lesson="5">
+                    <h3>5. DOM Manipulation</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 Learning Objectives:</h4>
+                            <ul>
+                                <li>Understand the Document Object Model (DOM)</li>
+                                <li>Learn to select and manipulate HTML elements</li>
+                                <li>Master creating, modifying, and removing elements</li>
+                                <li>Practice styling elements with JavaScript</li>
+                            </ul>
+                            
+                            <h4>📚 Key Concepts:</h4>
+                            <p><strong>DOM (Document Object Model)</strong> is a tree-like representation of HTML elements:</p>
+                            <ul>
+                                <li><strong>Nodes:</strong> Each HTML element is a node in the tree</li>
+                                <li><strong>Parent/Child:</strong> Elements can contain other elements</li>
+                                <li><strong>Selection:</strong> Find elements using various methods</li>
+                                <li><strong>Manipulation:</strong> Change content, attributes, and styles</li>
+                            </ul>
+                            
+                            <p><strong>Common DOM Methods:</strong></p>
+                            <ul>
+                                <li><code>getElementById()</code> - Select by ID</li>
+                                <li><code>querySelector()</code> - Select using CSS selectors</li>
+                                <li><code>createElement()</code> - Create new elements</li>
+                                <li><code>appendChild()</code> - Add elements to the page</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-javascript">// DOM MANIPULATION BASICS
+console.log("=== DOM MANIPULATION DEMO ===");
+
+// 1. SELECTING ELEMENTS
+// Get elements by ID
+const button = document.getElementById('demoButton');
+const output = document.getElementById('demoOutput');
+
+// Alternative selection methods
+const allButtons = document.querySelectorAll('button');        // All buttons
+const firstButton = document.querySelector('button');          // First button
+const codeBlocks = document.querySelectorAll('pre code');      // All code blocks
+
+console.log("Selected button:", button);
+console.log("Selected output:", output);
+console.log("All buttons found:", allButtons.length);
+
+// 2. MODIFYING ELEMENT CONTENT
+if (button && output) {
+    // Add event listener for button clicks
+    button.addEventListener('click', function() {
+        const currentTime = new Date().toLocaleTimeString();
+        
+        // Change the content of the output element
+        output.innerHTML = `Button clicked at: ${currentTime}`;
+        
+        // Change the styling
+        output.style.color = 'green';
+        output.style.fontWeight = 'bold';
+        output.style.backgroundColor = '#e8f5e8';
+        
+        console.log("Button clicked! Time:", currentTime);
+    });
+}
+
+// 3. CREATING NEW ELEMENTS
+console.log("Creating new elements...");
+
+// Create a new div element
+const newDiv = document.createElement('div');
+newDiv.textContent = 'This is a new element created by JavaScript!';
+newDiv.className = 'new-element';
+newDiv.style.cssText = `
+    background: #e3f2fd; 
+    padding: 1rem; 
+    margin: 1rem 0; 
+    border-radius: 8px; 
+    border-left: 4px solid #2196f3;
+    font-weight: 600;
+    color: #1976d2;
+`;
+
+// Add the new element to the page
+document.querySelector('.lesson-content').appendChild(newDiv);
+
+// 4. WORKING WITH ELEMENT ATTRIBUTES
+const demoElement = document.createElement('div');
+demoElement.setAttribute('id', 'demoElement');
+demoElement.setAttribute('class', 'demo-class');
+demoElement.setAttribute('data-info', 'This is custom data');
+
+// Get attribute values
+console.log("Element ID:", demoElement.getAttribute('id'));
+console.log("Element class:", demoElement.getAttribute('class'));
+console.log("Custom data:", demoElement.getAttribute('data-info'));
+
+// 5. STYLING ELEMENTS
+const styleDemo = document.createElement('div');
+styleDemo.textContent = 'Styled Element Demo';
+styleDemo.style.cssText = `
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    color: white;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+`;
+
+document.querySelector('.lesson-content').appendChild(styleDemo);
+
+// 6. WORKING WITH CLASSES
+const classDemo = document.createElement('div');
+classDemo.textContent = 'Class Manipulation Demo';
+classDemo.className = 'class-demo';
+
+// Add multiple classes
+classDemo.classList.add('highlight', 'animated');
+
+// Check if class exists
+console.log("Has 'highlight' class:", classDemo.classList.contains('highlight'));
+
+// Toggle a class
+classDemo.classList.toggle('active');
+
+// Remove a class
+classDemo.classList.remove('animated');
+
+document.querySelector('.lesson-content').appendChild(classDemo);
+
+// 7. TRAVERSING THE DOM
+console.log("=== DOM TRAVERSAL ===");
+
+// Get parent element
+const buttonParent = button ? button.parentElement : null;
+console.log("Button parent:", buttonParent);
+
+// Get child elements
+const lessonContent = document.querySelector('.lesson-content');
+if (lessonContent) {
+    const children = lessonContent.children;
+    console.log("Number of child elements:", children.length);
+    
+    // Get next sibling
+    const nextSibling = button ? button.nextElementSibling : null;
+    console.log("Button next sibling:", nextSibling);
+}
+
+// 8. REMOVING ELEMENTS
+// Create an element to remove
+const removableElement = document.createElement('div');
+removableElement.textContent = 'I will be removed in 3 seconds!';
+removableElement.style.cssText = `
+    background: #ffebee;
+    color: #c62828;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    border-left: 4px solid #f44336;
+`;
+
+document.querySelector('.lesson-content').appendChild(removableElement);
+
+// Remove the element after 3 seconds
+setTimeout(() => {
+    if (removableElement.parentNode) {
+        removableElement.parentNode.removeChild(removableElement);
+        console.log("Element removed successfully!");
+    }
+}, 3000);
+
+console.log("DOM manipulation examples completed!");</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 Code Explanation:</h4>
+                            <p><strong>Element Selection:</strong> Use <code>getElementById()</code> for single elements or <code>querySelector()</code> for CSS selector-based selection.</p>
+                            <p><strong>Content Modification:</strong> Change text with <code>textContent</code> or HTML with <code>innerHTML</code>. Be careful with <code>innerHTML</code> for security.</p>
+                            <p><strong>Element Creation:</strong> Use <code>createElement()</code> to create new elements, then <code>appendChild()</code> to add them to the page.</p>
+                            <p><strong>Styling:</strong> Modify styles using the <code>style</code> property or <code>cssText</code> for multiple styles at once.</p>
+                            <p><strong>Class Management:</strong> Use <code>classList</code> methods to add, remove, or toggle CSS classes dynamically.</p>
+                            <p><strong>Best Practice:</strong> Always check if elements exist before manipulating them to avoid errors.</p>
+                        </div>
+                        
+                        <button class="run-code-btn" onclick="runLessonCode('lesson5')">Run Code</button>
+                        <div class="output" id="output5"></div>
+                        <button id="demoButton" class="demo-button">Click Me!</button>
+                        <div id="demoOutput" class="demo-output"></div>
+                    </div>
+                </div>
+
+                <div class="lesson" data-lesson="6">
+                    <h3>6. Event Handling</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 Learning Objectives:</h4>
+                            <ul>
+                                <li>Understand how events work in JavaScript</li>
+                                <li>Learn to handle different types of user interactions</li>
+                                <li>Master event listeners and event objects</li>
+                                <li>Practice preventing default behaviors</li>
+                            </ul>
+                            
+                            <h4>📚 Key Concepts:</h4>
+                            <p><strong>Events</strong> are actions that happen in the browser:</p>
+                            <ul>
+                                <li><strong>Mouse Events:</strong> click, hover, drag, scroll</li>
+                                <li><strong>Keyboard Events:</strong> keydown, keyup, keypress</li>
+                                <li><strong>Form Events:</strong> submit, change, focus, blur</li>
+                                <li><strong>Window Events:</strong> load, resize, scroll</li>
+                            </ul>
+                            
+                            <p><strong>Event Handling:</strong></p>
+                            <ul>
+                                <li><code>addEventListener()</code> - Attach event handlers</li>
+                                <li><code>removeEventListener()</code> - Remove event handlers</li>
+                                <li><code>preventDefault()</code> - Stop default behavior</li>
+                                <li><code>stopPropagation()</code> - Stop event bubbling</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-javascript">// EVENT HANDLING IN JAVASCRIPT
+console.log("=== EVENT HANDLING DEMO ===");
+
+// 1. DOM READY EVENT
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM is ready! All elements can now be accessed.');
+});
+
+// 2. MOUSE EVENTS
+const hoverDiv = document.getElementById('hoverDiv');
+if (hoverDiv) {
+    // Mouse enter event
+    hoverDiv.addEventListener('mouseenter', function() {
+        this.style.backgroundColor = 'lightblue';
+        this.style.transform = 'scale(1.05)';
+        console.log('Mouse entered the div');
+    });
+    
+    // Mouse leave event
+    hoverDiv.addEventListener('mouseleave', function() {
+        this.style.backgroundColor = 'lightgray';
+        this.style.transform = 'scale(1)';
+        console.log('Mouse left the div');
+    });
+    
+    // Click event
+    hoverDiv.addEventListener('click', function(event) {
+        console.log('Div was clicked!');
+        console.log('Click coordinates:', event.clientX, event.clientY);
+        
+        // Change text on click
+        this.textContent = 'Clicked! Click again to reset.';
+        this.style.color = 'white';
+    });
+    
+    // Double click event
+    hoverDiv.addEventListener('dblclick', function() {
+        this.textContent = 'Hover over me!';
+        this.style.color = '#6c757d';
+        console.log('Div was double-clicked!');
+    });
+}
+
+// 3. KEYBOARD EVENTS
+document.addEventListener('keydown', function(event) {
+    console.log('Key pressed:', event.key, 'Code:', event.code);
+    
+    // Special key combinations
+    if (event.ctrlKey && event.key === 's') {
+        event.preventDefault(); // Prevent save dialog
+        console.log('Ctrl+S pressed - Save prevented');
+    }
+    
+    if (event.key === 'Escape') {
+        console.log('Escape key pressed');
+    }
+});
+
+// 4. FORM EVENTS
+// Create a demo form
+const demoForm = document.createElement('form');
+demoForm.innerHTML = `
+    <input type="text" id="demoInput" placeholder="Type something..." style="padding: 0.5rem; margin: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+    <button type="submit" style="padding: 0.5rem 1rem; margin: 0.5rem; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
+`;
+
+document.querySelector('.lesson-content').appendChild(demoForm);
+
+// Form event listeners
+const demoInput = document.getElementById('demoInput');
+if (demoInput) {
+    // Input event (fires on every keystroke)
+    demoInput.addEventListener('input', function() {
+        console.log('Input changed:', this.value);
+    });
+    
+    // Focus event
+    demoInput.addEventListener('focus', function() {
+        this.style.borderColor = '#007bff';
+        this.style.boxShadow = '0 0 5px rgba(0,123,255,0.3)';
+        console.log('Input focused');
+    });
+    
+    // Blur event
+    demoInput.addEventListener('blur', function() {
+        this.style.borderColor = '#ccc';
+        this.style.boxShadow = 'none';
+        console.log('Input lost focus');
+    });
+}
+
+// Form submit event
+demoForm.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission
+    console.log('Form submitted with value:', demoInput.value);
+    alert(`Form submitted: ${demoInput.value}`);
+});
+
+// 5. WINDOW EVENTS
+window.addEventListener('resize', function() {
+    console.log('Window resized to:', window.innerWidth, 'x', window.innerHeight);
+});
+
+window.addEventListener('scroll', function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    console.log('Page scrolled to:', scrollTop);
+});
+
+// 6. CUSTOM EVENTS
+const customButton = document.createElement('button');
+customButton.textContent = 'Trigger Custom Event';
+customButton.style.cssText = `
+    padding: 0.5rem 1rem;
+    margin: 1rem;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+`;
+
+document.querySelector('.lesson-content').appendChild(customButton);
+
+// Listen for custom event
+document.addEventListener('customEvent', function(event) {
+    console.log('Custom event received:', event.detail);
+    alert(`Custom event: ${event.detail.message}`);
+});
+
+// Trigger custom event
+customButton.addEventListener('click', function() {
+    const customEvent = new CustomEvent('customEvent', {
+        detail: { message: 'Hello from custom event!' }
+    });
+    document.dispatchEvent(customEvent);
+});
+
+// 7. EVENT DELEGATION
+const eventList = document.createElement('ul');
+eventList.style.cssText = `
+    background: #f8f9fa;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+`;
+
+// Add some list items
+for (let i = 1; i <= 3; i++) {
+    const li = document.createElement('li');
+    li.textContent = `List item ${i} (click me)`;
+    li.style.cssText = `
+        padding: 0.5rem;
+        margin: 0.25rem 0;
+        background: white;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    `;
+    eventList.appendChild(li);
+}
+
+document.querySelector('.lesson-content').appendChild(eventList);
+
+// Event delegation - listen on parent, handle for children
+eventList.addEventListener('click', function(event) {
+    if (event.target.tagName === 'LI') {
+        event.target.style.backgroundColor = '#007bff';
+        event.target.style.color = 'white';
+        console.log('List item clicked:', event.target.textContent);
+    }
+});
+
+console.log("Event handling examples completed!");</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 Code Explanation:</h4>
+                            <p><strong>Event Listeners:</strong> Use <code>addEventListener()</code> to attach event handlers. This method allows multiple handlers for the same event.</p>
+                            <p><strong>Event Object:</strong> Every event handler receives an event object with useful properties like <code>target</code>, <code>type</code>, and <code>preventDefault()</code>.</p>
+                            <p><strong>Event Delegation:</strong> Attach listeners to parent elements to handle events from child elements. This is efficient for dynamic content.</p>
+                            <p><strong>Preventing Default:</strong> Use <code>preventDefault()</code> to stop the browser's default behavior (like form submission or link navigation).</p>
+                            <p><strong>Custom Events:</strong> Create and dispatch custom events for communication between different parts of your application.</p>
+                            <p><strong>Best Practice:</strong> Always remove event listeners when elements are removed to prevent memory leaks.</p>
+                        </div>
+                        
+                        <button class="run-code-btn" onclick="runLessonCode('lesson6')">Run Code</button>
+                        <div class="output" id="output6"></div>
+                        <div id="hoverDiv" class="hover-demo">Hover over me!</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Section -->
+            <section id="advanced" class="lesson-section">
+                <h2><i class="fas fa-rocket"></i> المستوى المتقدم</h2>
+                
+                <div class="lesson" data-lesson="7">
+                    <h3>7. Promises and Async/Await</h3>
+                    <div class="lesson-content">
+                        <p>Working with asynchronous JavaScript.</p>
+                        <pre><code class="language-javascript">// Promise
+function fetchData() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Data fetched successfully!");
+        }, 2000);
+    });
+}
+
+// Async/Await
+async function getData() {
+    try {
+        console.log("Fetching data...");
+        const result = await fetchData();
+        console.log(result);
+        return result;
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+// Fetch API
+async function fetchUserData() {
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/users/1');
+        const user = await response.json();
+        console.log("User:", user.name);
+    } catch (error) {
+        console.error("Fetch error:", error);
+    }
+}
+
+getData();
+fetchUserData();</code></pre>
+                        <button class="run-code-btn" onclick="runLessonCode('lesson7')">Run Code</button>
+                        <div class="output" id="output7"></div>
+                    </div>
+                </div>
+
+                <div class="lesson" data-lesson="8">
+                    <h3>8. ES6+ Features</h3>
+                    <div class="lesson-content">
+                        <p>Modern JavaScript features and syntax.</p>
+                        <pre><code class="language-javascript">// Destructuring
+const person = { name: "John", age: 30, city: "NYC" };
+const { name, age } = person;
+const [first, second, ...rest] = [1, 2, 3, 4, 5];
+
+// Template literals
+const greeting = `Hello, ${name}! You are ${age} years old.`;
+
+// Spread operator
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+const combined = [...arr1, ...arr2];
+
+// Classes
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+    
+    speak() {
+        return `${this.name} makes a sound`;
+    }
+}
+
+class Dog extends Animal {
+    speak() {
+        return `${this.name} barks`;
+    }
+}
+
+const dog = new Dog("Buddy");
+console.log(dog.speak());</code></pre>
+                        <button class="run-code-btn" onclick="runLessonCode('lesson8')">Run Code</button>
+                        <div class="output" id="output8"></div>
+                    </div>
+                </div>
+
+                <div class="lesson" data-lesson="9">
+                    <h3>9. Modules and Error Handling</h3>
+                    <div class="lesson-content">
+                        <p>Organizing code with modules and handling errors.</p>
+                        <pre><code class="language-javascript">// Error handling
+function divide(a, b) {
+    if (b === 0) {
+        throw new Error("Division by zero is not allowed");
+    }
+    return a / b;
+}
+
+try {
+    const result = divide(10, 0);
+    console.log("Result:", result);
+} catch (error) {
+    console.error("Error caught:", error.message);
+} finally {
+    console.log("This always runs");
+}
+
+// Custom error class
+class ValidationError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "ValidationError";
+    }
+}
+
+// Module pattern (simulated)
+const Calculator = (function() {
+    let result = 0;
+    
+    return {
+        add: function(x) {
+            result += x;
+            return this;
+        },
+        multiply: function(x) {
+            result *= x;
+            return this;
+        },
+        getResult: function() {
+            return result;
+        },
+        reset: function() {
+            result = 0;
+            return this;
+        }
+    };
+})();
+
+const calcResult = Calculator.add(5).multiply(3).getResult();
+console.log("Calculator result:", calcResult);</code></pre>
+                        <button class="run-code-btn" onclick="runLessonCode('lesson9')">Run Code</button>
+                        <div class="output" id="output9"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Code Playground -->
+            <section id="playground" class="lesson-section">
+                <h2><i class="fas fa-code"></i> ملعب الكود</h2>
+                <div class="playground-container">
+                    <div class="code-editor">
+                        <h3>اكتب كود JavaScript هنا:</h3>
+                        <textarea id="playgroundCode" placeholder="// Write your JavaScript code here
+console.log('Hello, World!');">// Write your JavaScript code here
+console.log('Hello, World!');</textarea>
+                        <button class="run-code-btn" onclick="runPlaygroundCode()">تشغيل الكود</button>
+                        <button class="clear-btn" onclick="clearPlayground()">مسح</button>
+                    </div>
+                    <div class="playground-output">
+                        <h3>المخرجات:</h3>
+                        <div id="playgroundOutput"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Training Partners</h3>
+                    <div class="footer-logos">
+                        <a href="https://www.mof.gov.sy/ar">
+                            <img src="assets/Syrian_logo_icon_gold.png" alt="Ministry of Finance" class="footer-logo">
+                            <span>Ministry of Finance</span>
+                        </a>
+                        <a href="https://www.sceit.gov.sy/ar">
+                            <img src="assets/logo-sceit.png" alt="SCEIT" class="footer-logo">
+                            <span>Syrian Center of Excellence in IT</span>
+                        </a>
+                        <a href="https://naits.gov.sy/ar">
+                            <img src="assets/Asset 2@4x.png" alt="naits" class="footer-logo">
+                            <span>National Authority of IT Services</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="html-tutorial.html">HTML Tutorial</a></li>
+                        <li><a href="css-tutorial.html">CSS Tutorial</a></li>
+                        <li><a href="js.html">JavaScript Tutorial</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>HTML Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank">MDN HTML Guide</a></li>
+                        <li><a href="https://validator.w3.org/" target="_blank">HTML Validator</a></li>
+                        <li><a href="https://www.w3schools.com/html/" target="_blank">W3Schools HTML</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Web Development Training Program. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "name": "javascript-learning-journey",
+  "version": "1.0.0",
+  "description": "A comprehensive, interactive web-based JavaScript tutorial for students learning from beginner to advanced levels",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve . -p 3000",
+    "dev": "npx live-server --port=3000 --open=/index.html",
+    "serve": "python -m http.server 8000"
+  },
+  "keywords": [
+    "javascript",
+    "tutorial",
+    "education",
+    "learning",
+    "interactive",
+    "beginner",
+    "advanced",
+    "web-development"
+  ],
+  "author": "JavaScript Learning Journey",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/javascript-learning-journey.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/javascript-learning-journey/issues"
+  },
+  "homepage": "https://github.com/your-username/javascript-learning-journey#readme"
+}

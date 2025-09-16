@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دورة PostgreSQL - قواعد البيانات المتقدمة</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="script.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="logo-section">
+                    <img src="assets/Syrian_logo_icon_gold.png" alt="Ministry of Finance Logo" class="logo">
+                </div>
+                <div class="title-section">
+                    <h1>دورة PostgreSQL - قواعد البيانات المتقدمة</h1>
+                    <p>تعلم إدارة قواعد البيانات المتقدمة مع PostgreSQL</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navigation">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+                <li><a href="#introduction" class="nav-link active" data-level="introduction">مقدمة</a></li>
+                <li><a href="#installation" class="nav-link" data-level="installation">التثبيت والإعداد</a></li>
+                <li><a href="#basics" class="nav-link" data-level="basics">أساسيات SQL</a></li>
+                <li><a href="#advanced" class="nav-link" data-level="advanced">مفاهيم متقدمة</a></li>
+                <li><a href="#performance" class="nav-link" data-level="performance">الأداء والتحسين</a></li>
+                <li><a href="#playground" class="nav-link" data-level="playground">ملعب SQL</a></li>
+                <li><a href="laravel-postgres-tutorial.html" class="nav-link">Laravel + PostgreSQL</a></li>
+                <li><a href="about-tutor.html" class="nav-link">حول المدرب</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Introduction -->
+            <section id="introduction" class="lesson-section active">
+                <h2><i class="fas fa-database"></i> مقدمة في PostgreSQL</h2>
+                
+                <div class="lesson">
+                    <div class="learning-objectives explanation">
+                        <h3><i class="fas fa-target"></i> أهداف التعلم</h3>
+                        <ul>
+                            <li>فهم ما هو PostgreSQL ومميزاته</li>
+                            <li>تعلم أساسيات قواعد البيانات العلائقية</li>
+                            <li>فهم الفرق بين PostgreSQL وقواعد البيانات الأخرى</li>
+                            <li>إعداد بيئة التطوير</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-content">
+                        <h3>ما هو PostgreSQL؟</h3>
+                        <p>PostgreSQL هو نظام إدارة قواعد بيانات علائقية متقدم ومفتوح المصدر. يتميز بقوة الأداء والموثوقية العالية، مما يجعله خياراً مثالياً للتطبيقات المعقدة.</p>
+                        
+                        <div class="code-explanation">
+                            <h4>مميزات PostgreSQL الرئيسية:</h4>
+                            <ul>
+                                <li><strong>مفتوح المصدر:</strong> مجاني ومتاح للجميع</li>
+                                <li><strong>متوافق مع المعايير:</strong> يدعم SQL بشكل كامل</li>
+                                <li><strong>قابل للتوسع:</strong> يدعم البيانات الكبيرة</li>
+                                <li><strong>أمان عالي:</strong> نظام أمان متقدم</li>
+                                <li><strong>مرونة في البيانات:</strong> يدعم أنواع بيانات متعددة</li>
+                            </ul>
+                        </div>
+
+                        <h3>مقارنة مع قواعد البيانات الأخرى</h3>
+                        <div class="explanation">
+                            <h4>PostgreSQL vs MySQL vs SQLite</h4>
+                            <ul>
+                                <li><strong>PostgreSQL:</strong> قوي للمشاريع الكبيرة والمعقدة</li>
+                                <li><strong>MySQL:</strong> سريع وبسيط للتطبيقات الصغيرة</li>
+                                <li><strong>SQLite:</strong> خفيف ومدمج في التطبيقات</li>
+                            </ul>
+                        </div>
+
+                        <h3>حالات الاستخدام الشائعة</h3>
+                        <ul>
+                            <li>تطبيقات الويب المعقدة</li>
+                            <li>أنظمة إدارة المحتوى</li>
+                            <li>تطبيقات التحليل والبيانات الضخمة</li>
+                            <li>أنظمة التجارة الإلكترونية</li>
+                            <li>تطبيقات الهاتف المحمول</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Installation -->
+            <section id="installation" class="lesson-section">
+                <h2><i class="fas fa-download"></i> التثبيت والإعداد</h2>
+                
+                <div class="lesson">
+                    <div class="lesson-content">
+                        <h3>تثبيت PostgreSQL على Windows</h3>
+                        <pre><code># تحميل PostgreSQL من الموقع الرسمي
+# https://www.postgresql.org/download/windows/
+
+# تشغيل ملف التثبيت
+# اتباع خطوات المعالج
+# اختيار كلمة مرور للمستخدم postgres
+# اختيار المنفذ الافتراضي 5432</code></pre>
+
+                        <h3>تثبيت PostgreSQL على Ubuntu/Linux</h3>
+                        <pre><code># تحديث قائمة الحزم
+sudo apt update
+
+# تثبيت PostgreSQL
+sudo apt install postgresql postgresql-contrib
+
+# تشغيل الخدمة
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+# التحقق من الحالة
+sudo systemctl status postgresql</code></pre>
+
+                        <h3>تثبيت PostgreSQL على macOS</h3>
+                        <pre><code># باستخدام Homebrew
+brew install postgresql
+
+# تشغيل الخدمة
+brew services start postgresql
+
+# أو باستخدام Postgres.app
+# تحميل من https://postgresapp.com/</code></pre>
+
+                        <h3>الوصول إلى PostgreSQL</h3>
+                        <pre><code># الدخول كـ postgres user
+sudo -u postgres psql
+
+# أو إنشاء مستخدم جديد
+sudo -u postgres createuser --interactive
+
+# إنشاء قاعدة بيانات
+sudo -u postgres createdb mydatabase
+
+# الدخول إلى قاعدة البيانات
+psql -U username -d mydatabase</code></pre>
+
+                        <div class="explanation">
+                            <h4>أوامر PostgreSQL الأساسية</h4>
+                            <ul>
+                                <li><code>\l</code> - عرض قواعد البيانات</li>
+                                <li><code>\c database_name</code> - الاتصال بقاعدة بيانات</li>
+                                <li><code>\dt</code> - عرض الجداول</li>
+                                <li><code>\d table_name</code> - وصف الجدول</li>
+                                <li><code>\q</code> - الخروج من psql</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SQL Basics -->
+            <section id="basics" class="lesson-section">
+                <h2><i class="fas fa-code"></i> أساسيات SQL</h2>
+                
+                <div class="lesson">
+                    <div class="lesson-content">
+                        <h3>إنشاء قاعدة البيانات والجداول</h3>
+                        <pre><code>-- إنشاء قاعدة بيانات
+CREATE DATABASE company_db;
+
+-- الاتصال بقاعدة البيانات
+\c company_db;
+
+-- إنشاء جدول الموظفين
+CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    salary DECIMAL(10,2),
+    hire_date DATE,
+    department_id INTEGER
+);
+
+-- إنشاء جدول الأقسام
+CREATE TABLE departments (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    location VARCHAR(100)
+);</code></pre>
+
+                        <h3>إدراج البيانات</h3>
+                        <pre><code>-- إدراج بيانات في جدول الأقسام
+INSERT INTO departments (name, location) VALUES
+('تطوير البرمجيات', 'الطابق الثالث'),
+('المبيعات', 'الطابق الأول'),
+('الموارد البشرية', 'الطابق الثاني');
+
+-- إدراج بيانات في جدول الموظفين
+INSERT INTO employees (first_name, last_name, email, salary, hire_date, department_id) VALUES
+('أحمد', 'محمد', 'ahmed@company.com', 5000.00, '2023-01-15', 1),
+('فاطمة', 'علي', 'fatima@company.com', 4500.00, '2023-02-20', 1),
+('محمد', 'حسن', 'mohammed@company.com', 6000.00, '2023-01-10', 2);</code></pre>
+
+                        <h3>استعلام البيانات</h3>
+                        <pre><code>-- استعلام بسيط
+SELECT * FROM employees;
+
+-- استعلام مع شروط
+SELECT first_name, last_name, salary 
+FROM employees 
+WHERE salary > 5000;
+
+-- استعلام مع ترتيب
+SELECT * FROM employees 
+ORDER BY salary DESC;
+
+-- استعلام مع حدود
+SELECT * FROM employees 
+LIMIT 5;</code></pre>
+
+                        <h3>الانضمام بين الجداول</h3>
+                        <pre><code>-- Inner Join
+SELECT e.first_name, e.last_name, d.name as department
+FROM employees e
+INNER JOIN departments d ON e.department_id = d.id;
+
+-- Left Join
+SELECT e.first_name, e.last_name, d.name as department
+FROM employees e
+LEFT JOIN departments d ON e.department_id = d.id;
+
+-- استعلام مع تجميع
+SELECT d.name, COUNT(e.id) as employee_count
+FROM departments d
+LEFT JOIN employees e ON d.id = e.department_id
+GROUP BY d.name;</code></pre>
+
+                        <h3>تحديث وحذف البيانات</h3>
+                        <pre><code>-- تحديث البيانات
+UPDATE employees 
+SET salary = salary * 1.1 
+WHERE department_id = 1;
+
+-- حذف البيانات
+DELETE FROM employees 
+WHERE hire_date < '2023-01-01';
+
+-- حذف جميع البيانات
+TRUNCATE TABLE employees;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Concepts -->
+            <section id="advanced" class="lesson-section">
+                <h2><i class="fas fa-cogs"></i> مفاهيم متقدمة</h2>
+                
+                <div class="lesson">
+                    <div class="lesson-content">
+                        <h3>الفهارس (Indexes)</h3>
+                        <pre><code>-- إنشاء فهرس بسيط
+CREATE INDEX idx_employee_email ON employees(email);
+
+-- إنشاء فهرس مركب
+CREATE INDEX idx_employee_dept_salary ON employees(department_id, salary);
+
+-- إنشاء فهرس فريد
+CREATE UNIQUE INDEX idx_unique_email ON employees(email);
+
+-- عرض الفهارس
+\di
+
+-- حذف فهرس
+DROP INDEX idx_employee_email;</code></pre>
+
+                        <h3>الوظائف المخزنة (Stored Functions)</h3>
+                        <pre><code>-- إنشاء دالة لحساب متوسط الراتب
+CREATE OR REPLACE FUNCTION calculate_avg_salary(dept_id INTEGER)
+RETURNS DECIMAL AS $$
+DECLARE
+    avg_salary DECIMAL;
+BEGIN
+    SELECT AVG(salary) INTO avg_salary
+    FROM employees
+    WHERE department_id = dept_id;
+    
+    RETURN avg_salary;
+END;
+$$ LANGUAGE plpgsql;
+
+-- استخدام الدالة
+SELECT calculate_avg_salary(1);</code></pre>
+
+                        <h3>المشاهد (Views)</h3>
+                        <pre><code>-- إنشاء مشهد
+CREATE VIEW employee_summary AS
+SELECT 
+    e.first_name,
+    e.last_name,
+    d.name as department,
+    e.salary
+FROM employees e
+JOIN departments d ON e.department_id = d.id;
+
+-- استخدام المشهد
+SELECT * FROM employee_summary;
+
+-- تحديث المشهد
+CREATE OR REPLACE VIEW employee_summary AS
+SELECT 
+    e.first_name,
+    e.last_name,
+    d.name as department,
+    e.salary,
+    e.hire_date
+FROM employees e
+JOIN departments d ON e.department_id = d.id;</code></pre>
+
+                        <h3>المعاملات (Transactions)</h3>
+                        <pre><code>-- بدء معاملة
+BEGIN;
+
+-- تنفيذ عمليات متعددة
+INSERT INTO employees (first_name, last_name, email, salary, department_id) 
+VALUES ('سارة', 'أحمد', 'sara@company.com', 5500.00, 1);
+
+UPDATE employees 
+SET salary = salary + 500 
+WHERE department_id = 1;
+
+-- تأكيد المعاملة
+COMMIT;
+
+-- أو إلغاء المعاملة
+-- ROLLBACK;</code></pre>
+
+                        <h3>المحفزات (Triggers)</h3>
+                        <pre><code>-- إنشاء دالة للمحفز
+CREATE OR REPLACE FUNCTION update_modified_date()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.modified_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- إضافة عمود للتاريخ
+ALTER TABLE employees ADD COLUMN modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+-- إنشاء المحفز
+CREATE TRIGGER update_employee_modified_date
+    BEFORE UPDATE ON employees
+    FOR EACH ROW
+    EXECUTE FUNCTION update_modified_date();</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Performance -->
+            <section id="performance" class="lesson-section">
+                <h2><i class="fas fa-tachometer-alt"></i> الأداء والتحسين</h2>
+                
+                <div class="lesson">
+                    <div class="lesson-content">
+                        <h3>تحليل الأداء</h3>
+                        <pre><code>-- تفعيل تحليل الاستعلامات
+SET track_activities = on;
+SET track_counts = on;
+SET track_io_timing = on;
+
+-- عرض الاستعلامات البطيئة
+SELECT query, mean_time, calls, total_time
+FROM pg_stat_statements
+ORDER BY mean_time DESC
+LIMIT 10;
+
+-- تحليل خطة التنفيذ
+EXPLAIN ANALYZE SELECT * FROM employees WHERE department_id = 1;</code></pre>
+
+                        <h3>تحسين الاستعلامات</h3>
+                        <pre><code>-- استخدام الفهارس المناسبة
+CREATE INDEX CONCURRENTLY idx_dept_id ON employees(department_id);
+
+-- تجنب SELECT *
+SELECT first_name, last_name FROM employees WHERE department_id = 1;
+
+-- استخدام LIMIT
+SELECT * FROM employees ORDER BY salary DESC LIMIT 10;
+
+-- تجنب الدوال في WHERE
+-- بدلاً من: WHERE UPPER(first_name) = 'AHMED'
+-- استخدم: WHERE first_name ILIKE 'ahmed'</code></pre>
+
+                        <h3>إعدادات الأداء</h3>
+                        <pre><code>-- في ملف postgresql.conf
+shared_buffers = 256MB          # ذاكرة مشتركة
+effective_cache_size = 1GB      # حجم الذاكرة المتاحة
+work_mem = 4MB                  # ذاكرة العمل لكل عملية
+maintenance_work_mem = 64MB     # ذاكرة الصيانة
+checkpoint_completion_target = 0.9
+wal_buffers = 16MB
+default_statistics_target = 100</code></pre>
+
+                        <h3>مراقبة الأداء</h3>
+                        <pre><code>-- عرض إحصائيات قاعدة البيانات
+SELECT * FROM pg_stat_database WHERE datname = 'company_db';
+
+-- عرض إحصائيات الجداول
+SELECT schemaname, tablename, n_tup_ins, n_tup_upd, n_tup_del
+FROM pg_stat_user_tables;
+
+-- عرض الجداول الكبيرة
+SELECT 
+    schemaname,
+    tablename,
+    pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) as size
+FROM pg_tables
+WHERE schemaname = 'public'
+ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SQL Playground -->
+            <section id="playground" class="lesson-section">
+                <h2><i class="fas fa-play"></i> ملعب SQL</h2>
+                
+                <div class="lesson">
+                    <div class="lesson-content">
+                        <p>جرب أوامر SQL المختلفة في هذا الملعب التفاعلي:</p>
+                        
+                        <div class="playground-container">
+                            <div class="code-editor">
+                                <h3>أدخل كود SQL</h3>
+                                <textarea id="sqlPlaygroundCode" placeholder="-- اكتب أوامر SQL هنا
+SELECT * FROM employees;
+">-- مثال على استعلام SQL
+SELECT 
+    e.first_name,
+    e.last_name,
+    d.name as department,
+    e.salary
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+WHERE e.salary > 5000
+ORDER BY e.salary DESC;</textarea>
+                                <div>
+                                    <button class="run-code-btn" onclick="runSQLPlayground()">تشغيل SQL</button>
+                                    <button class="clear-btn" onclick="clearSQLPlayground()">مسح</button>
+                                </div>
+                            </div>
+                            
+                            <div class="playground-output">
+                                <h3>النتائج</h3>
+                                <div id="sqlPlaygroundOutput">
+                                    <div class="php-simulation">
+                                        <p><strong>ملاحظة:</strong> هذا محاكي لـ SQL. في البيئة الحقيقية، سيتم تنفيذ الكود على خادم PostgreSQL.</p>
+                                        <div class="code-output">
+                                            النتائج ستظهر هنا بعد تشغيل الاستعلام...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Training Partners</h3>
+                    <div class="footer-logos">
+                        <a href="https://www.mof.gov.sy/ar">
+                            <img src="assets/Syrian_logo_icon_gold.png" alt="Ministry of Finance" class="footer-logo">
+                            <span>Ministry of Finance</span>
+                        </a>
+                        <a href="https://www.sceit.gov.sy/ar">
+                            <img src="assets/logo-sceit.png" alt="SCEIT" class="footer-logo">
+                            <span>Syrian Center of Excellence in IT</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="postgresql-tutorial.html">PostgreSQL Tutorial</a></li>
+                        <li><a href="laravel-postgres-tutorial.html">Laravel + PostgreSQL</a></li>
+                        <li><a href="api-tutorial.html">API Development</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Database Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://www.postgresql.org/docs/" target="_blank">PostgreSQL Documentation</a></li>
+                        <li><a href="https://www.postgresql.org/download/" target="_blank">Download PostgreSQL</a></li>
+                        <li><a href="https://www.postgresql.org/docs/current/sql.html" target="_blank">SQL Reference</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Web Development Training Program. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // SQL Playground Functions
+        function runSQLPlayground() {
+            const code = document.getElementById('sqlPlaygroundCode').value;
+            const output = document.getElementById('sqlPlaygroundOutput');
+
+            if (!output) return;
+
+            try {
+                output.innerHTML = '<div class="php-simulation">';
+                output.innerHTML += '<p><strong>ملاحظة:</strong> هذا محاكي لـ SQL. في البيئة الحقيقية، سيتم تنفيذ الكود على خادم PostgreSQL.</p>';
+                output.innerHTML += '<div class="code-output">';
+                
+                let simulatedOutput = simulateSQLOutput(code);
+                output.innerHTML += simulatedOutput;
+                output.innerHTML += '</div></div>';
+                
+                showPlaygroundFeedback('تم تشغيل SQL بنجاح!', 'success');
+            } catch (error) {
+                showPlaygroundFeedback('خطأ في SQL: ' + error.message, 'error');
+            }
+        }
+
+        function simulateSQLOutput(code) {
+            let output = '';
+            
+            // Simple SQL simulation
+            if (code.toLowerCase().includes('select')) {
+                output += 'النتائج:<br>';
+                output += 'first_name | last_name | department | salary<br>';
+                output += '-----------|-----------|------------|-------<br>';
+                output += 'أحمد | محمد | تطوير البرمجيات | 5000.00<br>';
+                output += 'فاطمة | علي | تطوير البرمجيات | 4500.00<br>';
+                output += 'محمد | حسن | المبيعات | 6000.00<br>';
+            } else if (code.toLowerCase().includes('insert')) {
+                output += 'تم إدراج البيانات بنجاح<br>';
+                output += 'عدد الصفوف المتأثرة: 1<br>';
+            } else if (code.toLowerCase().includes('update')) {
+                output += 'تم تحديث البيانات بنجاح<br>';
+                output += 'عدد الصفوف المتأثرة: 2<br>';
+            } else if (code.toLowerCase().includes('delete')) {
+                output += 'تم حذف البيانات بنجاح<br>';
+                output += 'عدد الصفوف المتأثرة: 1<br>';
+            } else {
+                output += 'تم تنفيذ الأمر بنجاح<br>';
+            }
+            
+            return output;
+        }
+
+        function clearSQLPlayground() {
+            document.getElementById('sqlPlaygroundCode').value = `-- مثال على استعلام SQL
+SELECT 
+    e.first_name,
+    e.last_name,
+    d.name as department,
+    e.salary
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+WHERE e.salary > 5000
+ORDER BY e.salary DESC;`;
+            document.getElementById('sqlPlaygroundOutput').innerHTML = '<div class="php-simulation"><p><strong>ملاحظة:</strong> هذا محاكي لـ SQL. في البيئة الحقيقية، سيتم تنفيذ الكود على خادم PostgreSQL.</p><div class="code-output">النتائج ستظهر هنا بعد تشغيل الاستعلام...</div></div>';
+        }
+    </script>
+</body>
+</html>
+

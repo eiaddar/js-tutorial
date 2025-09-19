@@ -18,6 +18,9 @@
                 <button class="mobile-menu-toggle" id="mobileMenuToggle">
                     <i class="fas fa-bars"></i>
                 </button>
+                <button class="sidebar-mobile-toggle" id="sidebarMobileToggle">
+                    <i class="fas fa-list"></i>
+                </button>
                 <div class="logo-section">
                     <img src="assets/Syrian_logo_icon_gold.png" alt="Ministry of Finance Logo" class="logo">
                 </div>
@@ -29,24 +32,11 @@
         </div>
     </header>
 
-    <nav class="navigation">
-        <div class="container">
-            <ul class="nav-list">
-                <li><a href="index.html" class="nav-link">الرئيسية</a></li>
-                <li><a href="#introduction" class="nav-link active" data-level="introduction">مقدمة</a></li>
-                <li><a href="#installation" class="nav-link" data-level="installation">التثبيت والإعداد</a></li>
-                <li><a href="#basics" class="nav-link" data-level="basics">أساسيات SQL</a></li>
-                <li><a href="#advanced" class="nav-link" data-level="advanced">مفاهيم متقدمة</a></li>
-                <li><a href="#performance" class="nav-link" data-level="performance">الأداء والتحسين</a></li>
-                <li><a href="#playground" class="nav-link" data-level="playground">ملعب SQL</a></li>
-                <li><a href="laravel-postgres-tutorial.html" class="nav-link">Laravel + PostgreSQL</a></li>
-                <li><a href="about-tutor.html" class="nav-link">حول المدرب</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <main class="main-content">
-        <div class="container">
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    
+    <div class="page-layout">
+        <main class="main-content">
+            <div class="container">
             <!-- Introduction -->
             <section id="introduction" class="lesson-section active">
                 <h2><i class="fas fa-database"></i> مقدمة في PostgreSQL</h2>
@@ -165,96 +155,1860 @@ psql -U username -d mydatabase</code></pre>
                 </div>
             </section>
 
+            <!-- pgAdmin4 Tutorial -->
+            <section id="pgadmin4" class="lesson-section">
+                <h2><i class="fas fa-desktop"></i> pgAdmin4 - إدارة قواعد البيانات</h2>
+                
+                <div class="lesson">
+                    <div class="learning-objectives explanation">
+                        <h3><i class="fas fa-target"></i> أهداف التعلم</h3>
+                        <ul>
+                            <li>تعلم تثبيت وإعداد pgAdmin4</li>
+                            <li>فهم واجهة pgAdmin4 والتنقل فيها</li>
+                            <li>إتقان إدارة قواعد البيانات والجداول</li>
+                            <li>تعلم استخدام محرر SQL المتقدم</li>
+                            <li>فهم عمليات النسخ الاحتياطي والاستعادة</li>
+                            <li>تعلم إدارة المستخدمين والصلاحيات</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-content">
+                        <h3>ما هو pgAdmin4؟</h3>
+                        <p>pgAdmin4 هو أداة إدارة قواعد البيانات الأكثر شعبية لـ PostgreSQL. يوفر واجهة ويب حديثة وسهلة الاستخدام لإدارة قواعد البيانات، كتابة الاستعلامات، ومراقبة الأداء.</p>
+                        
+                        <div class="code-explanation">
+                            <h4>مميزات pgAdmin4 الرئيسية:</h4>
+                            <ul>
+                                <li><strong>واجهة ويب حديثة:</strong> تعمل في المتصفح</li>
+                                <li><strong>محرر SQL متقدم:</strong> مع تمييز الصيغة والإكمال التلقائي</li>
+                                <li><strong>إدارة شاملة:</strong> قواعد البيانات، الجداول، المستخدمين</li>
+                                <li><strong>أدوات النسخ الاحتياطي:</strong> نسخ احتياطي واستعادة سهلة</li>
+                                <li><strong>مراقبة الأداء:</strong> إحصائيات وتقارير مفصلة</li>
+                                <li><strong>دعم متعدد المنصات:</strong> Windows, Linux, macOS</li>
+                            </ul>
+                        </div>
+
+                        <h3>تثبيت pgAdmin4</h3>
+                        
+                        <h4>تثبيت pgAdmin4 على Windows</h4>
+                        <pre><code># تحميل pgAdmin4 من الموقع الرسمي
+# https://www.pgadmin.org/download/pgadmin-4-windows/
+
+# تشغيل ملف التثبيت
+# اتباع خطوات المعالج
+# اختيار مكونات التثبيت
+# إعداد كلمة مرور للمدير</code></pre>
+
+                        <h4>تثبيت pgAdmin4 على Ubuntu/Linux</h4>
+                        <pre><code># إضافة مستودع pgAdmin4
+sudo apt update
+sudo apt install curl ca-certificates gnupg
+curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add -
+sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list'
+
+# تثبيت pgAdmin4
+sudo apt update
+sudo apt install pgadmin4-web
+
+# إعداد pgAdmin4
+sudo /usr/pgadmin4/bin/setup-web.sh</code></pre>
+
+                        <h4>تثبيت pgAdmin4 على macOS</h4>
+                        <pre><code># باستخدام Homebrew
+brew install --cask pgadmin4
+
+# أو تحميل من الموقع الرسمي
+# https://www.pgadmin.org/download/pgadmin-4-macos/</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-info-circle"></i> نصائح التثبيت:</h4>
+                            <ul>
+                                <li>تأكد من تثبيت PostgreSQL قبل تثبيت pgAdmin4</li>
+                                <li>احفظ كلمة مرور المدير في مكان آمن</li>
+                                <li>في Linux، قد تحتاج لتشغيل الخدمة يدوياً</li>
+                                <li>تأكد من فتح المنفذ 80 أو 443 للوصول عبر الويب</li>
+                            </ul>
+                        </div>
+
+                        <h3>الوصول إلى pgAdmin4</h3>
+                        <pre><code># الوصول عبر المتصفح
+http://localhost/pgadmin4
+
+# أو إذا كان على منفذ مختلف
+http://localhost:5050
+
+# تسجيل الدخول
+# البريد الإلكتروني: admin@pgadmin.org (افتراضي)
+# كلمة المرور: كلمة المرور التي حددتها أثناء التثبيت</code></pre>
+
+                        <h3>واجهة pgAdmin4</h3>
+                        
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-lightbulb"></i> مكونات الواجهة:</h4>
+                            <ul>
+                                <li><strong>شريط الأدوات العلوي:</strong> أدوات سريعة وإعدادات</li>
+                                <li><strong>شجرة التنقل (Browser):</strong> عرض هرمي لقواعد البيانات</li>
+                                <li><strong>منطقة المحتوى:</strong> عرض التفاصيل والنتائج</li>
+                                <li><strong>شريط الحالة السفلي:</strong> معلومات الاتصال والحالة</li>
+                                <li><strong>لوحة التحكم:</strong> إحصائيات ومراقبة الأداء</li>
+                            </ul>
+                        </div>
+
+                        <h4>إضافة خادم PostgreSQL</h4>
+                        <pre><code># في pgAdmin4:
+# 1. انقر بزر الماوس الأيمن على "Servers"
+# 2. اختر "Register" > "Server"
+# 3. املأ البيانات التالية:
+
+# General Tab:
+Name: PostgreSQL Server (أو أي اسم تريده)
+
+# Connection Tab:
+Host name/address: localhost
+Port: 5432
+Maintenance database: postgres
+Username: postgres
+Password: [كلمة مرور PostgreSQL]
+
+# Advanced Tab:
+DB restriction: (اتركه فارغاً للوصول لجميع قواعد البيانات)</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح الاتصال:</h4>
+                            <ul>
+                                <li>تأكد من تشغيل خدمة PostgreSQL</li>
+                                <li>تحقق من إعدادات pg_hba.conf للسماح بالاتصالات</li>
+                                <li>استخدم SSL للاتصالات الآمنة</li>
+                                <li>احفظ كلمات المرور في pgAdmin4 للوصول السريع</li>
+                            </ul>
+                        </div>
+
+                        <h3>إدارة قواعد البيانات</h3>
+                        
+                        <h4>إنشاء قاعدة بيانات جديدة</h4>
+                        <pre><code># في pgAdmin4:
+# 1. انقر بزر الماوس الأيمن على "Databases"
+# 2. اختر "Create" > "Database"
+# 3. املأ البيانات:
+
+# General Tab:
+Database: company_db
+Owner: postgres
+Template: template0
+Encoding: UTF8
+Collation: C
+Character Type: C
+
+# Definition Tab:
+Tablespace: pg_default
+
+# Security Tab:
+Privileges: (اتركه فارغاً للصلاحيات الافتراضية)</code></pre>
+
+                        <h4>إنشاء جدول جديد</h4>
+                        <pre><code># في pgAdmin4:
+# 1. انقر بزر الماوس الأيمن على "Tables" في قاعدة البيانات
+# 2. اختر "Create" > "Table"
+# 3. املأ البيانات:
+
+# General Tab:
+Name: employees
+Schema: public
+Owner: postgres
+
+# Columns Tab:
+# أضف الأعمدة التالية:
+Column name: id, Data type: serial, Primary key: ✓
+Column name: first_name, Data type: character varying(50), Not null: ✓
+Column name: last_name, Data type: character varying(50), Not null: ✓
+Column name: email, Data type: character varying(100), Not null: ✓, Unique: ✓
+Column name: salary, Data type: numeric(10,2)
+Column name: hire_date, Data type: date, Default: CURRENT_DATE
+
+# Constraints Tab:
+# أضف القيود المطلوبة</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-info-circle"></i> نصائح إنشاء الجداول:</h4>
+                            <ul>
+                                <li>استخدم أسماء واضحة ومفهومة للجداول والأعمدة</li>
+                                <li>حدد أنواع البيانات المناسبة لكل عمود</li>
+                                <li>أضف القيود (Constraints) لضمان صحة البيانات</li>
+                                <li>استخدم Primary Keys و Foreign Keys للعلاقات</li>
+                                <li>فكر في الفهارس (Indexes) للأعمدة المستخدمة في البحث</li>
+                            </ul>
+                        </div>
+
+                        <h3>محرر SQL المتقدم</h3>
+                        
+                        <h4>فتح محرر SQL</h4>
+                        <pre><code># في pgAdmin4:
+# 1. انقر بزر الماوس الأيمن على قاعدة البيانات
+# 2. اختر "Query Tool"
+# أو استخدم الاختصار: Alt + Shift + Q</code></pre>
+
+                        <h4>مميزات محرر SQL</h4>
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-lightbulb"></i> المميزات المتقدمة:</h4>
+                            <ul>
+                                <li><strong>تمييز الصيغة:</strong> تمييز ألوان لأوامر SQL</li>
+                                <li><strong>الإكمال التلقائي:</strong> اقتراحات للأوامر والأسماء</li>
+                                <li><strong>تنسيق الكود:</strong> تنسيق تلقائي للاستعلامات</li>
+                                <li><strong>تنفيذ جزئي:</strong> تنفيذ جزء محدد من الكود</li>
+                                <li><strong>حفظ الاستعلامات:</strong> حفظ الاستعلامات المفضلة</li>
+                                <li><strong>عرض النتائج:</strong> عرض النتائج في جداول منظمة</li>
+                            </ul>
+                        </div>
+
+                        <h4>أمثلة على استخدام محرر SQL</h4>
+                        <pre><code>-- مثال 1: استعلام بسيط
+SELECT * FROM employees 
+WHERE salary > 5000 
+ORDER BY hire_date DESC;
+
+-- مثال 2: استعلام مع JOIN
+SELECT 
+    e.first_name,
+    e.last_name,
+    d.name as department,
+    e.salary
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+WHERE e.is_active = TRUE;
+
+-- مثال 3: إدراج بيانات
+INSERT INTO employees (first_name, last_name, email, salary, department_id)
+VALUES ('أحمد', 'محمد', 'ahmed@company.com', 5500.00, 1);
+
+-- مثال 4: تحديث البيانات
+UPDATE employees 
+SET salary = salary * 1.1 
+WHERE department_id = 1;
+
+-- مثال 5: حذف البيانات
+DELETE FROM employees 
+WHERE hire_date < '2023-01-01' AND is_active = FALSE;</code></pre>
+
+                        <h4>نصائح لاستخدام محرر SQL</h4>
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-exclamation-triangle"></i> أفضل الممارسات:</h4>
+                            <ul>
+                                <li>استخدم Ctrl+Enter لتنفيذ الاستعلام</li>
+                                <li>استخدم F5 لتحديث النتائج</li>
+                                <li>استخدم Ctrl+Space للإكمال التلقائي</li>
+                                <li>احفظ الاستعلامات المهمة في المفضلة</li>
+                                <li>استخدم التعليقات لشرح الكود المعقد</li>
+                                <li>اختبر الاستعلامات على بيانات صغيرة أولاً</li>
+                            </ul>
+                        </div>
+
+                        <h3>النسخ الاحتياطي والاستعادة</h3>
+                        
+                        <h4>إنشاء نسخة احتياطية</h4>
+                        <pre><code># في pgAdmin4:
+# 1. انقر بزر الماوس الأيمن على قاعدة البيانات
+# 2. اختر "Backup"
+# 3. املأ البيانات:
+
+# General Tab:
+Filename: company_db_backup_2024.sql
+Format: Plain
+Encoding: UTF8
+Role name: postgres
+
+# Options Tab:
+Verbose messages: ✓
+Use INSERT commands: ✓
+Use column inserts: ✓
+Include CREATE DATABASE statement: ✓
+
+# Data/Objects Tab:
+Pre-data: ✓
+Data: ✓
+Post-data: ✓</code></pre>
+
+                        <h4>استعادة النسخة الاحتياطية</h4>
+                        <pre><code># في pgAdmin4:
+# 1. انقر بزر الماوس الأيمن على قاعدة البيانات
+# 2. اختر "Restore"
+# 3. املأ البيانات:
+
+# General Tab:
+Filename: [اختر ملف النسخة الاحتياطية]
+Format: Custom or Plain
+Role name: postgres
+
+# Options Tab:
+Verbose messages: ✓
+Clean before restore: ✓ (احذر: سيحذف البيانات الموجودة)
+Create before restore: ✓</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-info-circle"></i> نصائح النسخ الاحتياطي:</h4>
+                            <ul>
+                                <li>أنشئ نسخ احتياطية منتظمة (يومية/أسبوعية)</li>
+                                <li>اختبر عملية الاستعادة بانتظام</li>
+                                <li>احفظ النسخ الاحتياطية في مكان آمن</li>
+                                <li>استخدم ضغط الملفات لتوفير المساحة</li>
+                                <li>وثق عملية النسخ الاحتياطي والاستعادة</li>
+                            </ul>
+                        </div>
+
+                        <h3>إدارة المستخدمين والصلاحيات</h3>
+                        
+                        <h4>إنشاء مستخدم جديد</h4>
+                        <pre><code># في pgAdmin4:
+# 1. انقر بزر الماوس الأيمن على "Login/Group Roles"
+# 2. اختر "Create" > "Login/Group Role"
+# 3. املأ البيانات:
+
+# General Tab:
+Name: new_user
+Can login: ✓
+Password: [كلمة مرور قوية]
+Password (again): [تأكيد كلمة المرور]
+
+# Privileges Tab:
+Create databases: ✓ (إذا كان مطلوباً)
+Create roles: (اتركه فارغاً للمستخدمين العاديين)
+
+# Membership Tab:
+# يمكن إضافة المستخدم لمجموعات موجودة</code></pre>
+
+                        <h4>منح الصلاحيات</h4>
+                        <pre><code># في pgAdmin4:
+# 1. انقر بزر الماوس الأيمن على الجدول أو قاعدة البيانات
+# 2. اختر "Properties"
+# 3. اذهب إلى تبويب "Security"
+# 4. أضف الصلاحيات:
+
+# مثال على صلاحيات الجدول:
+Grantee: new_user
+Privileges: SELECT, INSERT, UPDATE
+Grantor: postgres
+
+# مثال على صلاحيات قاعدة البيانات:
+Grantee: new_user
+Privileges: CONNECT, TEMPORARY
+Grantor: postgres</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-shield-alt"></i> مبادئ الأمان:</h4>
+                            <ul>
+                                <li><strong>مبدأ أقل صلاحية:</strong> امنح فقط الصلاحيات المطلوبة</li>
+                                <li><strong>كلمات مرور قوية:</strong> استخدم كلمات مرور معقدة</li>
+                                <li><strong>مراجعة دورية:</strong> راجع الصلاحيات بانتظام</li>
+                                <li><strong>فصل الأدوار:</strong> استخدم أدوار مختلفة للمهام المختلفة</li>
+                                <li><strong>تسجيل العمليات:</strong> فعّل سجل العمليات الحساسة</li>
+                            </ul>
+                        </div>
+
+                        <h3>مراقبة الأداء</h3>
+                        
+                        <h4>لوحة التحكم</h4>
+                        <pre><code># في pgAdmin4:
+# 1. انقر على "Dashboard" في شريط الأدوات
+# 2. ستظهر إحصائيات شاملة:
+
+# Server Activity:
+- عدد الاتصالات النشطة
+- الاستعلامات قيد التنفيذ
+- استخدام الذاكرة والمعالج
+
+# Database Statistics:
+- حجم قواعد البيانات
+- عدد الجداول والصفوف
+- إحصائيات الاستعلامات
+
+# System Information:
+- إصدار PostgreSQL
+- إعدادات النظام
+- معلومات الخادم</code></pre>
+
+                        <h4>تقارير الأداء</h4>
+                        <pre><code># في pgAdmin4:
+# 1. انقر بزر الماوس الأيمن على قاعدة البيانات
+# 2. اختر "Reports"
+# 3. اختر التقرير المطلوب:
+
+# Available Reports:
+- Database Summary
+- Database Statistics
+- Table Statistics
+- Index Statistics
+- Function Statistics
+- Schema Statistics</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-chart-line"></i> نصائح مراقبة الأداء:</h4>
+                            <ul>
+                                <li>راقب استخدام الذاكرة والمعالج بانتظام</li>
+                                <li>تحقق من الاستعلامات البطيئة</li>
+                                <li>راجع إحصائيات الفهارس</li>
+                                <li>راقب حجم قواعد البيانات</li>
+                                <li>استخدم التقارير لتحديد نقاط التحسين</li>
+                            </ul>
+                        </div>
+
+                        <h3>نصائح متقدمة لـ pgAdmin4</h3>
+                        
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-lightbulb"></i> نصائح للاستخدام المتقدم:</h4>
+                            <ul>
+                                <li><strong>اختصارات لوحة المفاتيح:</strong> تعلم الاختصارات لتسريع العمل</li>
+                                <li><strong>الإعدادات المخصصة:</strong> خصص الواجهة حسب احتياجاتك</li>
+                                <li><strong>الاستعلامات المحفوظة:</strong> احفظ الاستعلامات المعقدة</li>
+                                <li><strong>النسخ الاحتياطي المجدول:</strong> استخدم pgAgent للنسخ التلقائي</li>
+                                <li><strong>المراقبة المتقدمة:</strong> استخدم أدوات المراقبة الخارجية</li>
+                                <li><strong>الأمان المتقدم:</strong> فعّل SSL ومراجعة السجلات</li>
+                            </ul>
+                        </div>
+
+                        <h4>اختصارات مفيدة</h4>
+                        <pre><code># اختصارات لوحة المفاتيح:
+Ctrl + Enter: تنفيذ الاستعلام
+F5: تحديث النتائج
+Ctrl + Space: الإكمال التلقائي
+Ctrl + /: تعليق/إلغاء تعليق
+Ctrl + Shift + F: تنسيق الكود
+Alt + Shift + Q: فتح محرر SQL
+Ctrl + S: حفظ الاستعلام
+Ctrl + O: فتح ملف SQL</code></pre>
+
+                        <h4>إعدادات مفيدة</h4>
+                        <pre><code># في File > Preferences:
+# Query Tool:
+- Auto-commit: ✓ (للعمليات التلقائية)
+- Auto-rollback: ✓ (للتراجع التلقائي عند الخطأ)
+- Show line numbers: ✓
+- Show whitespace: ✓
+
+# Browser:
+- Show system objects: (حسب الحاجة)
+- Auto-expand: ✓ (لتوسيع الشجرة تلقائياً)
+
+# Security:
+- Master password: (لحماية كلمات المرور المحفوظة)</code></pre>
+                    </div>
+                </div>
+            </section>
+
             <!-- SQL Basics -->
             <section id="basics" class="lesson-section">
                 <h2><i class="fas fa-code"></i> أساسيات SQL</h2>
                 
                 <div class="lesson">
+                    <div class="learning-objectives explanation">
+                        <h3><i class="fas fa-target"></i> أهداف التعلم</h3>
+                        <ul>
+                            <li>تعلم إنشاء قاعدة البيانات والجداول مع القيود والعلاقات</li>
+                            <li>فهم أنواع البيانات المختلفة في PostgreSQL</li>
+                            <li>إتقان عمليات إدراج البيانات (INSERT)</li>
+                            <li>تعلم استعلام البيانات باستخدام SELECT مع شروط متقدمة</li>
+                            <li>فهم أنواع الانضمام بين الجداول (JOIN)</li>
+                            <li>إتقان عمليات التحديث والحذف (UPDATE, DELETE)</li>
+                        </ul>
+                    </div>
+
                     <div class="lesson-content">
                         <h3>إنشاء قاعدة البيانات والجداول</h3>
+                        
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-lightbulb"></i> المفاهيم الأساسية:</h4>
+                            <ul>
+                                <li><strong>SERIAL:</strong> نوع بيانات تلقائي التزايد (Auto-increment)</li>
+                                <li><strong>PRIMARY KEY:</strong> مفتاح أساسي يضمن تفرد كل صف</li>
+                                <li><strong>FOREIGN KEY:</strong> مفتاح خارجي يربط الجداول ببعضها</li>
+                                <li><strong>CONSTRAINTS:</strong> قيود تضمن صحة البيانات</li>
+                                <li><strong>DEFAULT:</strong> قيمة افتراضية للعمود</li>
+                            </ul>
+                        </div>
                         <pre><code>-- إنشاء قاعدة بيانات
 CREATE DATABASE company_db;
 
 -- الاتصال بقاعدة البيانات
 \c company_db;
 
+-- إنشاء جدول الأقسام أولاً (لأن الموظفين يحتاجونه)
+CREATE TABLE departments (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    location VARCHAR(100),
+    budget DECIMAL(12,2) DEFAULT 0,
+    manager_id INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- إنشاء جدول الموظفين
 CREATE TABLE employees (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    email VARCHAR(100) UNIQUE,
-    salary DECIMAL(10,2),
-    hire_date DATE,
-    department_id INTEGER
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone VARCHAR(20),
+    salary DECIMAL(10,2) CHECK (salary > 0),
+    hire_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    department_id INTEGER REFERENCES departments(id),
+    manager_id INTEGER REFERENCES employees(id),
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- إنشاء جدول الأقسام
-CREATE TABLE departments (
+-- إنشاء جدول المشاريع
+CREATE TABLE projects (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    location VARCHAR(100)
+    name VARCHAR(200) NOT NULL,
+    description TEXT,
+    start_date DATE,
+    end_date DATE,
+    budget DECIMAL(12,2),
+    status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'completed', 'cancelled', 'on_hold')),
+    department_id INTEGER REFERENCES departments(id)
+);
+
+-- إنشاء جدول ربط الموظفين بالمشاريع (Many-to-Many)
+CREATE TABLE employee_projects (
+    employee_id INTEGER REFERENCES employees(id),
+    project_id INTEGER REFERENCES projects(id),
+    role VARCHAR(50),
+    start_date DATE DEFAULT CURRENT_DATE,
+    end_date DATE,
+    PRIMARY KEY (employee_id, project_id)
+);
+
+-- إنشاء جدول المهارات
+CREATE TABLE skills (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    category VARCHAR(50),
+    description TEXT
+);
+
+-- إنشاء جدول ربط الموظفين بالمهارات
+CREATE TABLE employee_skills (
+    employee_id INTEGER REFERENCES employees(id),
+    skill_id INTEGER REFERENCES skills(id),
+    proficiency_level INTEGER CHECK (proficiency_level BETWEEN 1 AND 5),
+    certified BOOLEAN DEFAULT FALSE,
+    certified_date DATE,
+    PRIMARY KEY (employee_id, skill_id)
 );</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-info-circle"></i> شرح الكود:</h4>
+                            <ul>
+                                <li><strong>CREATE DATABASE:</strong> ينشئ قاعدة بيانات جديدة</li>
+                                <li><strong>\c:</strong> أمر psql للاتصال بقاعدة بيانات</li>
+                                <li><strong>REFERENCES:</strong> يحدد العلاقة بين الجداول (Foreign Key)</li>
+                                <li><strong>CHECK:</strong> يضيف قيد للتحقق من صحة البيانات</li>
+                                <li><strong>GENERATED ALWAYS AS:</strong> عمود محسوب تلقائياً</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح مهمة:</h4>
+                            <ul>
+                                <li>أنشئ الجداول المرجعية أولاً (departments) قبل الجداول التي تشير إليها</li>
+                                <li>استخدم أسماء واضحة ومفهومة للأعمدة والجداول</li>
+                                <li>حدد القيود المناسبة لضمان صحة البيانات</li>
+                                <li>استخدم SERIAL للمفاتيح الأساسية التلقائية</li>
+                            </ul>
+                        </div>
 
                         <h3>إدراج البيانات</h3>
                         <pre><code>-- إدراج بيانات في جدول الأقسام
-INSERT INTO departments (name, location) VALUES
-('تطوير البرمجيات', 'الطابق الثالث'),
-('المبيعات', 'الطابق الأول'),
-('الموارد البشرية', 'الطابق الثاني');
+INSERT INTO departments (name, location, budget) VALUES
+('تطوير البرمجيات', 'الطابق الثالث', 500000.00),
+('المبيعات', 'الطابق الأول', 300000.00),
+('الموارد البشرية', 'الطابق الثاني', 200000.00),
+('المحاسبة', 'الطابق الأول', 150000.00),
+('التسويق', 'الطابق الثاني', 250000.00);
+
+-- إدراج بيانات في جدول المهارات
+INSERT INTO skills (name, category, description) VALUES
+('JavaScript', 'Programming', 'لغة برمجة الويب'),
+('Python', 'Programming', 'لغة برمجة متعددة الاستخدامات'),
+('PostgreSQL', 'Database', 'نظام إدارة قواعد البيانات'),
+('React', 'Frontend', 'مكتبة تطوير واجهات المستخدم'),
+('Node.js', 'Backend', 'بيئة تشغيل JavaScript'),
+('Project Management', 'Soft Skills', 'إدارة المشاريع'),
+('Communication', 'Soft Skills', 'مهارات التواصل');
 
 -- إدراج بيانات في جدول الموظفين
-INSERT INTO employees (first_name, last_name, email, salary, hire_date, department_id) VALUES
-('أحمد', 'محمد', 'ahmed@company.com', 5000.00, '2023-01-15', 1),
-('فاطمة', 'علي', 'fatima@company.com', 4500.00, '2023-02-20', 1),
-('محمد', 'حسن', 'mohammed@company.com', 6000.00, '2023-01-10', 2);</code></pre>
+INSERT INTO employees (first_name, last_name, email, phone, salary, hire_date, department_id, manager_id) VALUES
+('أحمد', 'محمد', 'ahmed@company.com', '+963-11-1234567', 5000.00, '2023-01-15', 1, NULL),
+('فاطمة', 'علي', 'fatima@company.com', '+963-11-1234568', 4500.00, '2023-02-20', 1, 1),
+('محمد', 'حسن', 'mohammed@company.com', '+963-11-1234569', 6000.00, '2023-01-10', 2, NULL),
+('سارة', 'أحمد', 'sara@company.com', '+963-11-1234570', 5500.00, '2023-03-01', 1, 1),
+('علي', 'محمد', 'ali@company.com', '+963-11-1234571', 4000.00, '2023-04-15', 3, NULL),
+('نور', 'حسن', 'nour@company.com', '+963-11-1234572', 4800.00, '2023-05-20', 2, 3),
+('خالد', 'علي', 'khalid@company.com', '+963-11-1234573', 5200.00, '2023-06-10', 1, 1),
+('مريم', 'أحمد', 'mariam@company.com', '+963-11-1234574', 4700.00, '2023-07-05', 4, NULL);
+
+-- إدراج بيانات في جدول المشاريع
+INSERT INTO projects (name, description, start_date, end_date, budget, status, department_id) VALUES
+('تطوير نظام إدارة الموظفين', 'نظام شامل لإدارة شؤون الموظفين', '2023-01-01', '2023-12-31', 100000.00, 'active', 1),
+('تطبيق المبيعات المحمول', 'تطبيق للهواتف الذكية لإدارة المبيعات', '2023-03-01', '2024-02-28', 80000.00, 'active', 1),
+('تحسين عملية التوظيف', 'تحسين وتطوير عملية التوظيف', '2023-02-01', '2023-08-31', 30000.00, 'completed', 3),
+('نظام المحاسبة الجديد', 'تطوير نظام محاسبة متقدم', '2023-06-01', '2024-05-31', 120000.00, 'active', 4),
+('حملة التسويق الرقمي', 'حملة تسويقية شاملة عبر الإنترنت', '2023-09-01', '2023-12-31', 50000.00, 'active', 5);
+
+-- إدراج بيانات في جدول ربط الموظفين بالمشاريع
+INSERT INTO employee_projects (employee_id, project_id, role, start_date) VALUES
+(1, 1, 'Project Manager', '2023-01-01'),
+(2, 1, 'Senior Developer', '2023-01-15'),
+(4, 1, 'Developer', '2023-02-01'),
+(7, 1, 'Developer', '2023-03-01'),
+(1, 2, 'Technical Lead', '2023-03-01'),
+(2, 2, 'Lead Developer', '2023-03-15'),
+(4, 2, 'Developer', '2023-04-01'),
+(3, 3, 'HR Manager', '2023-02-01'),
+(5, 3, 'HR Specialist', '2023-02-15'),
+(8, 4, 'Project Manager', '2023-06-01'),
+(6, 5, 'Marketing Manager', '2023-09-01');
+
+-- إدراج بيانات في جدول ربط الموظفين بالمهارات
+INSERT INTO employee_skills (employee_id, skill_id, proficiency_level, certified, certified_date) VALUES
+(1, 1, 5, TRUE, '2022-12-15'),  -- أحمد - JavaScript
+(1, 2, 4, TRUE, '2023-01-10'),  -- أحمد - Python
+(1, 6, 5, TRUE, '2022-11-20'),  -- أحمد - Project Management
+(2, 1, 5, TRUE, '2023-02-01'),  -- فاطمة - JavaScript
+(2, 4, 4, FALSE, NULL),         -- فاطمة - React
+(2, 5, 3, FALSE, NULL),         -- فاطمة - Node.js
+(3, 6, 4, TRUE, '2023-01-05'),  -- محمد - Project Management
+(3, 7, 5, TRUE, '2022-10-15'),  -- محمد - Communication
+(4, 1, 4, FALSE, NULL),         -- سارة - JavaScript
+(4, 4, 3, FALSE, NULL),         -- سارة - React
+(5, 7, 4, TRUE, '2023-03-01'),  -- علي - Communication
+(6, 7, 4, TRUE, '2023-04-15'),  -- نور - Communication
+(7, 2, 4, TRUE, '2023-05-01'),  -- خالد - Python
+(7, 3, 3, FALSE, NULL),         -- خالد - PostgreSQL
+(8, 3, 4, TRUE, '2023-06-01');  -- مريم - PostgreSQL</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-info-circle"></i> شرح عمليات الإدراج:</h4>
+                            <ul>
+                                <li><strong>INSERT INTO:</strong> يدرج بيانات جديدة في الجدول</li>
+                                <li><strong>VALUES:</strong> يحدد القيم المراد إدراجها</li>
+                                <li><strong>Multiple VALUES:</strong> يمكن إدراج عدة صفوف في عملية واحدة</li>
+                                <li><strong>NULL:</strong> قيمة فارغة (تُستخدم عندما لا نريد تحديد قيمة)</li>
+                                <li><strong>Comments:</strong> التعليقات تساعد في فهم البيانات</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح للإدراج:</h4>
+                            <ul>
+                                <li>أدرج البيانات في الجداول المرجعية أولاً (departments, skills)</li>
+                                <li>تأكد من صحة العلاقات بين الجداول (Foreign Keys)</li>
+                                <li>استخدم المعاملات (Transactions) للإدراج المتعدد</li>
+                                <li>تحقق من القيود قبل الإدراج</li>
+                            </ul>
+                        </div>
 
                         <h3>استعلام البيانات</h3>
                         <pre><code>-- استعلام بسيط
 SELECT * FROM employees;
 
--- استعلام مع شروط
+-- استعلام مع شروط أساسية
 SELECT first_name, last_name, salary 
 FROM employees 
 WHERE salary > 5000;
 
--- استعلام مع ترتيب
-SELECT * FROM employees 
+-- استعلام مع شروط متعددة
+SELECT first_name, last_name, salary, hire_date
+FROM employees 
+WHERE salary > 4500 AND hire_date > '2023-03-01'
 ORDER BY salary DESC;
 
--- استعلام مع حدود
-SELECT * FROM employees 
-LIMIT 5;</code></pre>
+-- استعلام مع LIKE للبحث النصي
+SELECT first_name, last_name, email
+FROM employees 
+WHERE first_name LIKE 'أ%' OR last_name LIKE '%محمد%';
+
+-- استعلام مع BETWEEN للفترات
+SELECT first_name, last_name, salary
+FROM employees 
+WHERE salary BETWEEN 4000 AND 5500
+ORDER BY salary;
+
+-- استعلام مع IN للقيم المتعددة
+SELECT first_name, last_name, department_id
+FROM employees 
+WHERE department_id IN (1, 3, 4);
+
+-- استعلام مع IS NULL
+SELECT first_name, last_name, manager_id
+FROM employees 
+WHERE manager_id IS NULL;
+
+-- استعلام مع تجميع البيانات
+SELECT 
+    department_id,
+    COUNT(*) as employee_count,
+    AVG(salary) as avg_salary,
+    MIN(salary) as min_salary,
+    MAX(salary) as max_salary,
+    SUM(salary) as total_salary
+FROM employees 
+WHERE is_active = TRUE
+GROUP BY department_id
+ORDER BY avg_salary DESC;
+
+-- استعلام مع HAVING (تجميع مع شروط)
+SELECT 
+    department_id,
+    COUNT(*) as employee_count,
+    AVG(salary) as avg_salary
+FROM employees 
+GROUP BY department_id
+HAVING COUNT(*) > 1
+ORDER BY avg_salary DESC;
+
+-- استعلام مع DISTINCT لإزالة التكرار
+SELECT DISTINCT department_id 
+FROM employees 
+WHERE is_active = TRUE;
+
+-- استعلام مع CASE للشروط الشرطية
+SELECT 
+    first_name,
+    last_name,
+    salary,
+    CASE 
+        WHEN salary >= 6000 THEN 'عالي'
+        WHEN salary >= 4500 THEN 'متوسط'
+        ELSE 'منخفض'
+    END as salary_level
+FROM employees
+ORDER BY salary DESC;</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-info-circle"></i> شرح استعلامات SELECT:</h4>
+                            <ul>
+                                <li><strong>SELECT *:</strong> يسترجع جميع الأعمدة</li>
+                                <li><strong>WHERE:</strong> يضيف شروط للتصفية</li>
+                                <li><strong>LIKE:</strong> للبحث النصي مع wildcards (% و _)</li>
+                                <li><strong>BETWEEN:</strong> للبحث في نطاق من القيم</li>
+                                <li><strong>IN:</strong> للبحث في قائمة من القيم</li>
+                                <li><strong>IS NULL:</strong> للبحث عن القيم الفارغة</li>
+                                <li><strong>GROUP BY:</strong> لتجميع البيانات</li>
+                                <li><strong>HAVING:</strong> شروط على البيانات المجمعة</li>
+                                <li><strong>CASE:</strong> للشروط الشرطية</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح للاستعلامات:</h4>
+                            <ul>
+                                <li>تجنب SELECT * في الإنتاج، حدد الأعمدة المطلوبة فقط</li>
+                                <li>استخدم الفهارس على الأعمدة المستخدمة في WHERE</li>
+                                <li>استخدم LIMIT لتحديد عدد النتائج</li>
+                                <li>استخدم ORDER BY لترتيب النتائج</li>
+                            </ul>
+                        </div>
 
                         <h3>الانضمام بين الجداول</h3>
-                        <pre><code>-- Inner Join
-SELECT e.first_name, e.last_name, d.name as department
+                        <pre><code>-- Inner Join (الانضمام الداخلي)
+SELECT e.first_name, e.last_name, d.name as department, e.salary
 FROM employees e
-INNER JOIN departments d ON e.department_id = d.id;
+INNER JOIN departments d ON e.department_id = d.id
+WHERE e.is_active = TRUE;
 
--- Left Join
+-- Left Join (الانضمام الأيسر)
 SELECT e.first_name, e.last_name, d.name as department
 FROM employees e
 LEFT JOIN departments d ON e.department_id = d.id;
 
--- استعلام مع تجميع
-SELECT d.name, COUNT(e.id) as employee_count
+-- Right Join (الانضمام الأيمن)
+SELECT d.name as department, e.first_name, e.last_name
+FROM employees e
+RIGHT JOIN departments d ON e.department_id = d.id;
+
+-- Full Outer Join (الانضمام الكامل)
+SELECT e.first_name, e.last_name, d.name as department
+FROM employees e
+FULL OUTER JOIN departments d ON e.department_id = d.id;
+
+-- Self Join (الانضمام الذاتي) - الموظفين مع مدرائهم
+SELECT 
+    emp.first_name || ' ' || emp.last_name as employee_name,
+    mgr.first_name || ' ' || mgr.last_name as manager_name
+FROM employees emp
+LEFT JOIN employees mgr ON emp.manager_id = mgr.id;
+
+-- Multiple Joins (انضمامات متعددة)
+SELECT 
+    e.first_name,
+    e.last_name,
+    d.name as department,
+    p.name as project,
+    ep.role as project_role
+FROM employees e
+INNER JOIN departments d ON e.department_id = d.id
+LEFT JOIN employee_projects ep ON e.id = ep.employee_id
+LEFT JOIN projects p ON ep.project_id = p.id
+WHERE e.is_active = TRUE;
+
+-- استعلام مع تجميع والانضمام
+SELECT 
+    d.name as department,
+    COUNT(e.id) as employee_count,
+    AVG(e.salary) as avg_salary,
+    COUNT(p.id) as project_count
 FROM departments d
-LEFT JOIN employees e ON d.id = e.department_id
-GROUP BY d.name;</code></pre>
+LEFT JOIN employees e ON d.id = e.department_id AND e.is_active = TRUE
+LEFT JOIN projects p ON d.id = p.department_id AND p.status = 'active'
+GROUP BY d.id, d.name
+ORDER BY employee_count DESC;
+
+-- استعلام مع مهارات الموظفين
+SELECT 
+    e.first_name,
+    e.last_name,
+    s.name as skill,
+    es.proficiency_level,
+    es.certified
+FROM employees e
+INNER JOIN employee_skills es ON e.id = es.employee_id
+INNER JOIN skills s ON es.skill_id = s.id
+WHERE es.proficiency_level >= 4
+ORDER BY e.last_name, s.name;
+
+-- استعلام مع المشاريع النشطة
+SELECT 
+    p.name as project,
+    d.name as department,
+    COUNT(ep.employee_id) as team_size,
+    p.budget,
+    p.start_date,
+    p.end_date
+FROM projects p
+INNER JOIN departments d ON p.department_id = d.id
+LEFT JOIN employee_projects ep ON p.id = ep.project_id
+WHERE p.status = 'active'
+GROUP BY p.id, p.name, d.name, p.budget, p.start_date, p.end_date
+ORDER BY team_size DESC;</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-info-circle"></i> شرح أنواع الانضمام:</h4>
+                            <ul>
+                                <li><strong>INNER JOIN:</strong> يعرض فقط الصفوف المطابقة في كلا الجدولين</li>
+                                <li><strong>LEFT JOIN:</strong> يعرض جميع الصفوف من الجدول الأيسر والصفوف المطابقة من الجدول الأيمن</li>
+                                <li><strong>RIGHT JOIN:</strong> يعرض جميع الصفوف من الجدول الأيمن والصفوف المطابقة من الجدول الأيسر</li>
+                                <li><strong>FULL OUTER JOIN:</strong> يعرض جميع الصفوف من كلا الجدولين</li>
+                                <li><strong>SELF JOIN:</strong> انضمام الجدول مع نفسه (للهياكل الهرمية)</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح للانضمام:</h4>
+                            <ul>
+                                <li>استخدم aliases (أسماء مستعارة) للجداول لتسهيل القراءة</li>
+                                <li>تأكد من وجود فهارس على أعمدة الانضمام</li>
+                                <li>استخدم LEFT JOIN عندما تريد عرض جميع الصفوف حتى لو لم تكن مطابقة</li>
+                                <li>تجنب الانضمامات المتعددة المعقدة، قسمها إلى خطوات</li>
+                            </ul>
+                        </div>
 
                         <h3>تحديث وحذف البيانات</h3>
-                        <pre><code>-- تحديث البيانات
+                        <pre><code>-- تحديث البيانات البسيط
 UPDATE employees 
 SET salary = salary * 1.1 
 WHERE department_id = 1;
 
--- حذف البيانات
-DELETE FROM employees 
-WHERE hire_date < '2023-01-01';
+-- تحديث متعدد الأعمدة
+UPDATE employees 
+SET 
+    salary = salary * 1.05,
+    updated_at = CURRENT_TIMESTAMP
+WHERE hire_date < '2023-06-01' AND is_active = TRUE;
 
--- حذف جميع البيانات
-TRUNCATE TABLE employees;</code></pre>
+-- تحديث مع JOIN
+UPDATE employees 
+SET salary = salary + 500
+FROM departments d
+WHERE employees.department_id = d.id 
+AND d.name = 'تطوير البرمجيات';
+
+-- تحديث مع CASE
+UPDATE employees 
+SET salary = CASE 
+    WHEN salary < 4000 THEN salary * 1.15
+    WHEN salary BETWEEN 4000 AND 6000 THEN salary * 1.10
+    ELSE salary * 1.05
+END
+WHERE is_active = TRUE;
+
+-- تحديث مع Subquery
+UPDATE employees 
+SET manager_id = (
+    SELECT id FROM employees 
+    WHERE department_id = employees.department_id 
+    AND manager_id IS NULL 
+    LIMIT 1
+)
+WHERE manager_id IS NULL AND department_id IS NOT NULL;
+
+-- تحديث مع RETURNING (PostgreSQL خاص)
+UPDATE employees 
+SET salary = salary * 1.1
+WHERE department_id = 1
+RETURNING first_name, last_name, salary;
+
+-- حذف البيانات مع شروط
+DELETE FROM employees 
+WHERE hire_date < '2023-01-01' AND is_active = FALSE;
+
+-- حذف مع JOIN
+DELETE FROM employees 
+USING departments d
+WHERE employees.department_id = d.id 
+AND d.name = 'التسويق' 
+AND employees.is_active = FALSE;
+
+-- حذف مع Subquery
+DELETE FROM employee_projects 
+WHERE employee_id IN (
+    SELECT id FROM employees 
+    WHERE is_active = FALSE
+);
+
+-- حذف مع RETURNING
+DELETE FROM employees 
+WHERE is_active = FALSE
+RETURNING first_name, last_name, email;
+
+-- حذف جميع البيانات (أسرع من DELETE)
+TRUNCATE TABLE employee_skills;
+TRUNCATE TABLE employee_projects;
+
+-- حذف مع إعادة تعيين التسلسل
+TRUNCATE TABLE employees RESTART IDENTITY CASCADE;
+
+-- حذف مع حفظ البيانات في جدول آخر
+CREATE TABLE employees_archive AS 
+SELECT *, CURRENT_TIMESTAMP as archived_at
+FROM employees 
+WHERE is_active = FALSE;
+
+DELETE FROM employees WHERE is_active = FALSE;
+
+-- تحديث مع التحقق من صحة البيانات
+UPDATE employees 
+SET phone = '+963-11-' || SUBSTRING(phone FROM 8)
+WHERE phone LIKE '+963-11-%' AND LENGTH(phone) > 10;
+
+-- تحديث مع معالجة الأخطاء
+BEGIN;
+UPDATE employees 
+SET salary = salary * 1.2
+WHERE department_id = 1;
+-- إذا حدث خطأ، يمكن استخدام ROLLBACK
+-- COMMIT; -- لتأكيد التغييرات</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-info-circle"></i> شرح عمليات التحديث والحذف:</h4>
+                            <ul>
+                                <li><strong>UPDATE:</strong> يحدث البيانات الموجودة في الجدول</li>
+                                <li><strong>SET:</strong> يحدد الأعمدة والقيم الجديدة</li>
+                                <li><strong>WHERE:</strong> يحدد الصفوف المراد تحديثها</li>
+                                <li><strong>DELETE:</strong> يحذف الصفوف من الجدول</li>
+                                <li><strong>TRUNCATE:</strong> يحذف جميع البيانات بسرعة</li>
+                                <li><strong>RETURNING:</strong> يعيد البيانات المتأثرة (PostgreSQL خاص)</li>
+                                <li><strong>USING:</strong> للانضمام في عمليات DELETE</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح مهمة:</h4>
+                            <ul>
+                                <li>استخدم WHERE دائماً لتجنب تحديث/حذف جميع الصفوف</li>
+                                <li>اختبر الاستعلامات على بيانات تجريبية أولاً</li>
+                                <li>استخدم المعاملات (Transactions) للعمليات المتعددة</li>
+                                <li>استخدم RETURNING لمعرفة البيانات المتأثرة</li>
+                                <li>TRUNCATE أسرع من DELETE لجميع البيانات</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced SQL Examples -->
+            <section id="advanced-sql" class="lesson-section">
+                <h2><i class="fas fa-rocket"></i> أمثلة SQL متقدمة</h2>
+                
+                <div class="lesson">
+                    <div class="learning-objectives explanation">
+                        <h3><i class="fas fa-target"></i> أهداف التعلم</h3>
+                        <ul>
+                            <li>فهم واستخدام Window Functions للتحليل المتقدم</li>
+                            <li>تعلم Common Table Expressions (CTEs) للاستعلامات المعقدة</li>
+                            <li>إتقان Subqueries المتقدمة والمرتبطة</li>
+                            <li>فهم Advanced Aggregation مع GROUPING SETS</li>
+                            <li>تعلم استخدام JSON Functions في PostgreSQL</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-content">
+                        <h3>Window Functions (دوال النوافذ)</h3>
+                        
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-lightbulb"></i> ما هي Window Functions؟</h4>
+                            <p>Window Functions تسمح بإجراء حسابات على مجموعة من الصفوف المرتبطة بالصف الحالي دون تجميع البيانات. تُستخدم للتحليل المتقدم والترتيب.</p>
+                            
+                            <h4><i class="fas fa-info-circle"></i> أنواع Window Functions:</h4>
+                            <ul>
+                                <li><strong>Ranking Functions:</strong> ROW_NUMBER(), RANK(), DENSE_RANK()</li>
+                                <li><strong>Aggregate Functions:</strong> SUM(), AVG(), COUNT() مع OVER</li>
+                                <li><strong>Offset Functions:</strong> LAG(), LEAD() للوصول للصفوف المجاورة</li>
+                                <li><strong>Distribution Functions:</strong> PERCENT_RANK(), CUME_DIST()</li>
+                            </ul>
+                        </div>
+                        <pre><code>-- ترتيب الموظفين حسب الراتب في كل قسم
+SELECT 
+    first_name,
+    last_name,
+    salary,
+    department_id,
+    ROW_NUMBER() OVER (PARTITION BY department_id ORDER BY salary DESC) as salary_rank,
+    RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) as salary_rank_with_ties,
+    DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) as dense_rank
+FROM employees
+WHERE is_active = TRUE;
+
+-- حساب النسبة المئوية للراتب
+SELECT 
+    first_name,
+    last_name,
+    salary,
+    PERCENT_RANK() OVER (ORDER BY salary) as salary_percentile,
+    CUME_DIST() OVER (ORDER BY salary) as cumulative_distribution
+FROM employees
+WHERE is_active = TRUE;
+
+-- مقارنة الراتب مع متوسط القسم
+SELECT 
+    first_name,
+    last_name,
+    salary,
+    department_id,
+    AVG(salary) OVER (PARTITION BY department_id) as dept_avg_salary,
+    salary - AVG(salary) OVER (PARTITION BY department_id) as salary_diff_from_avg,
+    (salary / AVG(salary) OVER (PARTITION BY department_id)) * 100 as salary_percentage_of_avg
+FROM employees
+WHERE is_active = TRUE;
+
+-- Running Total (المجموع التراكمي)
+SELECT 
+    first_name,
+    last_name,
+    hire_date,
+    salary,
+    SUM(salary) OVER (ORDER BY hire_date) as running_total_salary,
+    COUNT(*) OVER (ORDER BY hire_date) as running_employee_count
+FROM employees
+WHERE is_active = TRUE
+ORDER BY hire_date;
+
+-- LAG و LEAD للوصول للصفوف السابقة واللاحقة
+SELECT 
+    first_name,
+    last_name,
+    hire_date,
+    salary,
+    LAG(salary, 1) OVER (ORDER BY hire_date) as previous_employee_salary,
+    LEAD(salary, 1) OVER (ORDER BY hire_date) as next_employee_salary,
+    salary - LAG(salary, 1) OVER (ORDER BY hire_date) as salary_diff_from_previous
+FROM employees
+WHERE is_active = TRUE
+ORDER BY hire_date;</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-info-circle"></i> شرح Window Functions:</h4>
+                            <ul>
+                                <li><strong>OVER (PARTITION BY):</strong> يقسم البيانات إلى مجموعات منفصلة</li>
+                                <li><strong>OVER (ORDER BY):</strong> يحدد ترتيب البيانات في النافذة</li>
+                                <li><strong>ROW_NUMBER():</strong> يعطي رقم تسلسلي فريد لكل صف</li>
+                                <li><strong>RANK():</strong> يعطي نفس الرتبة للقيم المتساوية</li>
+                                <li><strong>DENSE_RANK():</strong> يعطي رتب متتالية بدون فجوات</li>
+                                <li><strong>LAG/LEAD:</strong> للوصول للصفوف السابقة/اللاحقة</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح للاستخدام:</h4>
+                            <ul>
+                                <li>استخدم PARTITION BY لتقسيم البيانات إلى مجموعات منطقية</li>
+                                <li>ORDER BY في OVER يحدد ترتيب الحسابات</li>
+                                <li>Window Functions تُحسب بعد WHERE و GROUP BY</li>
+                                <li>مفيدة للتحليل المتقدم والتقارير المعقدة</li>
+                            </ul>
+                        </div>
+
+                        <h3>Common Table Expressions (CTEs)</h3>
+                        <pre><code>-- CTE بسيط
+WITH high_earners AS (
+    SELECT * FROM employees 
+    WHERE salary > 5000 AND is_active = TRUE
+)
+SELECT 
+    h.first_name,
+    h.last_name,
+    h.salary,
+    d.name as department
+FROM high_earners h
+JOIN departments d ON h.department_id = d.id;
+
+-- CTE متعدد المستويات
+WITH dept_stats AS (
+    SELECT 
+        department_id,
+        COUNT(*) as employee_count,
+        AVG(salary) as avg_salary,
+        MAX(salary) as max_salary
+    FROM employees
+    WHERE is_active = TRUE
+    GROUP BY department_id
+),
+dept_ranking AS (
+    SELECT 
+        department_id,
+        employee_count,
+        avg_salary,
+        max_salary,
+        RANK() OVER (ORDER BY avg_salary DESC) as salary_rank
+    FROM dept_stats
+)
+SELECT 
+    d.name as department,
+    dr.employee_count,
+    dr.avg_salary,
+    dr.max_salary,
+    dr.salary_rank
+FROM dept_ranking dr
+JOIN departments d ON dr.department_id = d.id
+ORDER BY dr.salary_rank;
+
+-- CTE مع Recursive (تكراري)
+WITH RECURSIVE employee_hierarchy AS (
+    -- Base case: الموظفين بدون مدراء
+    SELECT 
+        id,
+        first_name,
+        last_name,
+        manager_id,
+        1 as level,
+        first_name || ' ' || last_name as hierarchy_path
+    FROM employees
+    WHERE manager_id IS NULL AND is_active = TRUE
+    
+    UNION ALL
+    
+    -- Recursive case: الموظفين مع مدراء
+    SELECT 
+        e.id,
+        e.first_name,
+        e.last_name,
+        e.manager_id,
+        eh.level + 1,
+        eh.hierarchy_path || ' -> ' || e.first_name || ' ' || e.last_name
+    FROM employees e
+    JOIN employee_hierarchy eh ON e.manager_id = eh.id
+    WHERE e.is_active = TRUE
+)
+SELECT 
+    level,
+    hierarchy_path,
+    first_name,
+    last_name
+FROM employee_hierarchy
+ORDER BY level, hierarchy_path;</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-lightbulb"></i> ما هي CTEs؟</h4>
+                            <p>Common Table Expressions (CTEs) هي استعلامات مؤقتة تُعرف داخل استعلام أكبر. تجعل الكود أكثر قابلية للقراءة والتنظيم.</p>
+                            
+                            <h4><i class="fas fa-info-circle"></i> أنواع CTEs:</h4>
+                            <ul>
+                                <li><strong>Simple CTE:</strong> استعلام مؤقت بسيط</li>
+                                <li><strong>Multiple CTEs:</strong> عدة CTEs في استعلام واحد</li>
+                                <li><strong>Recursive CTE:</strong> للبيانات الهرمية والمتكررة</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح للاستخدام:</h4>
+                            <ul>
+                                <li>استخدم CTEs لتبسيط الاستعلامات المعقدة</li>
+                                <li>Recursive CTEs مفيدة للهياكل الهرمية</li>
+                                <li>CTEs تُحسب مرة واحدة فقط في الاستعلام</li>
+                                <li>مفيدة لإنشاء تقارير متعددة المستويات</li>
+                            </ul>
+                        </div>
+
+                        <h3>Subqueries متقدمة</h3>
+                        <pre><code>-- Correlated Subquery
+SELECT 
+    first_name,
+    last_name,
+    salary,
+    department_id,
+    (SELECT AVG(salary) 
+     FROM employees e2 
+     WHERE e2.department_id = e1.department_id 
+     AND e2.is_active = TRUE) as dept_avg_salary
+FROM employees e1
+WHERE is_active = TRUE;
+
+-- EXISTS vs IN
+-- الموظفين الذين يعملون في مشاريع
+SELECT first_name, last_name
+FROM employees e
+WHERE EXISTS (
+    SELECT 1 FROM employee_projects ep 
+    WHERE ep.employee_id = e.id
+);
+
+-- الموظفين الذين لا يعملون في أي مشروع
+SELECT first_name, last_name
+FROM employees e
+WHERE NOT EXISTS (
+    SELECT 1 FROM employee_projects ep 
+    WHERE ep.employee_id = e.id
+);
+
+-- Subquery في FROM clause
+SELECT 
+    dept_name,
+    employee_count,
+    avg_salary,
+    CASE 
+        WHEN avg_salary > 5000 THEN 'High'
+        WHEN avg_salary > 4000 THEN 'Medium'
+        ELSE 'Low'
+    END as salary_category
+FROM (
+    SELECT 
+        d.name as dept_name,
+        COUNT(e.id) as employee_count,
+        AVG(e.salary) as avg_salary
+    FROM departments d
+    LEFT JOIN employees e ON d.id = e.department_id AND e.is_active = TRUE
+    GROUP BY d.id, d.name
+) dept_summary
+ORDER BY avg_salary DESC;</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-info-circle"></i> شرح Subqueries المتقدمة:</h4>
+                            <ul>
+                                <li><strong>Correlated Subquery:</strong> يستخدم قيم من الاستعلام الخارجي</li>
+                                <li><strong>EXISTS:</strong> يتحقق من وجود صفوف (أسرع من IN للقيم الكبيرة)</li>
+                                <li><strong>NOT EXISTS:</strong> يتحقق من عدم وجود صفوف</li>
+                                <li><strong>Subquery in FROM:</strong> يستخدم نتيجة استعلام كجدول</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح للاستخدام:</h4>
+                            <ul>
+                                <li>EXISTS أسرع من IN للقوائم الكبيرة</li>
+                                <li>Correlated subqueries قد تكون بطيئة، استخدم JOINs عند الإمكان</li>
+                                <li>استخدم Subqueries في FROM لتبسيط الاستعلامات المعقدة</li>
+                                <li>تجنب Subqueries المتداخلة العميقة</li>
+                            </ul>
+                        </div>
+
+                        <h3>Advanced Aggregation</h3>
+                        <pre><code>-- GROUPING SETS
+SELECT 
+    COALESCE(d.name, 'All Departments') as department,
+    COALESCE(s.category, 'All Skills') as skill_category,
+    COUNT(DISTINCT e.id) as employee_count,
+    AVG(es.proficiency_level) as avg_proficiency
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+JOIN employee_skills es ON e.id = es.employee_id
+JOIN skills s ON es.skill_id = s.id
+WHERE e.is_active = TRUE
+GROUP BY GROUPING SETS (
+    (d.name, s.category),
+    (d.name),
+    (s.category),
+    ()
+)
+ORDER BY department, skill_category;
+
+-- ROLLUP
+SELECT 
+    d.name as department,
+    s.category as skill_category,
+    COUNT(*) as skill_count,
+    AVG(es.proficiency_level) as avg_proficiency
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+JOIN employee_skills es ON e.id = es.employee_id
+JOIN skills s ON es.skill_id = s.id
+WHERE e.is_active = TRUE
+GROUP BY ROLLUP (d.name, s.category)
+ORDER BY department, skill_category;
+
+-- CUBE
+SELECT 
+    d.name as department,
+    s.category as skill_category,
+    COUNT(*) as skill_count
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+JOIN employee_skills es ON e.id = es.employee_id
+JOIN skills s ON es.skill_id = s.id
+WHERE e.is_active = TRUE
+GROUP BY CUBE (d.name, s.category)
+ORDER BY department, skill_category;</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-info-circle"></i> شرح Advanced Aggregation:</h4>
+                            <ul>
+                                <li><strong>GROUPING SETS:</strong> يسمح بتجميع البيانات بطرق متعددة في استعلام واحد</li>
+                                <li><strong>ROLLUP:</strong> ينشئ مجموعات هرمية (من التفصيل إلى الإجمالي)</li>
+                                <li><strong>CUBE:</strong> ينشئ جميع التجميعات الممكنة</li>
+                                <li><strong>COALESCE:</strong> يعيد أول قيمة غير NULL</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح للاستخدام:</h4>
+                            <ul>
+                                <li>GROUPING SETS مفيد للتقارير المعقدة</li>
+                                <li>ROLLUP للتحليل الهرمي (مثل: منتج → فئة → إجمالي)</li>
+                                <li>CUBE لجميع التجميعات الممكنة</li>
+                                <li>استخدم COALESCE لعرض تسميات واضحة</li>
+                            </ul>
+                        </div>
+
+                        <h3>JSON Functions (PostgreSQL)</h3>
+                        <pre><code>-- إنشاء عمود JSON
+ALTER TABLE employees ADD COLUMN skills_json JSONB;
+
+-- تحديث البيانات JSON
+UPDATE employees 
+SET skills_json = '{"programming": ["JavaScript", "Python"], "certifications": ["AWS", "PostgreSQL"]}'
+WHERE id = 1;
+
+-- استعلام البيانات JSON
+SELECT 
+    first_name,
+    last_name,
+    skills_json->'programming' as programming_skills,
+    skills_json->>'certifications' as certifications,
+    jsonb_array_length(skills_json->'programming') as programming_skill_count
+FROM employees
+WHERE skills_json IS NOT NULL;
+
+-- البحث في JSON
+SELECT 
+    first_name,
+    last_name,
+    skills_json
+FROM employees
+WHERE skills_json @> '{"programming": ["JavaScript"]}';
+
+-- تحديث JSON
+UPDATE employees 
+SET skills_json = skills_json || '{"database": ["PostgreSQL", "MySQL"]}'
+WHERE id = 1;</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-lightbulb"></i> ما هي JSON Functions؟</h4>
+                            <p>PostgreSQL يدعم JSON و JSONB (Binary JSON) للتعامل مع البيانات غير المنظمة. JSONB أسرع للاستعلامات والبحث.</p>
+                            
+                            <h4><i class="fas fa-info-circle"></i> مشغلات JSON:</h4>
+                            <ul>
+                                <li><strong>->:</strong> يسترجع قيمة JSON كـ JSON</li>
+                                <li><strong>->>:</strong> يسترجع قيمة JSON كنص</li>
+                                <li><strong>@>:</strong> يتحقق من احتواء JSON</li>
+                                <li><strong>||:</strong> يدمج JSON objects</li>
+                                <li><strong>jsonb_array_length():</strong> طول مصفوفة JSON</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح للاستخدام:</h4>
+                            <ul>
+                                <li>استخدم JSONB بدلاً من JSON للأداء الأفضل</li>
+                                <li>أنشئ فهارس GIN على أعمدة JSONB للبحث السريع</li>
+                                <li>JSONB يزيل المسافات الزائدة ويحفظ القيم بترتيب مختلف</li>
+                                <li>مفيد للبيانات المرنة والمتغيرة</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Practical Examples -->
+            <section id="practical-examples" class="lesson-section">
+                <h2><i class="fas fa-briefcase"></i> أمثلة عملية من الواقع</h2>
+                
+                <div class="lesson">
+                    <div class="learning-objectives explanation">
+                        <h3><i class="fas fa-target"></i> أهداف التعلم</h3>
+                        <ul>
+                            <li>تصميم قاعدة بيانات متجر إلكتروني متكاملة</li>
+                            <li>إنشاء تقارير مبيعات وتحليلات عملاء</li>
+                            <li>تطبيق نظام إدارة المستخدمين والصلاحيات</li>
+                            <li>بناء نظام تقارير ديناميكي</li>
+                            <li>تحليل البيانات باستخدام تقنيات متقدمة</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-content">
+                        <h3>نظام إدارة المتجر الإلكتروني</h3>
+                        
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-lightbulb"></i> هيكل النظام:</h4>
+                            <p>نظام متجر إلكتروني شامل يتضمن إدارة العملاء، المنتجات، الطلبات، والفئات. مصمم ليعكس التطبيقات الحقيقية.</p>
+                            
+                            <h4><i class="fas fa-info-circle"></i> الجداول الرئيسية:</h4>
+                            <ul>
+                                <li><strong>customers:</strong> بيانات العملاء</li>
+                                <li><strong>categories:</strong> فئات المنتجات (مع دعم التصنيف الهرمي)</li>
+                                <li><strong>products:</strong> المنتجات مع إدارة المخزون</li>
+                                <li><strong>orders:</strong> الطلبات مع حالات مختلفة</li>
+                                <li><strong>order_items:</strong> تفاصيل الطلبات</li>
+                            </ul>
+                        </div>
+                        <pre><code>-- إنشاء جداول المتجر الإلكتروني
+CREATE TABLE customers (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone VARCHAR(20),
+    address TEXT,
+    city VARCHAR(50),
+    country VARCHAR(50) DEFAULT 'Syria',
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE categories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    parent_id INTEGER REFERENCES categories(id),
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    description TEXT,
+    price DECIMAL(10,2) NOT NULL,
+    cost DECIMAL(10,2),
+    category_id INTEGER REFERENCES categories(id),
+    stock_quantity INTEGER DEFAULT 0,
+    min_stock_level INTEGER DEFAULT 5,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    customer_id INTEGER REFERENCES customers(id),
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'shipped', 'delivered', 'cancelled')),
+    total_amount DECIMAL(10,2),
+    shipping_address TEXT,
+    notes TEXT
+);
+
+CREATE TABLE order_items (
+    id SERIAL PRIMARY KEY,
+    order_id INTEGER REFERENCES orders(id),
+    product_id INTEGER REFERENCES products(id),
+    quantity INTEGER NOT NULL,
+    unit_price DECIMAL(10,2) NOT NULL,
+    total_price DECIMAL(10,2) GENERATED ALWAYS AS (quantity * unit_price) STORED
+);
+
+-- إدراج بيانات تجريبية
+INSERT INTO customers (first_name, last_name, email, phone, city) VALUES
+('أحمد', 'محمد', 'ahmed@email.com', '+963-11-1111111', 'دمشق'),
+('فاطمة', 'علي', 'fatima@email.com', '+963-11-2222222', 'حلب'),
+('محمد', 'حسن', 'mohammed@email.com', '+963-11-3333333', 'حمص');
+
+INSERT INTO categories (name, description) VALUES
+('إلكترونيات', 'أجهزة إلكترونية ومعدات تقنية'),
+('ملابس', 'ملابس رجالية ونسائية'),
+('كتب', 'كتب ومجلات ومطبوعات');
+
+INSERT INTO products (name, description, price, cost, category_id, stock_quantity) VALUES
+('لابتوب ديل', 'لابتوب ديل للعمل والألعاب', 1500.00, 1200.00, 1, 10),
+('هاتف سامسونج', 'هاتف ذكي سامسونج', 800.00, 600.00, 1, 25),
+('قميص قطني', 'قميص قطني عالي الجودة', 50.00, 30.00, 2, 100),
+('كتاب البرمجة', 'كتاب تعلم البرمجة', 25.00, 15.00, 3, 50);
+
+-- أمثلة استعلامات عملية
+-- 1. تقرير المبيعات اليومية
+SELECT 
+    DATE(order_date) as sale_date,
+    COUNT(*) as total_orders,
+    SUM(total_amount) as daily_revenue,
+    AVG(total_amount) as avg_order_value
+FROM orders
+WHERE status = 'delivered'
+GROUP BY DATE(order_date)
+ORDER BY sale_date DESC;
+
+-- 2. أفضل المنتجات مبيعاً
+SELECT 
+    p.name as product_name,
+    c.name as category,
+    SUM(oi.quantity) as total_sold,
+    SUM(oi.total_price) as total_revenue,
+    (SUM(oi.total_price) - SUM(oi.quantity * p.cost)) as profit
+FROM order_items oi
+JOIN products p ON oi.product_id = p.id
+JOIN categories c ON p.category_id = c.id
+JOIN orders o ON oi.order_id = o.id
+WHERE o.status = 'delivered'
+GROUP BY p.id, p.name, c.name
+ORDER BY total_sold DESC;
+
+-- 3. تحليل العملاء
+SELECT 
+    c.first_name || ' ' || c.last_name as customer_name,
+    c.city,
+    COUNT(o.id) as total_orders,
+    SUM(o.total_amount) as total_spent,
+    AVG(o.total_amount) as avg_order_value,
+    MAX(o.order_date) as last_order_date
+FROM customers c
+LEFT JOIN orders o ON c.id = o.customer_id AND o.status = 'delivered'
+GROUP BY c.id, c.first_name, c.last_name, c.city
+ORDER BY total_spent DESC NULLS LAST;
+
+-- 4. تحذير المنتجات منخفضة المخزون
+SELECT 
+    p.name as product_name,
+    c.name as category,
+    p.stock_quantity,
+    p.min_stock_level,
+    (p.stock_quantity - p.min_stock_level) as stock_difference
+FROM products p
+JOIN categories c ON p.category_id = c.id
+WHERE p.stock_quantity <= p.min_stock_level
+AND p.is_active = TRUE
+ORDER BY stock_difference ASC;
+
+-- 5. تحليل المبيعات الشهرية
+SELECT 
+    EXTRACT(YEAR FROM order_date) as year,
+    EXTRACT(MONTH FROM order_date) as month,
+    COUNT(*) as orders_count,
+    SUM(total_amount) as monthly_revenue,
+    COUNT(DISTINCT customer_id) as unique_customers
+FROM orders
+WHERE status = 'delivered'
+GROUP BY EXTRACT(YEAR FROM order_date), EXTRACT(MONTH FROM order_date)
+ORDER BY year DESC, month DESC;</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-info-circle"></i> شرح استعلامات المتجر:</h4>
+                            <ul>
+                                <li><strong>تقرير المبيعات اليومية:</strong> تحليل الإيرادات اليومية</li>
+                                <li><strong>أفضل المنتجات:</strong> تحليل الأداء والربحية</li>
+                                <li><strong>تحليل العملاء:</strong> فهم سلوك العملاء</li>
+                                <li><strong>إدارة المخزون:</strong> تحذيرات المخزون المنخفض</li>
+                                <li><strong>التحليل الشهري:</strong> تتبع النمو والاتجاهات</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح للتطبيق:</h4>
+                            <ul>
+                                <li>استخدم فهارس على أعمدة التواريخ للاستعلامات السريعة</li>
+                                <li>فكر في إنشاء Views للتقارير المتكررة</li>
+                                <li>استخدم Window Functions للتحليل المتقدم</li>
+                                <li>طبق قيود CHECK لضمان صحة البيانات</li>
+                            </ul>
+                        </div>
+
+                        <h3>نظام إدارة المستخدمين والصلاحيات</h3>
+                        <pre><code>-- إنشاء جداول نظام المستخدمين
+CREATE TABLE user_roles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL,
+    description TEXT,
+    permissions JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    role_id INTEGER REFERENCES user_roles(id),
+    is_active BOOLEAN DEFAULT TRUE,
+    last_login TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE user_sessions (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    session_token VARCHAR(255) UNIQUE NOT NULL,
+    ip_address INET,
+    user_agent TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE audit_logs (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    action VARCHAR(100) NOT NULL,
+    table_name VARCHAR(50),
+    record_id INTEGER,
+    old_values JSONB,
+    new_values JSONB,
+    ip_address INET,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- إدراج بيانات تجريبية
+INSERT INTO user_roles (name, description, permissions) VALUES
+('admin', 'مدير النظام', '{"users": ["create", "read", "update", "delete"], "reports": ["read"]}'),
+('manager', 'مدير', '{"users": ["read", "update"], "reports": ["read"]}'),
+('user', 'مستخدم عادي', '{"profile": ["read", "update"]}');
+
+INSERT INTO users (username, email, password_hash, first_name, last_name, role_id) VALUES
+('admin', 'admin@company.com', '$2b$10$...', 'أحمد', 'المدير', 1),
+('manager1', 'manager@company.com', '$2b$10$...', 'فاطمة', 'المديرة', 2),
+('user1', 'user@company.com', '$2b$10$...', 'محمد', 'المستخدم', 3);
+
+-- أمثلة استعلامات الأمان
+-- 1. تسجيل دخول المستخدم
+SELECT 
+    u.id,
+    u.username,
+    u.email,
+    u.first_name,
+    u.last_name,
+    r.name as role_name,
+    r.permissions
+FROM users u
+JOIN user_roles r ON u.role_id = r.id
+WHERE u.username = 'admin' 
+AND u.is_active = TRUE;
+
+-- 2. إنشاء جلسة جديدة
+INSERT INTO user_sessions (user_id, session_token, ip_address, expires_at)
+VALUES (1, 'abc123...', '192.168.1.100', CURRENT_TIMESTAMP + INTERVAL '24 hours');
+
+-- 3. التحقق من صحة الجلسة
+SELECT 
+    u.id,
+    u.username,
+    u.email,
+    r.name as role_name,
+    r.permissions
+FROM user_sessions s
+JOIN users u ON s.user_id = u.id
+JOIN user_roles r ON u.role_id = r.id
+WHERE s.session_token = 'abc123...'
+AND s.is_active = TRUE
+AND s.expires_at > CURRENT_TIMESTAMP
+AND u.is_active = TRUE;
+
+-- 4. تسجيل العمليات في سجل التدقيق
+INSERT INTO audit_logs (user_id, action, table_name, record_id, new_values, ip_address)
+VALUES (1, 'UPDATE', 'users', 2, '{"last_name": "المديرة الجديدة"}', '192.168.1.100');
+
+-- 5. تقرير نشاط المستخدمين
+SELECT 
+    u.username,
+    u.first_name || ' ' || u.last_name as full_name,
+    r.name as role,
+    COUNT(al.id) as total_actions,
+    MAX(al.created_at) as last_activity,
+    COUNT(s.id) as active_sessions
+FROM users u
+JOIN user_roles r ON u.role_id = r.id
+LEFT JOIN audit_logs al ON u.id = al.user_id
+LEFT JOIN user_sessions s ON u.id = s.user_id AND s.is_active = TRUE
+WHERE u.is_active = TRUE
+GROUP BY u.id, u.username, u.first_name, u.last_name, r.name
+ORDER BY last_activity DESC NULLS LAST;</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-lightbulb"></i> نظام الأمان:</h4>
+                            <p>نظام شامل لإدارة المستخدمين والصلاحيات مع تسجيل العمليات ومراقبة النشاط.</p>
+                            
+                            <h4><i class="fas fa-info-circle"></i> مكونات النظام:</h4>
+                            <ul>
+                                <li><strong>user_roles:</strong> أدوار المستخدمين مع صلاحيات JSON</li>
+                                <li><strong>users:</strong> بيانات المستخدمين الأساسية</li>
+                                <li><strong>user_sessions:</strong> إدارة جلسات المستخدمين</li>
+                                <li><strong>audit_logs:</strong> سجل جميع العمليات</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح الأمان:</h4>
+                            <ul>
+                                <li>استخدم hash قوي لكلمات المرور</li>
+                                <li>سجل جميع العمليات الحساسة</li>
+                                <li>استخدم tokens آمنة للجلسات</li>
+                                <li>طبق مبدأ أقل صلاحية</li>
+                            </ul>
+                        </div>
+
+                        <h3>نظام التقارير والتحليلات</h3>
+                        <pre><code>-- إنشاء جداول التقارير
+CREATE TABLE report_templates (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    sql_query TEXT NOT NULL,
+    parameters JSONB,
+    created_by INTEGER REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_public BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE report_executions (
+    id SERIAL PRIMARY KEY,
+    template_id INTEGER REFERENCES report_templates(id),
+    executed_by INTEGER REFERENCES users(id),
+    parameters JSONB,
+    execution_time INTERVAL,
+    row_count INTEGER,
+    status VARCHAR(20) DEFAULT 'completed',
+    error_message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- إدراج قوالب تقارير
+INSERT INTO report_templates (name, description, sql_query, parameters) VALUES
+('تقرير الموظفين', 'تقرير شامل عن الموظفين', 
+'SELECT e.first_name, e.last_name, d.name as department, e.salary, e.hire_date
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+WHERE e.is_active = TRUE
+ORDER BY e.salary DESC',
+'{"department_id": {"type": "integer", "required": false}}'),
+
+('تقرير المبيعات الشهرية', 'تقرير المبيعات حسب الشهر',
+'SELECT 
+    EXTRACT(YEAR FROM order_date) as year,
+    EXTRACT(MONTH FROM order_date) as month,
+    COUNT(*) as orders_count,
+    SUM(total_amount) as total_revenue
+FROM orders
+WHERE status = ''delivered''
+GROUP BY EXTRACT(YEAR FROM order_date), EXTRACT(MONTH FROM order_date)
+ORDER BY year DESC, month DESC',
+'{"year": {"type": "integer", "required": true}}');
+
+-- أمثلة تقارير متقدمة
+-- 1. تقرير الأداء الشهري
+WITH monthly_performance AS (
+    SELECT 
+        EXTRACT(YEAR FROM order_date) as year,
+        EXTRACT(MONTH FROM order_date) as month,
+        COUNT(*) as orders_count,
+        SUM(total_amount) as revenue,
+        COUNT(DISTINCT customer_id) as unique_customers
+    FROM orders
+    WHERE status = 'delivered'
+    GROUP BY EXTRACT(YEAR FROM order_date), EXTRACT(MONTH FROM order_date)
+),
+performance_with_growth AS (
+    SELECT 
+        *,
+        LAG(revenue, 1) OVER (ORDER BY year, month) as previous_month_revenue,
+        LAG(orders_count, 1) OVER (ORDER BY year, month) as previous_month_orders
+    FROM monthly_performance
+)
+SELECT 
+    year,
+    month,
+    orders_count,
+    revenue,
+    unique_customers,
+    previous_month_revenue,
+    CASE 
+        WHEN previous_month_revenue IS NULL THEN NULL
+        ELSE ROUND(((revenue - previous_month_revenue) / previous_month_revenue) * 100, 2)
+    END as revenue_growth_percentage,
+    CASE 
+        WHEN previous_month_orders IS NULL THEN NULL
+        ELSE orders_count - previous_month_orders
+    END as orders_growth
+FROM performance_with_growth
+ORDER BY year DESC, month DESC;
+
+-- 2. تحليل RFM (Recency, Frequency, Monetary)
+WITH customer_rfm AS (
+    SELECT 
+        c.id,
+        c.first_name || ' ' || c.last_name as customer_name,
+        MAX(o.order_date) as last_order_date,
+        COUNT(o.id) as frequency,
+        SUM(o.total_amount) as monetary_value,
+        EXTRACT(DAYS FROM (CURRENT_DATE - MAX(o.order_date))) as recency_days
+    FROM customers c
+    LEFT JOIN orders o ON c.id = o.customer_id AND o.status = 'delivered'
+    GROUP BY c.id, c.first_name, c.last_name
+),
+rfm_scores AS (
+    SELECT 
+        *,
+        CASE 
+            WHEN recency_days <= 30 THEN 5
+            WHEN recency_days <= 60 THEN 4
+            WHEN recency_days <= 90 THEN 3
+            WHEN recency_days <= 180 THEN 2
+            ELSE 1
+        END as recency_score,
+        CASE 
+            WHEN frequency >= 10 THEN 5
+            WHEN frequency >= 5 THEN 4
+            WHEN frequency >= 3 THEN 3
+            WHEN frequency >= 2 THEN 2
+            ELSE 1
+        END as frequency_score,
+        CASE 
+            WHEN monetary_value >= 1000 THEN 5
+            WHEN monetary_value >= 500 THEN 4
+            WHEN monetary_value >= 200 THEN 3
+            WHEN monetary_value >= 100 THEN 2
+            ELSE 1
+        END as monetary_score
+    FROM customer_rfm
+)
+SELECT 
+    customer_name,
+    recency_days,
+    frequency,
+    monetary_value,
+    recency_score,
+    frequency_score,
+    monetary_score,
+    (recency_score || frequency_score || monetary_score)::INTEGER as rfm_score,
+    CASE 
+        WHEN (recency_score || frequency_score || monetary_score)::INTEGER >= 444 THEN 'Champions'
+        WHEN (recency_score || frequency_score || monetary_score)::INTEGER >= 333 THEN 'Loyal Customers'
+        WHEN (recency_score || frequency_score || monetary_score)::INTEGER >= 222 THEN 'Potential Loyalists'
+        WHEN (recency_score || frequency_score || monetary_score)::INTEGER >= 111 THEN 'At Risk'
+        ELSE 'Lost Customers'
+    END as customer_segment
+FROM rfm_scores
+ORDER BY rfm_score DESC;</code></pre>
+
+                        <div class="code-explanation">
+                            <h4><i class="fas fa-lightbulb"></i> نظام التقارير المتقدم:</h4>
+                            <p>نظام تقارير ديناميكي يتضمن قوالب تقارير قابلة للتخصيص وتحليلات متقدمة للعملاء.</p>
+                            
+                            <h4><i class="fas fa-info-circle"></i> مكونات النظام:</h4>
+                            <ul>
+                                <li><strong>report_templates:</strong> قوالب التقارير مع SQL queries</li>
+                                <li><strong>report_executions:</strong> سجل تنفيذ التقارير</li>
+                                <li><strong>تحليل RFM:</strong> Recency, Frequency, Monetary للعملاء</li>
+                                <li><strong>تقارير النمو:</strong> تحليل الاتجاهات والنمو</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-exclamation-triangle"></i> نصائح للتقارير:</h4>
+                            <ul>
+                                <li>استخدم CTEs للتقارير المعقدة</li>
+                                <li>طبق Window Functions للتحليل المتقدم</li>
+                                <li>فكر في إنشاء Views للتقارير المتكررة</li>
+                                <li>استخدم معاملات للتقارير الكبيرة</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -440,6 +2194,13 @@ ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;</code></pre>
                         <div class="playground-container">
                             <div class="code-editor">
                                 <h3>أدخل كود SQL</h3>
+                                <div class="sql-examples">
+                                    <button class="example-btn" onclick="loadExample('basic')">استعلام أساسي</button>
+                                    <button class="example-btn" onclick="loadExample('join')">انضمام الجداول</button>
+                                    <button class="example-btn" onclick="loadExample('aggregate')">تجميع البيانات</button>
+                                    <button class="example-btn" onclick="loadExample('window')">دوال النوافذ</button>
+                                    <button class="example-btn" onclick="loadExample('cte')">CTE</button>
+                                </div>
                                 <textarea id="sqlPlaygroundCode" placeholder="-- اكتب أوامر SQL هنا
 SELECT * FROM employees;
 ">-- مثال على استعلام SQL
@@ -455,6 +2216,7 @@ ORDER BY e.salary DESC;</textarea>
                                 <div>
                                     <button class="run-code-btn" onclick="runSQLPlayground()">تشغيل SQL</button>
                                     <button class="clear-btn" onclick="clearSQLPlayground()">مسح</button>
+                                    <button class="format-btn" onclick="formatSQL()">تنسيق الكود</button>
                                 </div>
                             </div>
                             
@@ -473,8 +2235,62 @@ ORDER BY e.salary DESC;</textarea>
                     </div>
                 </div>
             </section>
-        </div>
-    </main>
+            </div>
+        </main>
+
+        <aside class="sidebar-navigation">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-list"></i> محتويات الدورة</h3>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="sidebar-nav-list">
+                    <li><a href="index.html" class="sidebar-nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>الرئيسية</span>
+                    </a></li>
+                    <li><a href="#introduction" class="sidebar-nav-link active" data-level="introduction">
+                        <i class="fas fa-database"></i>
+                        <span>مقدمة</span>
+                    </a></li>
+                    <li><a href="#installation" class="sidebar-nav-link" data-level="installation">
+                        <i class="fas fa-download"></i>
+                        <span>التثبيت والإعداد</span>
+                    </a></li>
+                    <li><a href="#pgadmin4" class="sidebar-nav-link" data-level="pgadmin4">
+                        <i class="fas fa-desktop"></i>
+                        <span>pgAdmin4 - إدارة قواعد البيانات</span>
+                    </a></li>
+                    <li><a href="#basics" class="sidebar-nav-link" data-level="basics">
+                        <i class="fas fa-code"></i>
+                        <span>أساسيات SQL</span>
+                    </a></li>
+                    <li><a href="#advanced-sql" class="sidebar-nav-link" data-level="advanced-sql">
+                        <i class="fas fa-rocket"></i>
+                        <span>SQL متقدم</span>
+                    </a></li>
+                    <li><a href="#practical-examples" class="sidebar-nav-link" data-level="practical-examples">
+                        <i class="fas fa-briefcase"></i>
+                        <span>أمثلة عملية</span>
+                    </a></li>
+                    <li><a href="#advanced" class="sidebar-nav-link" data-level="advanced">
+                        <i class="fas fa-cogs"></i>
+                        <span>مفاهيم متقدمة</span>
+                    </a></li>
+                    <li><a href="#performance" class="sidebar-nav-link" data-level="performance">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>الأداء والتحسين</span>
+                    </a></li>
+                    <li><a href="#playground" class="sidebar-nav-link" data-level="playground">
+                        <i class="fas fa-play"></i>
+                        <span>ملعب SQL</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </aside>
+    </div>
 
     <footer class="footer">
         <div class="container">
@@ -520,6 +2336,136 @@ ORDER BY e.salary DESC;</textarea>
     </footer>
 
     <script>
+        // Sidebar functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarMobileToggle = document.getElementById('sidebarMobileToggle');
+            const sidebar = document.querySelector('.sidebar-navigation');
+            const sidebarLinks = document.querySelectorAll('.sidebar-nav-link');
+            const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+            // Toggle sidebar on desktop
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('collapsed');
+                });
+            }
+
+            // Toggle sidebar on mobile
+            if (sidebarMobileToggle) {
+                sidebarMobileToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('mobile-open');
+                    sidebarBackdrop.classList.toggle('active');
+                });
+            }
+
+            // Close sidebar when clicking backdrop
+            if (sidebarBackdrop) {
+                sidebarBackdrop.addEventListener('click', function() {
+                    sidebar.classList.remove('mobile-open');
+                    sidebarBackdrop.classList.remove('active');
+                });
+            }
+
+            // Handle sidebar navigation
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Check if it's an external link (not a hash link)
+                    if (!this.getAttribute('href').startsWith('#')) {
+                        // Allow external links to work normally
+                        return;
+                    }
+                    
+                    // Close mobile sidebar after navigation
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('mobile-open');
+                        sidebarBackdrop.classList.remove('active');
+                    }
+                });
+            });
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768 && 
+                    !sidebar.contains(e.target) && 
+                    !sidebarMobileToggle.contains(e.target)) {
+                    sidebar.classList.remove('mobile-open');
+                    sidebarBackdrop.classList.remove('active');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('mobile-open');
+                    sidebarBackdrop.classList.remove('active');
+                }
+            });
+        });
+
+        // SQL Examples Data
+        const sqlExamples = {
+            basic: `-- استعلام أساسي
+SELECT 
+    first_name,
+    last_name,
+    salary,
+    hire_date
+FROM employees
+WHERE is_active = TRUE
+ORDER BY salary DESC;`,
+
+            join: `-- انضمام الجداول
+SELECT 
+    e.first_name,
+    e.last_name,
+    d.name as department,
+    e.salary,
+    p.name as project
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+LEFT JOIN employee_projects ep ON e.id = ep.employee_id
+LEFT JOIN projects p ON ep.project_id = p.id
+WHERE e.is_active = TRUE;`,
+
+            aggregate: `-- تجميع البيانات
+SELECT 
+    d.name as department,
+    COUNT(e.id) as employee_count,
+    AVG(e.salary) as avg_salary,
+    MAX(e.salary) as max_salary,
+    MIN(e.salary) as min_salary
+FROM departments d
+LEFT JOIN employees e ON d.id = e.department_id AND e.is_active = TRUE
+GROUP BY d.id, d.name
+ORDER BY avg_salary DESC;`,
+
+            window: `-- دوال النوافذ
+SELECT 
+    first_name,
+    last_name,
+    salary,
+    department_id,
+    ROW_NUMBER() OVER (PARTITION BY department_id ORDER BY salary DESC) as salary_rank,
+    AVG(salary) OVER (PARTITION BY department_id) as dept_avg_salary
+FROM employees
+WHERE is_active = TRUE;`,
+
+            cte: `-- Common Table Expression
+WITH high_earners AS (
+    SELECT * FROM employees 
+    WHERE salary > 5000 AND is_active = TRUE
+)
+SELECT 
+    h.first_name,
+    h.last_name,
+    h.salary,
+    d.name as department
+FROM high_earners h
+JOIN departments d ON h.department_id = d.id
+ORDER BY h.salary DESC;`
+        };
+
         // SQL Playground Functions
         function runSQLPlayground() {
             const code = document.getElementById('sqlPlaygroundCode').value;
@@ -544,29 +2490,108 @@ ORDER BY e.salary DESC;</textarea>
 
         function simulateSQLOutput(code) {
             let output = '';
+            const lowerCode = code.toLowerCase();
             
-            // Simple SQL simulation
-            if (code.toLowerCase().includes('select')) {
-                output += 'النتائج:<br>';
-                output += 'first_name | last_name | department | salary<br>';
-                output += '-----------|-----------|------------|-------<br>';
-                output += 'أحمد | محمد | تطوير البرمجيات | 5000.00<br>';
-                output += 'فاطمة | علي | تطوير البرمجيات | 4500.00<br>';
-                output += 'محمد | حسن | المبيعات | 6000.00<br>';
-            } else if (code.toLowerCase().includes('insert')) {
-                output += 'تم إدراج البيانات بنجاح<br>';
-                output += 'عدد الصفوف المتأثرة: 1<br>';
-            } else if (code.toLowerCase().includes('update')) {
-                output += 'تم تحديث البيانات بنجاح<br>';
-                output += 'عدد الصفوف المتأثرة: 2<br>';
-            } else if (code.toLowerCase().includes('delete')) {
-                output += 'تم حذف البيانات بنجاح<br>';
-                output += 'عدد الصفوف المتأثرة: 1<br>';
+            // Enhanced SQL simulation with more realistic data
+            if (lowerCode.includes('select')) {
+                if (lowerCode.includes('join') || lowerCode.includes('department')) {
+                    output += '<table class="result-table">';
+                    output += '<thead><tr><th>first_name</th><th>last_name</th><th>department</th><th>salary</th></tr></thead>';
+                    output += '<tbody>';
+                    output += '<tr><td>أحمد</td><td>محمد</td><td>تطوير البرمجيات</td><td>5000.00</td></tr>';
+                    output += '<tr><td>فاطمة</td><td>علي</td><td>تطوير البرمجيات</td><td>4500.00</td></tr>';
+                    output += '<tr><td>محمد</td><td>حسن</td><td>المبيعات</td><td>6000.00</td></tr>';
+                    output += '<tr><td>سارة</td><td>أحمد</td><td>تطوير البرمجيات</td><td>5500.00</td></tr>';
+                    output += '<tr><td>علي</td><td>محمد</td><td>الموارد البشرية</td><td>4000.00</td></tr>';
+                    output += '</tbody></table>';
+                    output += '<p><strong>عدد الصفوف المُرجعة:</strong> 5</p>';
+                } else if (lowerCode.includes('count') || lowerCode.includes('avg') || lowerCode.includes('sum')) {
+                    output += '<table class="result-table">';
+                    output += '<thead><tr><th>department</th><th>employee_count</th><th>avg_salary</th><th>max_salary</th></tr></thead>';
+                    output += '<tbody>';
+                    output += '<tr><td>تطوير البرمجيات</td><td>4</td><td>4875.00</td><td>5500.00</td></tr>';
+                    output += '<tr><td>المبيعات</td><td>1</td><td>6000.00</td><td>6000.00</td></tr>';
+                    output += '<tr><td>الموارد البشرية</td><td>1</td><td>4000.00</td><td>4000.00</td></tr>';
+                    output += '</tbody></table>';
+                    output += '<p><strong>عدد الصفوف المُرجعة:</strong> 3</p>';
+                } else if (lowerCode.includes('row_number') || lowerCode.includes('rank')) {
+                    output += '<table class="result-table">';
+                    output += '<thead><tr><th>first_name</th><th>last_name</th><th>salary</th><th>salary_rank</th><th>dept_avg_salary</th></tr></thead>';
+                    output += '<tbody>';
+                    output += '<tr><td>محمد</td><td>حسن</td><td>6000.00</td><td>1</td><td>6000.00</td></tr>';
+                    output += '<tr><td>سارة</td><td>أحمد</td><td>5500.00</td><td>1</td><td>4875.00</td></tr>';
+                    output += '<tr><td>أحمد</td><td>محمد</td><td>5000.00</td><td>2</td><td>4875.00</td></tr>';
+                    output += '<tr><td>فاطمة</td><td>علي</td><td>4500.00</td><td>3</td><td>4875.00</td></tr>';
+                    output += '<tr><td>علي</td><td>محمد</td><td>4000.00</td><td>1</td><td>4000.00</td></tr>';
+                    output += '</tbody></table>';
+                    output += '<p><strong>عدد الصفوف المُرجعة:</strong> 5</p>';
             } else {
-                output += 'تم تنفيذ الأمر بنجاح<br>';
+                    output += '<table class="result-table">';
+                    output += '<thead><tr><th>first_name</th><th>last_name</th><th>salary</th><th>hire_date</th></tr></thead>';
+                    output += '<tbody>';
+                    output += '<tr><td>محمد</td><td>حسن</td><td>6000.00</td><td>2023-01-10</td></tr>';
+                    output += '<tr><td>سارة</td><td>أحمد</td><td>5500.00</td><td>2023-03-01</td></tr>';
+                    output += '<tr><td>أحمد</td><td>محمد</td><td>5000.00</td><td>2023-01-15</td></tr>';
+                    output += '<tr><td>فاطمة</td><td>علي</td><td>4500.00</td><td>2023-02-20</td></tr>';
+                    output += '<tr><td>علي</td><td>محمد</td><td>4000.00</td><td>2023-04-15</td></tr>';
+                    output += '</tbody></table>';
+                    output += '<p><strong>عدد الصفوف المُرجعة:</strong> 5</p>';
+                }
+            } else if (lowerCode.includes('insert')) {
+                output += '<div class="success-message">';
+                output += '<p>✅ تم إدراج البيانات بنجاح</p>';
+                output += '<p><strong>عدد الصفوف المتأثرة:</strong> 1</p>';
+                output += '<p><strong>وقت التنفيذ:</strong> 0.045 ثانية</p>';
+                output += '</div>';
+            } else if (lowerCode.includes('update')) {
+                output += '<div class="success-message">';
+                output += '<p>✅ تم تحديث البيانات بنجاح</p>';
+                output += '<p><strong>عدد الصفوف المتأثرة:</strong> 2</p>';
+                output += '<p><strong>وقت التنفيذ:</strong> 0.032 ثانية</p>';
+                output += '</div>';
+            } else if (lowerCode.includes('delete')) {
+                output += '<div class="success-message">';
+                output += '<p>✅ تم حذف البيانات بنجاح</p>';
+                output += '<p><strong>عدد الصفوف المتأثرة:</strong> 1</p>';
+                output += '<p><strong>وقت التنفيذ:</strong> 0.028 ثانية</p>';
+                output += '</div>';
+            } else {
+                output += '<div class="success-message">';
+                output += '<p>✅ تم تنفيذ الأمر بنجاح</p>';
+                output += '<p><strong>وقت التنفيذ:</strong> 0.015 ثانية</p>';
+                output += '</div>';
             }
             
             return output;
+        }
+
+        function loadExample(type) {
+            const textarea = document.getElementById('sqlPlaygroundCode');
+            if (sqlExamples[type]) {
+                textarea.value = sqlExamples[type];
+                showPlaygroundFeedback(`تم تحميل مثال: ${type}`, 'info');
+            }
+        }
+
+        function formatSQL() {
+            const textarea = document.getElementById('sqlPlaygroundCode');
+            let code = textarea.value;
+            
+            // Simple SQL formatting
+            code = code
+                .replace(/\bSELECT\b/gi, '\nSELECT')
+                .replace(/\bFROM\b/gi, '\nFROM')
+                .replace(/\bWHERE\b/gi, '\nWHERE')
+                .replace(/\bJOIN\b/gi, '\nJOIN')
+                .replace(/\bORDER BY\b/gi, '\nORDER BY')
+                .replace(/\bGROUP BY\b/gi, '\nGROUP BY')
+                .replace(/\bHAVING\b/gi, '\nHAVING')
+                .replace(/,\s*/g, ',\n    ')
+                .replace(/\n\s*\n/g, '\n')
+                .trim();
+            
+            textarea.value = code;
+            showPlaygroundFeedback('تم تنسيق الكود', 'info');
         }
 
         function clearSQLPlayground() {
@@ -581,6 +2606,46 @@ JOIN departments d ON e.department_id = d.id
 WHERE e.salary > 5000
 ORDER BY e.salary DESC;`;
             document.getElementById('sqlPlaygroundOutput').innerHTML = '<div class="php-simulation"><p><strong>ملاحظة:</strong> هذا محاكي لـ SQL. في البيئة الحقيقية، سيتم تنفيذ الكود على خادم PostgreSQL.</p><div class="code-output">النتائج ستظهر هنا بعد تشغيل الاستعلام...</div></div>';
+        }
+
+        function showPlaygroundFeedback(message, type) {
+            // Create or update feedback element
+            let feedback = document.getElementById('playgroundFeedback');
+            if (!feedback) {
+                feedback = document.createElement('div');
+                feedback.id = 'playgroundFeedback';
+                feedback.style.cssText = 'position: fixed; top: 20px; right: 20px; padding: 10px 15px; border-radius: 5px; z-index: 1000; font-weight: bold;';
+                document.body.appendChild(feedback);
+            }
+            
+            feedback.textContent = message;
+            feedback.className = `feedback-${type}`;
+            
+            // Set colors based on type
+            switch(type) {
+                case 'success':
+                    feedback.style.backgroundColor = '#d4edda';
+                    feedback.style.color = '#155724';
+                    feedback.style.border = '1px solid #c3e6cb';
+                    break;
+                case 'error':
+                    feedback.style.backgroundColor = '#f8d7da';
+                    feedback.style.color = '#721c24';
+                    feedback.style.border = '1px solid #f5c6cb';
+                    break;
+                case 'info':
+                    feedback.style.backgroundColor = '#d1ecf1';
+                    feedback.style.color = '#0c5460';
+                    feedback.style.border = '1px solid #bee5eb';
+                    break;
+            }
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                if (feedback) {
+                    feedback.remove();
+                }
+            }, 3000);
         }
     </script>
 </body>

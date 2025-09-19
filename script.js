@@ -19,30 +19,51 @@ class JavaScriptTutorial {
     }
 
     setupNavigation() {
-        const navLinks = document.querySelectorAll('.nav-link');
+        // Handle both old nav-link and new sidebar-nav-link elements
+        const navLinks = document.querySelectorAll('.nav-link, .sidebar-nav-link');
         const sections = document.querySelectorAll('.lesson-section');
 
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault();
+                // Check if it's an external link (not a hash link and no data-level)
+                const href = link.getAttribute('href');
                 const level = link.dataset.level;
-                this.switchLevel(level);
+                
+                if (!href.startsWith('#') && !level) {
+                    // Allow external links to work normally
+                    return;
+                }
+                
+                // Only prevent default for internal section links
+                if (level) {
+                    e.preventDefault();
+                    this.switchLevel(level);
+                }
             });
         });
     }
 
     switchLevel(level) {
-        // Update navigation
-        document.querySelectorAll('.nav-link').forEach(link => {
+        // Update navigation - handle both old and new navigation elements
+        document.querySelectorAll('.nav-link, .sidebar-nav-link').forEach(link => {
             link.classList.remove('active');
         });
-        document.querySelector(`[data-level="${level}"]`).classList.add('active');
+        
+        // Add active class to the clicked link
+        const activeLink = document.querySelector(`[data-level="${level}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
 
         // Update sections
         document.querySelectorAll('.lesson-section').forEach(section => {
             section.classList.remove('active');
         });
-        document.getElementById(level).classList.add('active');
+        
+        const targetSection = document.getElementById(level);
+        if (targetSection) {
+            targetSection.classList.add('active');
+        }
 
         this.currentLevel = level;
     }
@@ -910,19 +931,19 @@ function initializeIndexPage() {
 // Mobile Menu Functionality
 function initializeMobileMenu() {
     const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-    const navList = document.querySelector('.nav-list');
+    const navigation = document.querySelector('.navigation');
     
-    if (mobileMenuToggle && navList) {
+    if (mobileMenuToggle && navigation) {
         mobileMenuToggle.addEventListener('click', function() {
-            // Toggle active class on nav list
-            navList.classList.toggle('active');
+            // Toggle active class on navigation
+            navigation.classList.toggle('active');
             
             // Toggle active class on button
             this.classList.toggle('active');
             
             // Change icon
             const icon = this.querySelector('i');
-            if (navList.classList.contains('active')) {
+            if (navigation.classList.contains('active')) {
                 icon.className = 'fas fa-times';
             } else {
                 icon.className = 'fas fa-bars';
@@ -930,10 +951,10 @@ function initializeMobileMenu() {
         });
         
         // Close menu when clicking on nav links
-        const navLinks = document.querySelectorAll('.nav-link');
+        const navLinks = document.querySelectorAll('.nav-link, .sidebar-nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', function() {
-                navList.classList.remove('active');
+                navigation.classList.remove('active');
                 mobileMenuToggle.classList.remove('active');
                 const icon = mobileMenuToggle.querySelector('i');
                 icon.className = 'fas fa-bars';
@@ -942,8 +963,8 @@ function initializeMobileMenu() {
         
         // Close menu when clicking outside
         document.addEventListener('click', function(e) {
-            if (!mobileMenuToggle.contains(e.target) && !navList.contains(e.target)) {
-                navList.classList.remove('active');
+            if (!mobileMenuToggle.contains(e.target) && !navigation.contains(e.target)) {
+                navigation.classList.remove('active');
                 mobileMenuToggle.classList.remove('active');
                 const icon = mobileMenuToggle.querySelector('i');
                 icon.className = 'fas fa-bars';
@@ -953,7 +974,7 @@ function initializeMobileMenu() {
         // Close menu on window resize if screen becomes larger
         window.addEventListener('resize', function() {
             if (window.innerWidth > 768) {
-                navList.classList.remove('active');
+                navigation.classList.remove('active');
                 mobileMenuToggle.classList.remove('active');
                 const icon = mobileMenuToggle.querySelector('i');
                 icon.className = 'fas fa-bars';

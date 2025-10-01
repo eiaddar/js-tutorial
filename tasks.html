@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مهام الطلاب - برنامج تدريب تطوير الويب</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css">
+    <style>
+        .tasks-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+        }
+        
+        .task-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-right: 5px solid #667eea;
+        }
+        
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .task-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .task-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .task-title {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .task-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .task-requirements {
+            background: #e3f2fd;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .task-requirements h4 {
+            color: #1976d2;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .requirements-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .requirements-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .requirements-list li i {
+            color: #2196f3;
+            width: 20px;
+        }
+        
+        .solution-section {
+            background: #e8f5e8;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .solution-section h4 {
+            color: #2e7d32;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .code-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .code-tab {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 0.5rem 1rem;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .code-tab.active {
+            background: #2d3748;
+            color: white;
+            border-color: #2d3748;
+        }
+        
+        .code-content {
+            display: none;
+        }
+        
+        .code-content.active {
+            display: block;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .demo-button {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+            font-size: 1rem;
+        }
+        
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        }
+        
+        .demo-output {
+            background: #e8f5e8;
+            border: 2px solid #27ae60;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-weight: 600;
+            color: #27ae60;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            direction: ltr;
+        }
+        
+        .task-difficulty {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .difficulty-beginner {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .difficulty-intermediate {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .difficulty-advanced {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="title-section">
+                    <h1>وزارة المالية</h1>
+                </div>
+                <div class="logo-section">
+                    <img src="assets/Syrian_logo_icon_gold.png" alt="Ministry of Finance Logo" class="logo">
+                </div>
+                <div class="title-section">
+                    <h1>وزارة الاتصالات وتقانة المعلومات</h1>
+                    <h2>مركز التميز السوري الهندي لتقانة المعلومات</h2>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navigation">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+                <li><a href="html-tutorial.html" class="nav-link">دورة HTML</a></li>
+                <li><a href="css-tutorial.html" class="nav-link">دورة CSS</a></li>
+                <li><a href="js.html" class="nav-link">دورة JavaScript</a></li>
+                <li><a href="php-tutorial.html" class="nav-link">دورة PHP</a></li>
+                <li><a href="about-tutor.html" class="nav-link">حول المدرب</a></li>
+                <li><a href="tasks.html" class="nav-link active">مهام الطلاب</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <main class="main-content">
+        <div class="container">
+            <section class="tasks-section">
+                <h2><i class="fas fa-tasks"></i> مهام الطلاب - مشاريع تطوير الويب</h2>
+                <p class="collaboration-subtitle">مجموعة من المشاريع العملية المصممة لتحسين مهارات المبتدئين في تطوير الويب</p>
+                
+                <div class="collaboration-intro">
+                    <p>هذه المجموعة من المهام مصممة خصيصاً للمبتدئين في تطوير الويب. كل مهمة تركز على مهارة معينة وتتضمن تعليمات واضحة وحلول كاملة. ابدأ بالمهام البسيطة وتقدم تدريجياً إلى المهام الأكثر تعقيداً.</p>
+                </div>
+
+                <!-- Task 1: Digital Clock -->
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-number">1</div>
+                        <div>
+                            <h3 class="task-title">ساعة رقمية</h3>
+                            <span class="task-difficulty difficulty-beginner">مبتدئ</span>
+                        </div>
+                    </div>
+                    
+                    <p class="task-description">
+                        أنشئ ساعة رقمية تفاعلية تعرض الوقت الحالي وتحدث نفسها كل ثانية. هذا المشروع سيساعدك على فهم كيفية التعامل مع الوقت في JavaScript وإنشاء عناصر تفاعلية.
+                    </p>
+                    
+                    <div class="task-requirements">
+                        <h4><i class="fas fa-list-check"></i> المتطلبات:</h4>
+                        <ul class="requirements-list">
+                            <li><i class="fas fa-check"></i> HTML: إنشاء div لعرض الساعة</li>
+                            <li><i class="fas fa-check"></i> CSS: تصميم الساعة مثل شاشة رقمية حديثة</li>
+                            <li><i class="fas fa-check"></i> JavaScript: تحديث الوقت كل ثانية</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <h4><i class="fas fa-code"></i> الحل:</h4>
+                        
+                        <div class="code-tabs">
+                            <div class="code-tab active" onclick="showCode('clock-html')">HTML</div>
+                            <div class="code-tab" onclick="showCode('clock-css')">CSS</div>
+                            <div class="code-tab" onclick="showCode('clock-js')">JavaScript</div>
+                        </div>
+                        
+                        <div id="clock-html" class="code-content active">
+                            <pre><code class="language-html">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ar"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;ساعة رقمية&lt;/title&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="clock-container"&gt;
+        &lt;div class="digital-clock" id="clock"&gt;
+            00:00:00
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                            </code></pre>
+                        </div>
+                        
+                        <div id="clock-css" class="code-content">
+                            <pre><code class="language-css">
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.clock-container {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.digital-clock {
+    font-size: 4rem;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    text-shadow: 0 0 20px #00ff00;
+    letter-spacing: 0.1em;
+}
+                            </code></pre>
+                        </div>
+                        
+                        <div id="clock-js" class="code-content">
+                            <pre><code class="language-javascript">
+function updateClock() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    const timeString = `${hours}:${minutes}:${seconds}`;
+    document.getElementById('clock').textContent = timeString;
+}
+
+// تحديث الساعة كل ثانية
+setInterval(updateClock, 1000);
+
+// تحديث الساعة فوراً عند تحميل الصفحة
+updateClock();
+                            </code></pre>
+                        </div>
+                        
+                        <button class="demo-button" onclick="demoClock()">عرض النتيجة</button>
+                        <div id="clock-demo" class="demo-output" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Task 2: Interactive Quiz -->
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-number">2</div>
+                        <div>
+                            <h3 class="task-title">اختبار تفاعلي</h3>
+                            <span class="task-difficulty difficulty-beginner">مبتدئ</span>
+                        </div>
+                    </div>
+                    
+                    <p class="task-description">
+                        أنشئ اختبار تفاعلي بأسئلة متعددة الخيارات مع إمكانية تحديد الإجابات الصحيحة والخاطئة. سيساعدك هذا المشروع على فهم كيفية التعامل مع الأحداث والتفاعل مع المستخدم.
+                    </p>
+                    
+                    <div class="task-requirements">
+                        <h4><i class="fas fa-list-check"></i> المتطلبات:</h4>
+                        <ul class="requirements-list">
+                            <li><i class="fas fa-check"></i> HTML: عرض سؤال مع خيارات متعددة</li>
+                            <li><i class="fas fa-check"></i> CSS: تمييز الإجابات الصحيحة والخاطئة</li>
+                            <li><i class="fas fa-check"></i> JavaScript: فحص الإجابة عند النقر</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <h4><i class="fas fa-code"></i> الحل:</h4>
+                        
+                        <div class="code-tabs">
+                            <div class="code-tab active" onclick="showCode('quiz-html')">HTML</div>
+                            <div class="code-tab" onclick="showCode('quiz-css')">CSS</div>
+                            <div class="code-tab" onclick="showCode('quiz-js')">JavaScript</div>
+                        </div>
+                        
+                        <div id="quiz-html" class="code-content active">
+                            <pre><code class="language-html">
+&lt;div class="quiz-container"&gt;
+    &lt;h2&gt;اختبار JavaScript&lt;/h2&gt;
+    &lt;div class="question"&gt;
+        &lt;h3&gt;ما هي لغة البرمجة المستخدمة في تطوير الويب؟&lt;/h3&gt;
+        &lt;div class="options"&gt;
+            &lt;button class="option" data-answer="correct"&gt;JavaScript&lt;/button&gt;
+            &lt;button class="option" data-answer="wrong"&gt;Python&lt;/button&gt;
+            &lt;button class="option" data-answer="wrong"&gt;Java&lt;/button&gt;
+            &lt;button class="option" data-answer="wrong"&gt;C++&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="result" id="result"&gt;&lt;/div&gt;
+&lt;/div&gt;
+                            </code></pre>
+                        </div>
+                        
+                        <div id="quiz-css" class="code-content">
+                            <pre><code class="language-css">
+.quiz-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.question h3 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.options {
+    display: grid;
+    gap: 1rem;
+}
+
+.option {
+    padding: 1rem;
+    border: 2px solid #e9ecef;
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.option:hover {
+    border-color: #667eea;
+    background: #f8f9fa;
+}
+
+.option.correct {
+    background: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+}
+
+.option.wrong {
+    background: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+.result {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+                            </code></pre>
+                        </div>
+                        
+                        <div id="quiz-js" class="code-content">
+                            <pre><code class="language-javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    const options = document.querySelectorAll('.option');
+    const result = document.getElementById('result');
+    
+    options.forEach(option => {
+        option.addEventListener('click', function() {
+            const isCorrect = this.dataset.answer === 'correct';
+            
+            // إزالة الأحداث من جميع الخيارات
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            
+            // تمييز الإجابة المختارة
+            if (isCorrect) {
+                this.classList.add('correct');
+                result.textContent = 'إجابة صحيحة! 🎉';
+                result.style.background = '#d4edda';
+                result.style.color = '#155724';
+            } else {
+                this.classList.add('wrong');
+                result.textContent = 'إجابة خاطئة! ❌';
+                result.style.background = '#f8d7da';
+                result.style.color = '#721c24';
+                
+                // تمييز الإجابة الصحيحة
+                options.forEach(opt => {
+                    if (opt.dataset.answer === 'correct') {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+        });
+    });
+});
+                            </code></pre>
+                        </div>
+                        
+                        <button class="demo-button" onclick="demoQuiz()">عرض النتيجة</button>
+                        <div id="quiz-demo" class="demo-output" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Task 3: To-Do List -->
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-number">3</div>
+                        <div>
+                            <h3 class="task-title">قائمة المهام</h3>
+                            <span class="task-difficulty difficulty-beginner">مبتدئ</span>
+                        </div>
+                    </div>
+                    
+                    <p class="task-description">
+                        أنشئ تطبيق قائمة مهام بسيط يتيح للمستخدم إضافة وحذف المهام وتمييزها كمكتملة. هذا المشروع سيساعدك على فهم إدارة الحالة والتلاعب بـ DOM.
+                    </p>
+                    
+                    <div class="task-requirements">
+                        <h4><i class="fas fa-list-check"></i> المتطلبات:</h4>
+                        <ul class="requirements-list">
+                            <li><i class="fas fa-check"></i> HTML: حقل إدخال + زر + قائمة المهام</li>
+                            <li><i class="fas fa-check"></i> CSS: تصميم المهام مع خط للعناصر المكتملة</li>
+                            <li><i class="fas fa-check"></i> JavaScript: إضافة/حذف المهام وتمييزها كمكتملة</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <h4><i class="fas fa-code"></i> الحل:</h4>
+                        
+                        <div class="code-tabs">
+                            <div class="code-tab active" onclick="showCode('todo-html')">HTML</div>
+                            <div class="code-tab" onclick="showCode('todo-css')">CSS</div>
+                            <div class="code-tab" onclick="showCode('todo-js')">JavaScript</div>
+                        </div>
+                        
+                        <div id="todo-html" class="code-content active">
+                            <pre><code class="language-html">
+&lt;div class="todo-container"&gt;
+    &lt;h2&gt;قائمة المهام&lt;/h2&gt;
+    &lt;div class="input-section"&gt;
+        &lt;input type="text" id="taskInput" placeholder="أضف مهمة جديدة..."&gt;
+        &lt;button id="addBtn"&gt;إضافة&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;ul id="taskList" class="task-list"&gt;&lt;/ul&gt;
+&lt;/div&gt;
+                            </code></pre>
+                        </div>
+                        
+                        <div id="todo-css" class="code-content">
+                            <pre><code class="language-css">
+.todo-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.input-section {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+#taskInput {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+#addBtn {
+    padding: 1rem 2rem;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    background: #f8f9fa;
+}
+
+.task-item.completed {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.task-text {
+    flex: 1;
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+                            </code></pre>
+                        </div>
+                        
+                        <div id="todo-js" class="code-content">
+                            <pre><code class="language-javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    const taskInput = document.getElementById('taskInput');
+    const addBtn = document.getElementById('addBtn');
+    const taskList = document.getElementById('taskList');
+    
+    addBtn.addEventListener('click', addTask);
+    taskInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            addTask();
+        }
+    });
+    
+    function addTask() {
+        const taskText = taskInput.value.trim();
+        if (taskText === '') return;
+        
+        const taskItem = document.createElement('li');
+        taskItem.className = 'task-item';
+        
+        taskItem.innerHTML = `
+            &lt;span class="task-text"&gt;${taskText}&lt;/span&gt;
+            &lt;button class="delete-btn"&gt;حذف&lt;/button&gt;
+        `;
+        
+        // إضافة حدث النقر لتمييز المهمة كمكتملة
+        taskItem.addEventListener('click', function() {
+            this.classList.toggle('completed');
+        });
+        
+        // إضافة حدث النقر لحذف المهمة
+        taskItem.querySelector('.delete-btn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            taskItem.remove();
+        });
+        
+        taskList.appendChild(taskItem);
+        taskInput.value = '';
+    }
+});
+                            </code></pre>
+                        </div>
+                        
+                        <button class="demo-button" onclick="demoTodo()">عرض النتيجة</button>
+                        <div id="todo-demo" class="demo-output" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Task 4: Image Gallery with Modal -->
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-number">4</div>
+                        <div>
+                            <h3 class="task-title">معرض الصور مع النافذة المنبثقة</h3>
+                            <span class="task-difficulty difficulty-intermediate">متوسط</span>
+                        </div>
+                    </div>
+                    
+                    <p class="task-description">
+                        أنشئ معرض صور مع إمكانية عرض الصور في نافذة منبثقة عند النقر عليها. سيساعدك هذا المشروع على فهم كيفية إنشاء النوافذ المنبثقة والتلاعب بالصور.
+                    </p>
+                    
+                    <div class="task-requirements">
+                        <h4><i class="fas fa-list-check"></i> المتطلبات:</h4>
+                        <ul class="requirements-list">
+                            <li><i class="fas fa-check"></i> HTML: صور مصغرة في تخطيط شبكي</li>
+                            <li><i class="fas fa-check"></i> CSS: تصميم تخطيط شبكي</li>
+                            <li><i class="fas fa-check"></i> JavaScript: فتح الصورة الكاملة في نافذة منبثقة عند النقر</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <h4><i class="fas fa-code"></i> الحل:</h4>
+                        
+                        <div class="code-tabs">
+                            <div class="code-tab active" onclick="showCode('gallery-html')">HTML</div>
+                            <div class="code-tab" onclick="showCode('gallery-css')">CSS</div>
+                            <div class="code-tab" onclick="showCode('gallery-js')">JavaScript</div>
+                        </div>
+                        
+                        <div id="gallery-html" class="code-content active">
+                            <pre><code class="language-html">
+&lt;div class="gallery-container"&gt;
+    &lt;h2&gt;معرض الصور&lt;/h2&gt;
+    &lt;div class="gallery-grid"&gt;
+        &lt;img src="https://via.placeholder.com/300" alt="صورة 1" class="gallery-item"&gt;
+        &lt;img src="https://via.placeholder.com/300" alt="صورة 2" class="gallery-item"&gt;
+        &lt;img src="https://via.placeholder.com/300" alt="صورة 3" class="gallery-item"&gt;
+        &lt;img src="https://via.placeholder.com/300" alt="صورة 4" class="gallery-item"&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- النافذة المنبثقة --&gt;
+&lt;div id="modal" class="modal"&gt;
+    &lt;span class="close"&gt;&times;&lt;/span&gt;
+    &lt;img class="modal-content" id="modalImg"&gt;
+    &lt;div id="caption"&gt;&lt;/div&gt;
+&lt;/div&gt;
+                            </code></pre>
+                        </div>
+                        
+                        <div id="gallery-css" class="code-content">
+                            <pre><code class="language-css">
+.gallery-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.gallery-item {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    max-height: 80%;
+    object-fit: contain;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #bbb;
+}
+
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+                            </code></pre>
+                        </div>
+                        
+                        <div id="gallery-js" class="code-content">
+                            <pre><code class="language-javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+    const caption = document.getElementById('caption');
+    const close = document.getElementsByClassName('close')[0];
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    // فتح النافذة المنبثقة عند النقر على صورة
+    galleryItems.forEach(item => {
+        item.addEventListener('click', function() {
+            modal.style.display = 'block';
+            modalImg.src = this.src;
+            caption.innerHTML = this.alt;
+        });
+    });
+    
+    // إغلاق النافذة المنبثقة عند النقر على X
+    close.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+    
+    // إغلاق النافذة المنبثقة عند النقر خارج الصورة
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+    
+    // إغلاق النافذة المنبثقة بمفتاح Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            modal.style.display = 'none';
+        }
+    });
+});
+                            </code></pre>
+                        </div>
+                        
+                        <button class="demo-button" onclick="demoGallery()">عرض النتيجة</button>
+                        <div id="gallery-demo" class="demo-output" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Task 5: Dark/Light Mode Switch -->
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-number">5</div>
+                        <div>
+                            <h3 class="task-title">تبديل الوضع المظلم/المضيء</h3>
+                            <span class="task-difficulty difficulty-beginner">مبتدئ</span>
+                        </div>
+                    </div>
+                    
+                    <p class="task-description">
+                        أنشئ مفتاح تبديل بين الوضع المظلم والمضيء للموقع. سيساعدك هذا المشروع على فهم كيفية إدارة الثيمات وتغيير الأنماط ديناميكياً.
+                    </p>
+                    
+                    <div class="task-requirements">
+                        <h4><i class="fas fa-list-check"></i> المتطلبات:</h4>
+                        <ul class="requirements-list">
+                            <li><i class="fas fa-check"></i> HTML: إضافة زر التبديل</li>
+                            <li><i class="fas fa-check"></i> CSS: ثيمين (مضيء + مظلم)</li>
+                            <li><i class="fas fa-check"></i> JavaScript: تبديل الأنماط ديناميكياً</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <h4><i class="fas fa-code"></i> الحل:</h4>
+                        
+                        <div class="code-tabs">
+                            <div class="code-tab active" onclick="showCode('theme-html')">HTML</div>
+                            <div class="code-tab" onclick="showCode('theme-css')">CSS</div>
+                            <div class="code-tab" onclick="showCode('theme-js')">JavaScript</div>
+                        </div>
+                        
+                        <div id="theme-html" class="code-content active">
+                            <pre><code class="language-html">
+&lt;div class="theme-switcher"&gt;
+    &lt;button id="themeToggle" class="theme-btn"&gt;
+        &lt;i class="fas fa-moon"&gt;&lt;/i&gt;
+    &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class="content"&gt;
+    &lt;h1&gt;تبديل الوضع المظلم/المضيء&lt;/h1&gt;
+    &lt;p&gt;انقر على الزر أعلاه لتغيير ثيم الموقع.&lt;/p&gt;
+&lt;/div&gt;
+                            </code></pre>
+                        </div>
+                        
+                        <div id="theme-css" class="code-content">
+                            <pre><code class="language-css">
+/* الثيم المضيء (الافتراضي) */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --card-bg: #f8f9fa;
+    --border-color: #e9ecef;
+}
+
+/* الثيم المظلم */
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --card-bg: #2d2d2d;
+    --border-color: #404040;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.theme-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.theme-btn {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.theme-btn:hover {
+    transform: scale(1.1);
+}
+
+.content {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+}
+                            </code></pre>
+                        </div>
+                        
+                        <div id="theme-js" class="code-content">
+                            <pre><code class="language-javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    
+    // تحميل الثيم المحفوظ أو استخدام الافتراضي
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    body.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+    
+    themeToggle.addEventListener('click', function() {
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    });
+    
+    function updateThemeIcon(theme) {
+        const icon = themeToggle.querySelector('i');
+        if (theme === 'dark') {
+            icon.className = 'fas fa-sun';
+        } else {
+            icon.className = 'fas fa-moon';
+        }
+    }
+});
+                            </code></pre>
+                        </div>
+                        
+                        <button class="demo-button" onclick="demoTheme()">عرض النتيجة</button>
+                        <div id="theme-demo" class="demo-output" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Continue with remaining tasks... -->
+                <div class="collaboration-intro">
+                    <p><strong>ملاحظة:</strong> هذه أمثلة على أول 5 مهام. يمكنك إضافة المهام المتبقية (6-14) بنفس الطريقة. كل مهمة تحتوي على تعليمات واضحة وحلول كاملة مع أمثلة عملية.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Training Partners</h3>
+                    <div class="footer-logos">
+                        <a href="https://www.mof.gov.sy/ar">
+                            <img src="assets/Syrian_logo_icon_gold.png" alt="Ministry of Finance" class="footer-logo">
+                            <span>Ministry of Finance</span>
+                        </a>
+                        <a href="https://www.sceit.gov.sy/ar">
+                            <img src="assets/logo-sceit.png" alt="SCEIT" class="footer-logo">
+                            <span>Syrian Center of Excellence in IT</span>
+                        </a>
+                        <a href="https://naits.gov.sy/ar">
+                            <img src="assets/Asset 2@4x.png" alt="naits" class="footer-logo">
+                            <span>National Authority of IT Services</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Web Development Training Program. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize highlight.js
+        hljs.highlightAll();
+
+        // Function to show code tabs
+        function showCode(tabId) {
+            // Hide all code contents
+            const allContents = document.querySelectorAll('.code-content');
+            allContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const allTabs = document.querySelectorAll('.code-tab');
+            allTabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected content and activate tab
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Demo functions
+        function demoClock() {
+            const demo = document.getElementById('clock-demo');
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ar-SA');
+            demo.textContent = `الوقت الحالي: ${timeString}`;
+            demo.style.display = 'flex';
+        }
+        
+        function demoQuiz() {
+            const demo = document.getElementById('quiz-demo');
+            demo.innerHTML = 'اختبار تفاعلي - انقر على الإجابة الصحيحة!';
+            demo.style.display = 'flex';
+        }
+        
+        function demoTodo() {
+            const demo = document.getElementById('todo-demo');
+            demo.innerHTML = 'قائمة المهام - أضف مهامك واديرها بسهولة!';
+            demo.style.display = 'flex';
+        }
+        
+        function demoGallery() {
+            const demo = document.getElementById('gallery-demo');
+            demo.innerHTML = 'معرض الصور - انقر على الصور لعرضها بحجم كبير!';
+            demo.style.display = 'flex';
+        }
+        
+        function demoTheme() {
+            const demo = document.getElementById('theme-demo');
+            demo.innerHTML = 'تبديل الثيم - جرب الوضع المظلم والمضيء!';
+            demo.style.display = 'flex';
+        }
+    </script>
+</body>
+</html>

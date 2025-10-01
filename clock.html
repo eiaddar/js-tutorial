@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="dark.css" /> -->
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="theme">Toggle Theme</button>
+
+    <div id="clock">click_me!</div>
+    <div id="cl"></div>
+    <div class="clo"></div>
+    <div class="clo"></div>
+    <div class="clo"></div>
+    <div class="clo"></div>
+    <div class="clo"></div>
+  </body>
+  <script>
+    let islight = true;
+    function createElement(islight) {
+      const linkElement = document.createElement("link");
+      linkElement.rel = "stylesheet";
+      if (islight) {
+        linkElement.href = "light.css";
+      } else {
+        linkElement.href = "dark.css";
+      }
+      linkElement.type = "text/css";
+      const allLinks = document.querySelectorAll("link");
+      allLinks.forEach((element) => {
+        document.head.removeChild(element);
+      });
+      document.head.appendChild(linkElement);
+    }
+    
+    const theme =  document.getElementById("theme");
+    const te = theme.addEventListener("click", function () {
+      createElement(islight);
+      console.log(islight);
+      islight = !islight;
+    });
+
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, "0");
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      const seconds = now.getSeconds().toString().padStart(2, "0");
+
+      const timeString = `${hours}:${minutes}:${seconds}`;
+      document.getElementById("clock").textContent = timeString;
+    }
+
+    const eventNew = document.addEventListener("mouseup", updateClock);
+  </script>
+</html>

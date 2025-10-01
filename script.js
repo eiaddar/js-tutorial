@@ -181,6 +181,55 @@ class JavaScriptTutorial {
     }
 }
 
+
+
+// Navigation hide/show on scroll functionality
+let lastScrollTop = 0;
+let isScrolling = false;
+let scrollTimeout;
+
+function handleScroll() {
+    if (isScrolling) return;
+    
+    isScrolling = true;
+    requestAnimationFrame(() => {
+        const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const navigation = document.querySelector('.navigation');
+        
+        if (!navigation) {
+            isScrolling = false;
+            return;
+        }
+        
+        // Clear any existing timeout
+        clearTimeout(scrollTimeout);
+        
+        // Show navigation when at the top
+        if (currentScrollTop <= 10) {
+            navigation.classList.remove('nav-hidden');
+            navigation.classList.add('nav-visible');
+        }
+        // Hide navigation when scrolling down (with minimum scroll distance)
+        else if (currentScrollTop > lastScrollTop && currentScrollTop > 100 && (currentScrollTop - lastScrollTop) > 5) {
+            navigation.classList.remove('nav-visible');
+            navigation.classList.add('nav-hidden');
+        }
+        // Show navigation when scrolling up (with minimum scroll distance)
+        else if (currentScrollTop < lastScrollTop && (lastScrollTop - currentScrollTop) > 5) {
+            navigation.classList.remove('nav-hidden');
+            navigation.classList.add('nav-visible');
+        }
+        
+        lastScrollTop = currentScrollTop;
+        isScrolling = false;
+    });
+}
+
+// Add scroll event listener with throttling
+document.addEventListener('scroll', handleScroll, { passive: true });
+
+
+
 // Lesson-specific code execution functions
 function runLessonCode(lessonId) {
     const outputElement = document.getElementById(`output${lessonId.slice(-1)}`);

@@ -1004,98 +1004,1151 @@ console.log("Event handling examples completed!");</code></pre>
                         <div id="hoverDiv" class="hover-demo">Hover over me!</div>
                     </div>
                 </div>
+
+                <div class="lesson" data-lesson="7">
+                    <h3>7. الدوال المهمة في JavaScript</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>إتقان دوال المصفوفات الأساسية: map, filter, reduce, forEach</li>
+                                <li>فهم دوال البحث والتحقق: find, includes</li>
+                                <li>تعلم التعامل مع العمليات غير المتزامنة: async/await</li>
+                                <li>استخدام دوال التوقيت: setTimeout, setInterval</li>
+                                <li>العمل مع JSON: parse, stringify</li>
+                            </ul>
+                            
+                            <h4>📚 المفاهيم الأساسية:</h4>
+                            <p><strong>دوال المصفوفات</strong> هي أدوات قوية لمعالجة البيانات بطريقة وظيفية:</p>
+                            <ul>
+                                <li><strong>map():</strong> تحويل كل عنصر في المصفوفة وإرجاع مصفوفة جديدة</li>
+                                <li><strong>filter():</strong> إنشاء مصفوفة جديدة تحتوي على العناصر التي تحقق شرطاً معيناً</li>
+                                <li><strong>reduce():</strong> تنفيذ دالة على كل عنصر لإنتاج قيمة واحدة</li>
+                                <li><strong>forEach():</strong> تنفيذ دالة على كل عنصر دون إرجاع مصفوفة جديدة</li>
+                                <li><strong>find():</strong> إرجاع أول عنصر يحقق شرطاً معيناً</li>
+                                <li><strong>includes():</strong> التحقق من وجود قيمة في المصفوفة أو النص</li>
+                            </ul>
+                            
+                            <p><strong>العمليات غير المتزامنة</strong> تسمح بتنفيذ الكود دون انتظار:</p>
+                            <ul>
+                                <li><strong>async/await:</strong> طريقة حديثة للتعامل مع الوعود (Promises)</li>
+                                <li><strong>setTimeout/setInterval:</strong> جدولة تنفيذ الدوال</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-javascript">// COMMONLY USED ARRAY FUNCTIONS
+console.log("=== ARRAY FUNCTIONS DEMONSTRATION ===");
+
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const fruits = ['apple', 'banana', 'cherry', 'date', 'elderberry'];
+const users = [
+    { id: 1, name: 'Alice', age: 25, active: true },
+    { id: 2, name: 'Bob', age: 30, active: false },
+    { id: 3, name: 'Charlie', age: 35, active: true }
+];
+
+// 1. MAP() - تحويل كل عنصر وإرجاع مصفوفة جديدة
+// map(): تحويل كل عنصر في المصفوفة وإرجاع مصفوفة جديدة بالنتائج
+console.log("\n--- MAP() FUNCTION ---");
+const doubledNumbers = numbers.map(num => num * 2);
+console.log("الأرقام المضاعفة:", doubledNumbers); // [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+
+const upperFruits = fruits.map(fruit => fruit.toUpperCase());
+console.log("الفواكه بالأحرف الكبيرة:", upperFruits);
+
+const userNames = users.map(user => user.name);
+console.log("أسماء المستخدمين:", userNames);
+
+// 2. FILTER() - إنشاء مصفوفة جديدة بالعناصر التي تحقق شرطاً
+// filter(): إنشاء مصفوفة جديدة تحتوي على العناصر التي تحقق شرطاً معيناً
+console.log("\n--- FILTER() FUNCTION ---");
+const evenNumbers = numbers.filter(num => num % 2 === 0);
+console.log("الأرقام الزوجية:", evenNumbers); // [2, 4, 6, 8, 10]
+
+const longFruits = fruits.filter(fruit => fruit.length > 5);
+console.log("الفواكه الطويلة:", longFruits);
+
+const activeUsers = users.filter(user => user.active);
+console.log("المستخدمون النشطون:", activeUsers);
+
+// 3. REDUCE() - تنفيذ دالة على كل عنصر لإنتاج قيمة واحدة
+// reduce(): تنفيذ دالة على كل عنصر في المصفوفة لإنتاج قيمة واحدة
+console.log("\n--- REDUCE() FUNCTION ---");
+const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+console.log("مجموع الأرقام:", sum); // 55
+
+const product = numbers.reduce((acc, curr) => acc * curr, 1);
+console.log("حاصل ضرب الأرقام:", product);
+
+const totalAge = users.reduce((acc, user) => acc + user.age, 0);
+console.log("مجموع أعمار المستخدمين:", totalAge);
+
+// 4. FOREACH() - تنفيذ دالة على كل عنصر دون إرجاع مصفوفة جديدة
+// forEach(): تنفيذ دالة على كل عنصر في المصفوفة دون إرجاع مصفوفة جديدة
+console.log("\n--- FOREACH() FUNCTION ---");
+console.log("طباعة الفواكه:");
+fruits.forEach(fruit => console.log(fruit));
+// Output:
+// apple
+// banana
+// cherry
+// date
+// elderberry
+
+console.log("معلومات المستخدمين:");
+users.forEach(user => {
+    console.log(`${user.name} (العمر: ${user.age}) - ${user.active ? 'نشط' : 'غير نشط'}`);
+});
+
+// 5. FIND() - إرجاع أول عنصر يحقق شرطاً معيناً
+// find(): إرجاع قيمة أول عنصر في المصفوفة يحقق شرطاً معيناً
+console.log("\n--- FIND() FUNCTION ---");
+const firstEven = numbers.find(num => num % 2 === 0);
+console.log("أول رقم زوجي:", firstEven); // 2
+
+const userBob = users.find(user => user.name === 'Bob');
+console.log("المستخدم Bob:", userBob); // { id: 2, name: 'Bob', age: 30, active: false }
+
+const longFruit = fruits.find(fruit => fruit.length > 6);
+console.log("أول فاكهة طويلة:", longFruit);
+
+// 6. INCLUDES() - التحقق من وجود قيمة في المصفوفة أو النص
+// includes(): تحديد ما إذا كانت المصفوفة أو النص يحتوي على قيمة معينة
+console.log("\n--- INCLUDES() FUNCTION ---");
+const hasGreen = ['red', 'green', 'blue'].includes('green');
+console.log("يحتوي على الأخضر:", hasGreen); // true
+
+const hasApple = fruits.includes('apple');
+console.log("يحتوي على التفاح:", hasApple); // true
+
+const text = "Hello World";
+const hasWorld = text.includes('World');
+console.log("النص يحتوي على 'World':", hasWorld); // true
+
+// ASYNCHRONOUS FUNCTIONS
+console.log("\n=== ASYNCHRONOUS FUNCTIONS ===");
+
+// async/await: للتعامل مع العمليات غير المتزامنة بطريقة أكثر وضوحاً
+// async/await: تستخدم للتعامل مع العمليات غير المتزامنة بطريقة تبدو متزامنة
+async function fetchData() {
+    try {
+        // محاكاة طلب API
+        console.log("جاري جلب البيانات...");
+        
+        // محاكاة انتظار استجابة من الخادم
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        const mockData = {
+            users: [
+                { id: 1, name: 'أحمد', email: 'ahmed@example.com' },
+                { id: 2, name: 'فاطمة', email: 'fatima@example.com' }
+            ],
+            total: 2
+        };
+        
+        console.log("تم جلب البيانات بنجاح:", mockData);
+        return mockData;
+    } catch (error) {
+        console.error('خطأ في جلب البيانات:', error);
+    }
+}
+
+// استدعاء الدالة غير المتزامنة
+fetchData();
+
+// OTHER IMPORTANT FUNCTIONS
+console.log("\n=== OTHER IMPORTANT FUNCTIONS ===");
+
+// setTimeout() / setInterval(): لجدولة تنفيذ الدوال
+// setTimeout(): تنفيذ دالة بعد تأخير محدد
+// setInterval(): تنفيذ دالة بشكل متكرر على فترات منتظمة
+console.log("--- TIMING FUNCTIONS ---");
+
+// setTimeout - تنفيذ دالة بعد 2 ثانية
+setTimeout(() => {
+    console.log("تم تنفيذ setTimeout بعد ثانيتين!");
+}, 2000);
+
+// setInterval - تنفيذ دالة كل 3 ثوان (سنوقفه بعد 10 ثوان)
+let counter = 0;
+const intervalId = setInterval(() => {
+    counter++;
+    console.log(`عداد setInterval: ${counter}`);
+    
+    if (counter >= 3) {
+        clearInterval(intervalId);
+        console.log("تم إيقاف setInterval");
+    }
+}, 3000);
+
+// JSON.parse() / JSON.stringify(): للعمل مع بيانات JSON
+// JSON.parse(): تحويل نص JSON إلى كائن JavaScript
+// JSON.stringify(): تحويل كائن JavaScript إلى نص JSON
+console.log("\n--- JSON FUNCTIONS ---");
+
+const userObject = {
+    name: "محمد",
+    age: 28,
+    city: "دمشق",
+    hobbies: ["البرمجة", "القراءة", "الرياضة"]
+};
+
+// تحويل الكائن إلى JSON
+const jsonString = JSON.stringify(userObject);
+console.log("JSON String:", jsonString);
+
+// تحويل JSON إلى كائن
+const parsedObject = JSON.parse(jsonString);
+console.log("Parsed Object:", parsedObject);
+
+// console.log(): لا غنى عنه للتشخيص وإخراج المعلومات
+// console.log(): ضروري للتشخيص وإخراج المعلومات إلى وحدة التحكم
+console.log("\n--- CONSOLE FUNCTIONS ---");
+console.log("هذه رسالة عادية");
+console.warn("هذه تحذير!");
+console.error("هذا خطأ!");
+console.info("هذه معلومة مفيدة");
+
+// أمثلة عملية مجمعة
+console.log("\n=== PRACTICAL EXAMPLES ===");
+
+// مثال 1: معالجة بيانات المنتجات
+const products = [
+    { name: "لابتوب", price: 1000, category: "إلكترونيات", inStock: true },
+    { name: "كتاب", price: 20, category: "كتب", inStock: true },
+    { name: "هاتف", price: 500, category: "إلكترونيات", inStock: false },
+    { name: "قلم", price: 2, category: "أدوات مكتبية", inStock: true }
+];
+
+// العثور على المنتجات المتوفرة في فئة الإلكترونيات
+const availableElectronics = products
+    .filter(product => product.category === "إلكترونيات" && product.inStock)
+    .map(product => ({ name: product.name, price: product.price }));
+
+console.log("الإلكترونيات المتوفرة:", availableElectronics);
+
+// حساب متوسط سعر المنتجات المتوفرة
+const availableProducts = products.filter(product => product.inStock);
+const averagePrice = availableProducts.reduce((sum, product) => sum + product.price, 0) / availableProducts.length;
+
+console.log("متوسط سعر المنتجات المتوفرة:", averagePrice.toFixed(2));
+
+// مثال 2: معالجة بيانات الطلاب
+const students = [
+    { name: "سارة", grades: [85, 90, 78, 92] },
+    { name: "علي", grades: [76, 88, 95, 82] },
+    { name: "مريم", grades: [92, 87, 89, 94] }
+];
+
+// حساب متوسط درجات كل طالب
+const studentsWithAverages = students.map(student => ({
+    name: student.name,
+    average: student.grades.reduce((sum, grade) => sum + grade, 0) / student.grades.length
+}));
+
+console.log("متوسط درجات الطلاب:", studentsWithAverages);
+
+// العثور على الطالب ذو أعلى متوسط
+const topStudent = studentsWithAverages.reduce((top, current) => 
+    current.average > top.average ? current : top
+);
+
+console.log("الطالب المتفوق:", topStudent);</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>دوال المصفوفات:</strong> هذه الدوال هي أساس البرمجة الوظيفية في JavaScript. كل دالة لها غرض محدد وتجعل معالجة البيانات أسهل وأكثر وضوحاً.</p>
+                            
+                            <p><strong>map():</strong> تحول كل عنصر في المصفوفة حسب الدالة المحددة. مفيدة لتحويل البيانات من شكل إلى آخر.</p>
+                            
+                            <p><strong>filter():</strong> تختار العناصر التي تحقق شرطاً معيناً. مفيدة لتصفية البيانات حسب معايير محددة.</p>
+                            
+                            <p><strong>reduce():</strong> تجمع جميع العناصر في قيمة واحدة. مفيدة للحسابات مثل المجموع أو المتوسط.</p>
+                            
+                            <p><strong>forEach():</strong> تنفذ دالة على كل عنصر دون إرجاع مصفوفة جديدة. مفيدة للعمليات الجانبية مثل الطباعة.</p>
+                            
+                            <p><strong>find():</strong> تجد أول عنصر يحقق شرطاً معيناً. مفيدة للبحث عن عنصر محدد.</p>
+                            
+                            <p><strong>includes():</strong> تتحقق من وجود قيمة في المصفوفة أو النص. مفيدة للتحقق من وجود عنصر.</p>
+                            
+                            <p><strong>async/await:</strong> تجعل التعامل مع العمليات غير المتزامنة أسهل وأكثر وضوحاً من استخدام الوعود التقليدية.</p>
+                            
+                            <p><strong>دوال التوقيت:</strong> setTimeout لتنفيذ دالة مرة واحدة بعد تأخير، setInterval لتنفيذ دالة بشكل متكرر.</p>
+                            
+                            <p><strong>JSON:</strong> parse لتحويل نص JSON إلى كائن، stringify لتحويل كائن إلى نص JSON.</p>
+                            
+                            <p><strong>أفضل الممارسات:</strong> استخدم هذه الدوال لكتابة كود أكثر وضوحاً وقابلية للقراءة. اجمع بينها لمعالجة البيانات المعقدة.</p>
+                        </div>
+                        
+                        <button class="run-code-btn" onclick="runLessonCode('lesson7')">تشغيل الكود</button>
+                        <div class="output" id="output7"></div>
+                    </div>
+                </div>
             </section>
 
             <!-- Advanced Section -->
             <section id="advanced" class="lesson-section">
                 <h2><i class="fas fa-rocket"></i> المستوى المتقدم</h2>
                 
-                <div class="lesson" data-lesson="7">
-                    <h3>7. Promises and Async/Await</h3>
+                <div class="lesson" data-lesson="8">
+                    <h3>8. الوعود (Promises) و Async/Await</h3>
                     <div class="lesson-content">
-                        <p>Working with asynchronous JavaScript.</p>
-                        <pre><code class="language-javascript">// Promise
-function fetchData() {
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>فهم مفهوم الوعود (Promises) وكيفية عملها</li>
+                                <li>تعلم الفرق بين async و await</li>
+                                <li>إتقان التعامل مع العمليات غير المتزامنة</li>
+                                <li>معالجة الأخطاء في العمليات غير المتزامنة</li>
+                                <li>ممارسة استخدام Fetch API مع async/await</li>
+                            </ul>
+                            
+                            <h4>📚 المفاهيم الأساسية:</h4>
+                            <p><strong>الوعود (Promises)</strong> هي كائنات تمثل عملية غير متزامنة قد تكتمل في المستقبل:</p>
+                            <ul>
+                                <li><strong>الحالة:</strong> pending (في الانتظار), fulfilled (مكتملة), rejected (مرفوضة)</li>
+                                <li><strong>resolve:</strong> دالة تستدعى عند نجاح العملية</li>
+                                <li><strong>reject:</strong> دالة تستدعى عند فشل العملية</li>
+                                <li><strong>then/catch:</strong> للتعامل مع النتائج والأخطاء</li>
+                            </ul>
+                            
+                            <p><strong>async/await</strong> هي طريقة حديثة للتعامل مع الوعود:</p>
+                            <ul>
+                                <li><strong>async:</strong> تحول الدالة إلى دالة غير متزامنة</li>
+                                <li><strong>await:</strong> ينتظر اكتمال الوعود قبل المتابعة</li>
+                                <li><strong>الفرق:</strong> async/await يجعل الكود يبدو متزامناً ولكنه غير متزامن</li>
+                            </ul>
+                            
+                            <h4>🔄 الفرق بين async و await:</h4>
+                            <ul>
+                                <li><strong>async:</strong> كلمة مفتاحية تحول الدالة إلى دالة غير متزامنة وتعيد Promise</li>
+                                <li><strong>await:</strong> كلمة مفتاحية توقف تنفيذ الدالة حتى اكتمال Promise</li>
+                                <li><strong>الاستخدام:</strong> async للدوال، await للعمليات غير المتزامنة داخل الدوال</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-javascript">// PROMISES AND ASYNC/AWAIT DEMONSTRATION
+console.log("=== PROMISES AND ASYNC/AWAIT DEMO ===");
+
+// 1. الوعود (Promises) - الطريقة التقليدية
+console.log("\n--- PROMISES ---");
+
+// إنشاء وعد بسيط
+function createPromise() {
     return new Promise((resolve, reject) => {
+        // محاكاة عملية تستغرق وقتاً
         setTimeout(() => {
-            resolve("Data fetched successfully!");
+            const success = Math.random() > 0.3; // 70% نجاح
+            if (success) {
+                resolve("تم إنجاز العملية بنجاح!");
+            } else {
+                reject(new Error("فشلت العملية"));
+            }
         }, 2000);
     });
 }
 
-// Async/Await
-async function getData() {
+// استخدام الوعود مع then/catch
+console.log("بدء العملية...");
+createPromise()
+    .then(result => {
+        console.log("النتيجة:", result);
+    })
+    .catch(error => {
+        console.error("خطأ:", error.message);
+    })
+    .finally(() => {
+        console.log("انتهت العملية (سواء نجحت أم فشلت)");
+    });
+
+// 2. async/await - الطريقة الحديثة
+console.log("\n--- ASYNC/AWAIT ---");
+
+// دالة async - تحول الدالة إلى دالة غير متزامنة
+async function handleAsyncOperation() {
     try {
-        console.log("Fetching data...");
-        const result = await fetchData();
-        console.log(result);
-        return result;
+        console.log("بدء العملية غير المتزامنة...");
+        
+        // await - ينتظر اكتمال الوعود
+        const result = await createPromise();
+        console.log("النتيجة:", result);
+        
+        return result; // async function دائماً ترجع Promise
     } catch (error) {
-        console.error("Error:", error);
+        console.error("خطأ في العملية:", error.message);
+        throw error; // إعادة رمي الخطأ
     }
 }
 
-// Fetch API
-async function fetchUserData() {
+// استدعاء الدالة async
+handleAsyncOperation();
+
+// 3. الفرق بين async و await بالتفصيل
+console.log("\n--- الفرق بين async و await ---");
+
+// async: تحول الدالة إلى دالة غير متزامنة
+async function asyncFunction() {
+    console.log("هذه دالة async - سترجع Promise تلقائياً");
+    return "نتيجة من async function";
+}
+
+// await: ينتظر اكتمال Promise
+async function awaitExample() {
+    console.log("بدء انتظار النتيجة...");
+    
+    // await يوقف التنفيذ هنا حتى اكتمال Promise
+    const result = await asyncFunction();
+    console.log("تم الحصول على النتيجة:", result);
+    
+    // هذا السطر لن ينفذ حتى اكتمال await أعلاه
+    console.log("انتهى انتظار النتيجة");
+}
+
+awaitExample();
+
+// 4. أمثلة عملية مع Fetch API
+console.log("\n--- أمثلة عملية مع Fetch API ---");
+
+// جلب بيانات المستخدم
+async function fetchUserData(userId) {
     try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/users/1');
+        console.log(`جاري جلب بيانات المستخدم رقم ${userId}...`);
+        
+        // await ينتظر استجابة الخادم
+        const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`);
+        
+        // التحقق من نجاح الطلب
+        if (!response.ok) {
+            throw new Error(`خطأ HTTP: ${response.status}`);
+        }
+        
+        // await ينتظر تحويل البيانات إلى JSON
         const user = await response.json();
-        console.log("User:", user.name);
+        
+        console.log("بيانات المستخدم:", {
+            الاسم: user.name,
+            البريد: user.email,
+            المدينة: user.address.city
+        });
+        
+        return user;
     } catch (error) {
-        console.error("Fetch error:", error);
+        console.error("خطأ في جلب بيانات المستخدم:", error.message);
+        return null;
     }
 }
 
-getData();
-fetchUserData();</code></pre>
-                        <button class="run-code-btn" onclick="runLessonCode('lesson7')">Run Code</button>
-                        <div class="output" id="output7"></div>
-                    </div>
-                </div>
+// جلب بيانات متعددة
+async function fetchMultipleUsers() {
+    try {
+        console.log("جاري جلب بيانات عدة مستخدمين...");
+        
+        // جلب بيانات متعددة في نفس الوقت
+        const promises = [1, 2, 3].map(id => fetchUserData(id));
+        
+        // انتظار اكتمال جميع الطلبات
+        const users = await Promise.all(promises);
+        
+        console.log(`تم جلب بيانات ${users.length} مستخدم`);
+        return users;
+    } catch (error) {
+        console.error("خطأ في جلب البيانات المتعددة:", error.message);
+    }
+}
 
-                <div class="lesson" data-lesson="8">
-                    <h3>8. ES6+ Features</h3>
-                    <div class="lesson-content">
-                        <p>Modern JavaScript features and syntax.</p>
-                        <pre><code class="language-javascript">// Destructuring
-const person = { name: "John", age: 30, city: "NYC" };
-const { name, age } = person;
-const [first, second, ...rest] = [1, 2, 3, 4, 5];
+// 5. معالجة الأخطاء المتقدمة
+console.log("\n--- معالجة الأخطاء المتقدمة ---");
 
-// Template literals
-const greeting = `Hello, ${name}! You are ${age} years old.`;
+async function robustAsyncOperation() {
+    try {
+        // محاولة جلب البيانات
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+        
+        if (!response.ok) {
+            throw new Error(`خطأ في الخادم: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log("تم جلب البيانات بنجاح:", data.title);
+        
+        return data;
+    } catch (error) {
+        // معالجة أنواع مختلفة من الأخطاء
+        if (error.name === 'TypeError') {
+            console.error("خطأ في الشبكة - تحقق من اتصال الإنترنت");
+        } else if (error.message.includes('خطأ في الخادم')) {
+            console.error("خطأ في الخادم:", error.message);
+        } else {
+            console.error("خطأ غير متوقع:", error.message);
+        }
+        
+        // إعادة رمي الخطأ للتعامل معه في مكان آخر
+        throw error;
+    }
+}
 
-// Spread operator
-const arr1 = [1, 2, 3];
-const arr2 = [4, 5, 6];
-const combined = [...arr1, ...arr2];
+// 6. مثال شامل: مدير المهام غير المتزامن
+console.log("\n--- مثال شامل: مدير المهام ---");
 
-// Classes
-class Animal {
-    constructor(name) {
-        this.name = name;
+class AsyncTaskManager {
+    constructor() {
+        this.tasks = [];
+        this.baseUrl = 'https://jsonplaceholder.typicode.com';
     }
     
-    speak() {
-        return `${this.name} makes a sound`;
+    // جلب المهام من الخادم
+    async loadTasks() {
+        try {
+            console.log("جاري تحميل المهام من الخادم...");
+            
+            const response = await fetch(`${this.baseUrl}/todos?_limit=3`);
+            
+            if (!response.ok) {
+                throw new Error(`فشل في تحميل المهام: ${response.status}`);
+            }
+            
+            this.tasks = await response.json();
+            console.log(`تم تحميل ${this.tasks.length} مهمة`);
+            
+            return this.tasks;
+        } catch (error) {
+            console.error("خطأ في تحميل المهام:", error.message);
+            return [];
+        }
+    }
+    
+    // إضافة مهمة جديدة
+    async addTask(title) {
+        try {
+            console.log(`جاري إضافة المهمة: ${title}`);
+            
+            const newTask = {
+                title: title,
+                completed: false,
+                userId: 1
+            };
+            
+            const response = await fetch(`${this.baseUrl}/todos`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newTask)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`فشل في إضافة المهمة: ${response.status}`);
+            }
+            
+            const task = await response.json();
+            this.tasks.push(task);
+            
+            console.log("تم إضافة المهمة بنجاح:", task.title);
+            return task;
+        } catch (error) {
+            console.error("خطأ في إضافة المهمة:", error.message);
+            return null;
+        }
+    }
+    
+    // تحديث حالة المهمة
+    async toggleTask(taskId) {
+        try {
+            const task = this.tasks.find(t => t.id === taskId);
+            if (!task) {
+                throw new Error(`المهمة رقم ${taskId} غير موجودة`);
+            }
+            
+            console.log(`جاري تحديث المهمة: ${task.title}`);
+            
+            const updatedTask = {
+                ...task,
+                completed: !task.completed
+            };
+            
+            const response = await fetch(`${this.baseUrl}/todos/${taskId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedTask)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`فشل في تحديث المهمة: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            task.completed = result.completed;
+            
+            console.log(`تم تحديث المهمة: ${task.title} - ${task.completed ? 'مكتملة' : 'غير مكتملة'}`);
+            return result;
+        } catch (error) {
+            console.error("خطأ في تحديث المهمة:", error.message);
+            return null;
+        }
+    }
+    
+    // عرض إحصائيات المهام
+    getStats() {
+        const total = this.tasks.length;
+        const completed = this.tasks.filter(t => t.completed).length;
+        const pending = total - completed;
+        
+        console.log(`إحصائيات المهام: ${total} إجمالي، ${completed} مكتملة، ${pending} معلقة`);
+        return { total, completed, pending };
     }
 }
 
-class Dog extends Animal {
-    speak() {
-        return `${this.name} barks`;
+// تشغيل مثال مدير المهام
+async function runTaskManagerDemo() {
+    console.log("بدء تشغيل مدير المهام...");
+    
+    const taskManager = new AsyncTaskManager();
+    
+    // تحميل المهام
+    await taskManager.loadTasks();
+    taskManager.getStats();
+    
+    // إضافة مهمة جديدة
+    await taskManager.addTask("تعلم async/await");
+    
+    // تحديث مهمة موجودة
+    if (taskManager.tasks.length > 0) {
+        await taskManager.toggleTask(taskManager.tasks[0].id);
     }
+    
+    // عرض الإحصائيات النهائية
+    taskManager.getStats();
 }
 
-const dog = new Dog("Buddy");
-console.log(dog.speak());</code></pre>
-                        <button class="run-code-btn" onclick="runLessonCode('lesson8')">Run Code</button>
+// تشغيل جميع الأمثلة
+runTaskManagerDemo();</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>الوعود (Promises):</strong> تمثل عملية غير متزامنة قد تكتمل في المستقبل. لها ثلاث حالات: pending (في الانتظار)، fulfilled (مكتملة)، rejected (مرفوضة).</p>
+                            
+                            <p><strong>async:</strong> كلمة مفتاحية تحول الدالة إلى دالة غير متزامنة. الدالة async دائماً ترجع Promise، حتى لو لم تذكر return صراحة.</p>
+                            
+                            <p><strong>await:</strong> كلمة مفتاحية توقف تنفيذ الدالة async حتى اكتمال Promise. يمكن استخدامها فقط داخل دوال async.</p>
+                            
+                            <p><strong>الفرق الرئيسي:</strong> async للدوال، await للعمليات. async يجعل الدالة غير متزامنة، await ينتظر النتيجة.</p>
+                            
+                            <p><strong>معالجة الأخطاء:</strong> استخدم try-catch مع async/await لمعالجة الأخطاء بشكل أنيق، بدلاً من .catch() مع الوعود.</p>
+                            
+                            <p><strong>Promise.all:</strong> مفيد لجلب بيانات متعددة في نفس الوقت، مما يحسن الأداء مقارنة بالانتظار المتسلسل.</p>
+                            
+                            <p><strong>أفضل الممارسات:</strong> استخدم async/await للكود الجديد، عالج الأخطاء بشكل صحيح، استخدم Promise.all للعمليات المتوازية.</p>
+                            
+                            <p><strong>مثال عملي:</strong> مدير المهام يوضح كيفية استخدام async/await في تطبيق حقيقي مع معالجة شاملة للأخطاء.</p>
+                        </div>
+                        
+                        <button class="run-code-btn" onclick="runLessonCode('lesson8')">تشغيل الكود</button>
                         <div class="output" id="output8"></div>
                     </div>
                 </div>
 
                 <div class="lesson" data-lesson="9">
-                    <h3>9. Modules and Error Handling</h3>
+                    <h3>9. ميزات ES6+ الحديثة</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>فهم ميزات JavaScript الحديثة (ES6+)</li>
+                                <li>إتقان استخدام التدمير (Destructuring)</li>
+                                <li>تعلم القوالب النصية (Template Literals)</li>
+                                <li>استخدام عامل الانتشار (Spread Operator)</li>
+                                <li>فهم الفئات (Classes) والوراثة</li>
+                                <li>ممارسة الدوال السهمية والبارامترات الافتراضية</li>
+                            </ul>
+                            
+                            <h4>📚 المفاهيم الأساسية:</h4>
+                            <p><strong>ES6+ (ECMAScript 2015+)</strong> هي إصدارات حديثة من JavaScript تضيف ميزات قوية:</p>
+                            <ul>
+                                <li><strong>التدمير (Destructuring):</strong> استخراج قيم من الكائنات والمصفوفات</li>
+                                <li><strong>القوالب النصية:</strong> إنشاء نصوص ديناميكية مع ${}</li>
+                                <li><strong>عامل الانتشار:</strong> نسخ ودمج المصفوفات والكائنات</li>
+                                <li><strong>الفئات:</strong> برمجة كائنية التوجه مع class</li>
+                                <li><strong>الدوال السهمية:</strong> صيغة مختصرة للدوال</li>
+                            </ul>
+                            
+                            <h4>🔧 الميزات الرئيسية:</h4>
+                            <ul>
+                                <li><strong>let/const:</strong> إعلان متغيرات بنطاق محدد</li>
+                                <li><strong>Arrow Functions:</strong> دوال سهمية مع this مختلف</li>
+                                <li><strong>Default Parameters:</strong> قيم افتراضية للمعاملات</li>
+                                <li><strong>Modules:</strong> تنظيم الكود في ملفات منفصلة</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-javascript">// ES6+ MODERN FEATURES DEMONSTRATION
+console.log("=== ES6+ MODERN FEATURES DEMO ===");
+
+// 1. التدمير (Destructuring) - استخراج القيم من الكائنات والمصفوفات
+console.log("\n--- DESTRUCTURING ---");
+
+// تدمير الكائنات - استخراج خصائص من كائن
+const person = { 
+    name: "أحمد", 
+    age: 28, 
+    city: "دمشق", 
+    job: "مطور ويب",
+    hobbies: ["البرمجة", "القراءة", "الرياضة"]
+};
+
+// استخراج خصائص محددة
+const { name, age, city } = person;
+console.log("الاسم:", name);
+console.log("العمر:", age);
+console.log("المدينة:", city);
+
+// استخراج مع إعادة تسمية
+const { name: fullName, job: profession } = person;
+console.log("الاسم الكامل:", fullName);
+console.log("المهنة:", profession);
+
+// استخراج مع قيمة افتراضية
+const { country = "سوريا", phone = "غير محدد" } = person;
+console.log("البلد:", country);
+console.log("الهاتف:", phone);
+
+// تدمير المصفوفات - استخراج عناصر من مصفوفة
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+// استخراج العناصر الأولى
+const [first, second, third] = numbers;
+console.log("الأول:", first, "الثاني:", second, "الثالث:", third);
+
+// استخراج مع عامل الباقي (Rest Operator)
+const [head, ...tail] = numbers;
+console.log("العنصر الأول:", head);
+console.log("باقي العناصر:", tail);
+
+// تبادل القيم باستخدام التدمير
+let a = 10, b = 20;
+console.log("قبل التبادل:", a, b);
+[a, b] = [b, a]; // تبادل القيم
+console.log("بعد التبادل:", a, b);
+
+// 2. القوالب النصية (Template Literals) - إنشاء نصوص ديناميكية
+console.log("\n--- TEMPLATE LITERALS ---");
+
+// استخدام backticks (`) بدلاً من الاقتباسات
+const userName = "فاطمة";
+const userAge = 25;
+const userCity = "حلب";
+
+// قالب نصي بسيط
+const greeting = `مرحباً ${userName}!`;
+console.log(greeting);
+
+// قالب نصي متعدد الأسطر
+const userInfo = `
+معلومات المستخدم:
+الاسم: ${userName}
+العمر: ${userAge} سنة
+المدينة: ${userCity}
+تاريخ التسجيل: ${new Date().toLocaleDateString('ar-SA')}
+`;
+console.log(userInfo);
+
+// قوالب نصية مع تعبيرات معقدة
+const products = [
+    { name: "لابتوب", price: 1000, discount: 0.1 },
+    { name: "هاتف", price: 500, discount: 0.05 },
+    { name: "كتاب", price: 20, discount: 0 }
+];
+
+const productList = products.map(product => {
+    const finalPrice = product.price * (1 - product.discount);
+    return `
+منتج: ${product.name}
+السعر الأصلي: ${product.price} ل.س
+الخصم: ${(product.discount * 100)}%
+السعر النهائي: ${finalPrice.toFixed(2)} ل.س
+---`;
+}).join('\n');
+
+console.log("قائمة المنتجات:", productList);
+
+// 3. عامل الانتشار (Spread Operator) - نسخ ودمج البيانات
+console.log("\n--- SPREAD OPERATOR ---");
+
+// نسخ المصفوفات
+const originalArray = [1, 2, 3, 4, 5];
+const copiedArray = [...originalArray]; // نسخ سطحي
+console.log("المصفوفة الأصلية:", originalArray);
+console.log("المصفوفة المنسوخة:", copiedArray);
+
+// دمج المصفوفات
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+const arr3 = [7, 8, 9];
+const combined = [...arr1, ...arr2, ...arr3];
+console.log("المصفوفات المدمجة:", combined);
+
+// إضافة عناصر جديدة
+const newArray = [...arr1, 10, 11, 12];
+console.log("مصفوفة مع عناصر جديدة:", newArray);
+
+// نسخ الكائنات
+const originalObject = { a: 1, b: 2, c: 3 };
+const copiedObject = { ...originalObject }; // نسخ سطحي
+console.log("الكائن الأصلي:", originalObject);
+console.log("الكائن المنسوخ:", copiedObject);
+
+// دمج الكائنات
+const obj1 = { name: "أحمد", age: 28 };
+const obj2 = { city: "دمشق", job: "مطور" };
+const obj3 = { hobbies: ["البرمجة", "القراءة"] };
+const mergedObject = { ...obj1, ...obj2, ...obj3 };
+console.log("الكائنات المدمجة:", mergedObject);
+
+// تحديث خصائص الكائن
+const updatedObject = { ...mergedObject, age: 29, city: "حلب" };
+console.log("الكائن المحدث:", updatedObject);
+
+// 4. الدوال السهمية (Arrow Functions) - صيغة مختصرة للدوال
+console.log("\n--- ARROW FUNCTIONS ---");
+
+// دالة عادية
+function regularFunction(x) {
+    return x * 2;
+}
+
+// دالة سهمية مكافئة
+const arrowFunction = (x) => x * 2;
+
+console.log("دالة عادية:", regularFunction(5));
+console.log("دالة سهمية:", arrowFunction(5));
+
+// دوال سهمية مع معاملات متعددة
+const add = (a, b) => a + b;
+const multiply = (a, b) => a * b;
+console.log("الجمع:", add(10, 5));
+console.log("الضرب:", multiply(10, 5));
+
+// دوال سهمية مع كود متعدد الأسطر
+const processUser = (user) => {
+    const fullName = `${user.firstName} ${user.lastName}`;
+    const age = new Date().getFullYear() - user.birthYear;
+    return {
+        name: fullName,
+        age: age,
+        isAdult: age >= 18
+    };
+};
+
+const user = { firstName: "محمد", lastName: "علي", birthYear: 1995 };
+const processedUser = processUser(user);
+console.log("المستخدم المعالج:", processedUser);
+
+// استخدام الدوال السهمية مع المصفوفات
+const numbers2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+// مضاعفة الأرقام
+const doubled = numbers2.map(n => n * 2);
+console.log("الأرقام المضاعفة:", doubled);
+
+// تصفية الأرقام الزوجية
+const evens = numbers2.filter(n => n % 2 === 0);
+console.log("الأرقام الزوجية:", evens);
+
+// جمع الأرقام
+const sum = numbers2.reduce((acc, n) => acc + n, 0);
+console.log("مجموع الأرقام:", sum);
+
+// 5. المعاملات الافتراضية (Default Parameters)
+console.log("\n--- DEFAULT PARAMETERS ---");
+
+// دالة مع معاملات افتراضية
+function greetUser(name = "زائر", greeting = "مرحباً") {
+    return `${greeting} ${name}!`;
+}
+
+console.log(greetUser()); // استخدام القيم الافتراضية
+console.log(greetUser("أحمد")); // تخصيص الاسم فقط
+console.log(greetUser("فاطمة", "أهلاً وسهلاً")); // تخصيص كلا المعاملين
+
+// دالة معقدة مع معاملات افتراضية
+function createUser(userData = {}) {
+    const {
+        name = "مستخدم جديد",
+        age = 18,
+        email = "user@example.com",
+        isActive = true,
+        preferences = {}
+    } = userData;
+
+    return {
+        name,
+        age,
+        email,
+        isActive,
+        preferences: {
+            theme: "light",
+            language: "ar",
+            notifications: true,
+            ...preferences
+        }
+    };
+}
+
+const defaultUser = createUser();
+console.log("مستخدم افتراضي:", defaultUser);
+
+const customUser = createUser({
+    name: "سارة",
+    age: 25,
+    preferences: { theme: "dark", language: "en" }
+});
+console.log("مستخدم مخصص:", customUser);
+
+// 6. الفئات (Classes) والوراثة - البرمجة الكائنية
+console.log("\n--- CLASSES AND INHERITANCE ---");
+
+// فئة أساسية
+class Animal {
+    constructor(name, species) {
+        this.name = name;
+        this.species = species;
+        this.energy = 100;
+    }
+    
+    // دالة عادية
+    speak() {
+        return `${this.name} يصدر صوتاً`;
+    }
+    
+    // دالة سهمية (تحتفظ بـ this من السياق المحيط)
+    getInfo = () => {
+        return `الاسم: ${this.name}, النوع: ${this.species}, الطاقة: ${this.energy}`;
+    }
+    
+    // دالة ثابتة
+    static getAnimalTypes() {
+        return ["كلب", "قطة", "طائر", "سمكة"];
+    }
+    
+    // getter
+    get isTired() {
+        return this.energy < 30;
+    }
+    
+    // setter
+    set energyLevel(value) {
+        if (value >= 0 && value <= 100) {
+            this.energy = value;
+        }
+    }
+}
+
+// فئة مشتقة (وراثة)
+class Dog extends Animal {
+    constructor(name, breed) {
+        super(name, "كلب"); // استدعاء constructor الأب
+        this.breed = breed;
+    }
+    
+    // إعادة تعريف الدالة
+    speak() {
+        return `${this.name} ينبح: واو واو!`;
+    }
+    
+    // دالة جديدة
+    fetch() {
+        this.energy -= 10;
+        return `${this.name} يجلب الكرة`;
+    }
+    
+    // دالة محمية
+    _rest() {
+        this.energy = Math.min(100, this.energy + 20);
+        return `${this.name} يستريح`;
+    }
+}
+
+// فئة مشتقة أخرى
+class Cat extends Animal {
+    constructor(name, color) {
+        super(name, "قطة");
+        this.color = color;
+    }
+    
+    speak() {
+        return `${this.name} يموء: مياو مياو!`;
+    }
+    
+    climb() {
+        this.energy -= 5;
+        return `${this.name} يتسلق الشجرة`;
+    }
+}
+
+// استخدام الفئات
+const dog = new Dog("بادي", "جولدن ريتريفر");
+const cat = new Cat("ميمي", "أبيض");
+
+console.log("الكلب:", dog.getInfo());
+console.log("صوت الكلب:", dog.speak());
+console.log("الكلب يجلب:", dog.fetch());
+console.log("الكلب يستريح:", dog._rest());
+
+console.log("القطة:", cat.getInfo());
+console.log("صوت القطة:", cat.speak());
+console.log("القطة تتسلق:", cat.climb());
+
+// استخدام الدالة الثابتة
+console.log("أنواع الحيوانات:", Animal.getAnimalTypes());
+
+// استخدام getter و setter
+console.log("هل الكلب متعب؟", dog.isTired);
+dog.energyLevel = 20;
+console.log("بعد تقليل الطاقة:", dog.isTired);
+
+// 7. استخدام جميع الميزات معاً - مثال شامل
+console.log("\n--- مثال شامل يجمع جميع الميزات ---");
+
+class UserManager {
+    constructor() {
+        this.users = [];
+    }
+    
+    // إضافة مستخدم باستخدام التدمير والمعاملات الافتراضية
+    addUser({ name, email, age = 18, role = "user", ...additionalInfo } = {}) {
+        const user = {
+            id: Date.now(),
+            name,
+            email,
+            age,
+            role,
+            isActive: true,
+            createdAt: new Date().toISOString(),
+            ...additionalInfo
+        };
+        
+        this.users.push(user);
+        return user;
+    }
+    
+    // البحث عن المستخدمين باستخدام الدوال السهمية
+    findUsers(criteria) {
+        return this.users.filter(user => {
+            return Object.entries(criteria).every(([key, value]) => {
+                return user[key] === value;
+            });
+        });
+    }
+    
+    // تحديث المستخدمين باستخدام عامل الانتشار
+    updateUser(id, updates) {
+        const userIndex = this.users.findIndex(user => user.id === id);
+        if (userIndex !== -1) {
+            this.users[userIndex] = { ...this.users[userIndex], ...updates };
+            return this.users[userIndex];
+        }
+        return null;
+    }
+    
+    // إحصائيات المستخدمين
+    getStats() {
+        const total = this.users.length;
+        const active = this.users.filter(user => user.isActive).length;
+        const roles = [...new Set(this.users.map(user => user.role))];
+        
+        return {
+            total,
+            active,
+            inactive: total - active,
+            roles,
+            averageAge: this.users.reduce((sum, user) => sum + user.age, 0) / total || 0
+        };
+    }
+    
+    // عرض تقرير باستخدام القوالب النصية
+    generateReport() {
+        const stats = this.getStats();
+        return `
+تقرير إدارة المستخدمين
+========================
+إجمالي المستخدمين: ${stats.total}
+المستخدمون النشطون: ${stats.active}
+المستخدمون غير النشطين: ${stats.inactive}
+متوسط العمر: ${stats.averageAge.toFixed(1)} سنة
+الأدوار المتاحة: ${stats.roles.join(', ')}
+تاريخ التقرير: ${new Date().toLocaleDateString('ar-SA')}
+        `;
+    }
+}
+
+// استخدام مدير المستخدمين
+const userManager = new UserManager();
+
+// إضافة مستخدمين
+userManager.addUser({
+    name: "أحمد محمد",
+    email: "ahmed@example.com",
+    age: 28,
+    role: "admin"
+});
+
+userManager.addUser({
+    name: "فاطمة علي",
+    email: "fatima@example.com",
+    age: 25,
+    role: "user",
+    department: "التطوير"
+});
+
+userManager.addUser({
+    name: "محمد حسن",
+    email: "mohammed@example.com",
+    role: "moderator"
+});
+
+// البحث عن المستخدمين
+const admins = userManager.findUsers({ role: "admin" });
+console.log("المديرون:", admins);
+
+// تحديث مستخدم
+const updatedUser = userManager.updateUser(admins[0].id, { 
+    isActive: false,
+    lastLogin: new Date().toISOString()
+});
+console.log("المستخدم المحدث:", updatedUser);
+
+// عرض التقرير
+console.log(userManager.generateReport());</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>التدمير (Destructuring):</strong> طريقة أنيقة لاستخراج القيم من الكائنات والمصفوفات. يوفر الوقت ويجعل الكود أكثر وضوحاً.</p>
+                            
+                            <p><strong>القوالب النصية:</strong> استخدام backticks (`) لإنشاء نصوص ديناميكية مع ${}. تدعم الأسطر المتعددة والتعبيرات المعقدة.</p>
+                            
+                            <p><strong>عامل الانتشار:</strong> ... يسمح بنسخ ودمج المصفوفات والكائنات. مفيد لإنشاء نسخ جديدة دون تعديل الأصلية.</p>
+                            
+                            <p><strong>الدوال السهمية:</strong> صيغة مختصرة للدوال مع this مختلف. مثالية للدوال القصيرة والـ callbacks.</p>
+                            
+                            <p><strong>المعاملات الافتراضية:</strong> قيم افتراضية للمعاملات عند عدم تمريرها. تحسن مرونة الدوال.</p>
+                            
+                            <p><strong>الفئات:</strong> طريقة حديثة للبرمجة الكائنية مع constructor، inheritance، static methods، getters/setters.</p>
+                            
+                            <p><strong>الوراثة:</strong> extends و super للاستفادة من الفئات الموجودة وإنشاء فئات جديدة.</p>
+                            
+                            <p><strong>المثال الشامل:</strong> يجمع جميع الميزات في تطبيق عملي لإدارة المستخدمين.</p>
+                            
+                            <p><strong>أفضل الممارسات:</strong> استخدم هذه الميزات لكتابة كود أكثر وضوحاً وقابلية للقراءة والصيانة.</p>
+                        </div>
+                        
+                        <button class="run-code-btn" onclick="runLessonCode('lesson9')">تشغيل الكود</button>
+                        <div class="output" id="output9"></div>
+                    </div>
+                </div>
+
+                <div class="lesson" data-lesson="10">
+                    <h3>10. Modules and Error Handling</h3>
                     <div class="lesson-content">
                         <p>Organizing code with modules and handling errors.</p>
                         <pre><code class="language-javascript">// Error handling
@@ -1148,8 +2201,421 @@ const Calculator = (function() {
 
 const calcResult = Calculator.add(5).multiply(3).getResult();
 console.log("Calculator result:", calcResult);</code></pre>
-                        <button class="run-code-btn" onclick="runLessonCode('lesson9')">Run Code</button>
-                        <div class="output" id="output9"></div>
+                        <button class="run-code-btn" onclick="runLessonCode('lesson10')">Run Code</button>
+                        <div class="output" id="output10"></div>
+                    </div>
+                </div>
+
+                <div class="lesson" data-lesson="11">
+                    <h3>11. AJAX و Fetch API</h3>
+                    <div class="lesson-content">
+                        <div class="explanation">
+                            <h4>🎯 أهداف التعلم:</h4>
+                            <ul>
+                                <li>فهم مفهوم AJAX وكيفية عمل الطلبات غير المتزامنة</li>
+                                <li>تعلم استخدام XMLHttpRequest التقليدي</li>
+                                <li>إتقان Fetch API الحديث</li>
+                                <li>التعامل مع استجابات JSON ومعالجة الأخطاء</li>
+                                <li>ممارسة إنشاء تطبيقات تفاعلية مع الخوادم</li>
+                            </ul>
+                            
+                            <h4>📚 المفاهيم الأساسية:</h4>
+                            <p><strong>AJAX (Asynchronous JavaScript and XML)</strong> تقنية تسمح بإرسال واستقبال البيانات من الخادم دون إعادة تحميل الصفحة:</p>
+                            <ul>
+                                <li><strong>XMLHttpRequest:</strong> الطريقة التقليدية لإرسال طلبات HTTP</li>
+                                <li><strong>Fetch API:</strong> طريقة حديثة وأسهل للتعامل مع الطلبات</li>
+                                <li><strong>JSON:</strong> تنسيق البيانات الأكثر شيوعاً</li>
+                                <li><strong>Promise:</strong> للتعامل مع العمليات غير المتزامنة</li>
+                            </ul>
+                            
+                            <p><strong>أنواع الطلبات HTTP:</strong></p>
+                            <ul>
+                                <li><strong>GET:</strong> جلب البيانات من الخادم</li>
+                                <li><strong>POST:</strong> إرسال بيانات جديدة للخادم</li>
+                                <li><strong>PUT:</strong> تحديث بيانات موجودة</li>
+                                <li><strong>DELETE:</strong> حذف بيانات من الخادم</li>
+                            </ul>
+                        </div>
+                        
+                        <pre><code class="language-javascript">// AJAX AND FETCH API DEMONSTRATION
+console.log("=== AJAX AND FETCH API DEMO ===");
+
+// 1. XMLHttpRequest - الطريقة التقليدية
+console.log("\n--- XMLHttpRequest ---");
+
+function makeXHRRequest() {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        
+        // تكوين الطلب
+        xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts/1', true);
+        
+        // تحديد نوع الاستجابة المتوقع
+        xhr.responseType = 'json';
+        
+        // معالج الاستجابة الناجحة
+        xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log("XHR Success:", xhr.response);
+                resolve(xhr.response);
+            } else {
+                reject(new Error(`HTTP Error: ${xhr.status}`));
+            }
+        };
+        
+        // معالج الأخطاء
+        xhr.onerror = function() {
+            reject(new Error('Network Error'));
+        };
+        
+        // إرسال الطلب
+        xhr.send();
+    });
+}
+
+// 2. Fetch API - الطريقة الحديثة
+console.log("\n--- Fetch API ---");
+
+// GET Request - جلب البيانات
+async function fetchData() {
+    try {
+        console.log("جاري جلب البيانات...");
+        
+        const response = await fetch('https://jsonplaceholder.typicode.com/users/1');
+        
+        // التحقق من نجاح الطلب
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const user = await response.json();
+        console.log("بيانات المستخدم:", user);
+        console.log(`الاسم: ${user.name}, البريد: ${user.email}`);
+        
+        return user;
+    } catch (error) {
+        console.error("خطأ في جلب البيانات:", error.message);
+    }
+}
+
+// POST Request - إرسال بيانات جديدة
+async function postData() {
+    try {
+        console.log("\nجاري إرسال بيانات جديدة...");
+        
+        const newPost = {
+            title: "منشور جديد",
+            body: "هذا محتوى المنشور الجديد",
+            userId: 1
+        };
+        
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newPost)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log("تم إنشاء المنشور:", result);
+        
+        return result;
+    } catch (error) {
+        console.error("خطأ في إرسال البيانات:", error.message);
+    }
+}
+
+// PUT Request - تحديث بيانات موجودة
+async function updateData() {
+    try {
+        console.log("\nجاري تحديث البيانات...");
+        
+        const updatedPost = {
+            id: 1,
+            title: "منشور محدث",
+            body: "هذا محتوى محدث",
+            userId: 1
+        };
+        
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts/1', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedPost)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log("تم تحديث المنشور:", result);
+        
+        return result;
+    } catch (error) {
+        console.error("خطأ في تحديث البيانات:", error.message);
+    }
+}
+
+// DELETE Request - حذف البيانات
+async function deleteData() {
+    try {
+        console.log("\nجاري حذف البيانات...");
+        
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts/1', {
+            method: 'DELETE'
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        console.log("تم حذف المنشور بنجاح");
+        return true;
+    } catch (error) {
+        console.error("خطأ في حذف البيانات:", error.message);
+    }
+}
+
+// 3. معالجة متعددة الطلبات
+console.log("\n--- Multiple Requests ---");
+
+async function fetchMultipleData() {
+    try {
+        console.log("جاري جلب بيانات متعددة...");
+        
+        // جلب بيانات متعددة في نفس الوقت
+        const [usersResponse, postsResponse, commentsResponse] = await Promise.all([
+            fetch('https://jsonplaceholder.typicode.com/users'),
+            fetch('https://jsonplaceholder.typicode.com/posts'),
+            fetch('https://jsonplaceholder.typicode.com/comments')
+        ]);
+        
+        // التحقق من نجاح جميع الطلبات
+        if (!usersResponse.ok || !postsResponse.ok || !commentsResponse.ok) {
+            throw new Error('One or more requests failed');
+        }
+        
+        // تحويل الاستجابات إلى JSON
+        const [users, posts, comments] = await Promise.all([
+            usersResponse.json(),
+            postsResponse.json(),
+            commentsResponse.json()
+        ]);
+        
+        console.log(`تم جلب ${users.length} مستخدم`);
+        console.log(`تم جلب ${posts.length} منشور`);
+        console.log(`تم جلب ${comments.length} تعليق`);
+        
+        return { users, posts, comments };
+    } catch (error) {
+        console.error("خطأ في جلب البيانات المتعددة:", error.message);
+    }
+}
+
+// 4. معالجة الأخطاء المتقدمة
+console.log("\n--- Advanced Error Handling ---");
+
+async function robustFetch(url, options = {}) {
+    try {
+        const response = await fetch(url, {
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+        
+        // التحقق من نوع الاستجابة
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new Error('Response is not JSON');
+        }
+        
+        // التحقق من حالة الاستجابة
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Server Error: ${response.status} - ${errorData.message || 'Unknown error'}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        if (error.name === 'TypeError') {
+            console.error('Network Error:', 'تحقق من اتصال الإنترنت');
+        } else {
+            console.error('Request Error:', error.message);
+        }
+        throw error;
+    }
+}
+
+// 5. مثال عملي: مدير المهام
+console.log("\n--- Practical Example: Task Manager ---");
+
+class TaskManager {
+    constructor() {
+        this.tasks = [];
+        this.baseUrl = 'https://jsonplaceholder.typicode.com';
+    }
+    
+    // جلب جميع المهام
+    async loadTasks() {
+        try {
+            const response = await fetch(`${this.baseUrl}/todos?_limit=5`);
+            if (!response.ok) throw new Error('Failed to load tasks');
+            
+            this.tasks = await response.json();
+            console.log("تم تحميل المهام:", this.tasks);
+            return this.tasks;
+        } catch (error) {
+            console.error("خطأ في تحميل المهام:", error.message);
+            return [];
+        }
+    }
+    
+    // إضافة مهمة جديدة
+    async addTask(title) {
+        try {
+            const newTask = {
+                title: title,
+                completed: false,
+                userId: 1
+            };
+            
+            const response = await fetch(`${this.baseUrl}/todos`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newTask)
+            });
+            
+            if (!response.ok) throw new Error('Failed to add task');
+            
+            const task = await response.json();
+            this.tasks.push(task);
+            console.log("تم إضافة المهمة:", task);
+            return task;
+        } catch (error) {
+            console.error("خطأ في إضافة المهمة:", error.message);
+        }
+    }
+    
+    // تحديث حالة المهمة
+    async toggleTask(taskId) {
+        try {
+            const task = this.tasks.find(t => t.id === taskId);
+            if (!task) throw new Error('Task not found');
+            
+            const updatedTask = { ...task, completed: !task.completed };
+            
+            const response = await fetch(`${this.baseUrl}/todos/${taskId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedTask)
+            });
+            
+            if (!response.ok) throw new Error('Failed to update task');
+            
+            const result = await response.json();
+            task.completed = result.completed;
+            console.log("تم تحديث المهمة:", result);
+            return result;
+        } catch (error) {
+            console.error("خطأ في تحديث المهمة:", error.message);
+        }
+    }
+    
+    // حذف مهمة
+    async deleteTask(taskId) {
+        try {
+            const response = await fetch(`${this.baseUrl}/todos/${taskId}`, {
+                method: 'DELETE'
+            });
+            
+            if (!response.ok) throw new Error('Failed to delete task');
+            
+            this.tasks = this.tasks.filter(t => t.id !== taskId);
+            console.log("تم حذف المهمة رقم:", taskId);
+            return true;
+        } catch (error) {
+            console.error("خطأ في حذف المهمة:", error.message);
+        }
+    }
+    
+    // عرض إحصائيات المهام
+    getStats() {
+        const total = this.tasks.length;
+        const completed = this.tasks.filter(t => t.completed).length;
+        const pending = total - completed;
+        
+        console.log(`إحصائيات المهام: ${total} إجمالي، ${completed} مكتملة، ${pending} معلقة`);
+        return { total, completed, pending };
+    }
+}
+
+// تشغيل جميع الأمثلة
+async function runAJAXExamples() {
+    console.log("بدء تشغيل أمثلة AJAX...");
+    
+    // تشغيل XMLHttpRequest
+    try {
+        await makeXHRRequest();
+    } catch (error) {
+        console.error("XHR Error:", error.message);
+    }
+    
+    // تشغيل Fetch API
+    await fetchData();
+    await postData();
+    await updateData();
+    await deleteData();
+    
+    // تشغيل الطلبات المتعددة
+    await fetchMultipleData();
+    
+    // تشغيل مثال مدير المهام
+    console.log("\n--- Task Manager Demo ---");
+    const taskManager = new TaskManager();
+    
+    await taskManager.loadTasks();
+    taskManager.getStats();
+    
+    await taskManager.addTask("تعلم AJAX");
+    await taskManager.toggleTask(1);
+    taskManager.getStats();
+}
+
+// تشغيل الأمثلة
+runAJAXExamples();</code></pre>
+                        
+                        <div class="code-explanation">
+                            <h4>💡 شرح الكود:</h4>
+                            <p><strong>XMLHttpRequest:</strong> الطريقة التقليدية لإرسال طلبات HTTP. تتطلب كتابة كود أكثر ولكن توفر تحكماً كاملاً في الطلب.</p>
+                            
+                            <p><strong>Fetch API:</strong> طريقة حديثة وأسهل للتعامل مع الطلبات. تستخدم Promises وتوفر واجهة برمجية نظيفة.</p>
+                            
+                            <p><strong>أنواع الطلبات:</strong> GET لجلب البيانات، POST لإرسال بيانات جديدة، PUT للتحديث، DELETE للحذف.</p>
+                            
+                            <p><strong>معالجة الأخطاء:</strong> مهم جداً للتعامل مع مشاكل الشبكة أو الخادم. استخدم try-catch مع async/await.</p>
+                            
+                            <p><strong>Promise.all:</strong> مفيد لجلب بيانات متعددة في نفس الوقت، مما يحسن الأداء.</p>
+                            
+                            <p><strong>Headers:</strong> مهمة لتحديد نوع البيانات المرسلة والمستقبلة. Content-Type: application/json للبيانات JSON.</p>
+                            
+                            <p><strong>Response Handling:</strong> تحقق دائماً من response.ok قبل معالجة البيانات.</p>
+                            
+                            <p><strong>مثال عملي:</strong> مدير المهام يوضح كيفية استخدام AJAX في تطبيق حقيقي.</p>
+                            
+                            <p><strong>أفضل الممارسات:</strong> استخدم async/await، عالج الأخطاء بشكل صحيح، استخدم TypeScript للتحقق من الأنواع.</p>
+                        </div>
+                        
+                        <button class="run-code-btn" onclick="runLessonCode('lesson11')">تشغيل الكود</button>
+                        <div class="output" id="output11"></div>
                     </div>
                 </div>
             </section>

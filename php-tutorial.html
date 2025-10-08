@@ -455,89 +455,1728 @@ echo "الرقم مقلوب: " . floor($number) . "&lt;br&gt;";
                 <h2><i class="fas fa-rocket"></i> PHP المتقدم</h2>
                 
                 <div class="lesson">
-                    <h3>معالجة النماذج (Forms)</h3>
+                    <h3>معالجة النماذج المتقدمة (Advanced Forms)</h3>
                     <div class="learning-objectives">
                         <h4><i class="fas fa-target"></i> أهداف التعلم</h4>
                         <ul>
-                            <li>تعلم كيفية معالجة بيانات النماذج</li>
-                            <li>فهم $_GET و $_POST</li>
-                            <li>تعلم التحقق من صحة البيانات</li>
+                            <li>فهم الفرق بين $_GET و $_POST و $_REQUEST</li>
+                            <li>تعلم التحقق المتقدم من صحة البيانات</li>
+                            <li>معالجة الأخطاء وعرض الرسائل</li>
+                            <li>حماية النماذج من الهجمات الأمنية</li>
+                            <li>استخدام CSRF tokens</li>
                         </ul>
                     </div>
                     
+                    <div class="explanation">
+                        <h4><i class="fas fa-lightbulb"></i> أنواع طرق إرسال البيانات</h4>
+                        <p><strong>$_GET:</strong> يرسل البيانات عبر URL، مرئي للمستخدم، محدود في الحجم (2048 حرف)</p>
+                        <p><strong>$_POST:</strong> يرسل البيانات في خلفية الطلب، غير مرئي، لا يوجد حد للحجم</p>
+                        <p><strong>$_REQUEST:</strong> يحتوي على $_GET و $_POST و $_COOKIE معاً</p>
+                    </div>
+                    
                     <div class="code-explanation">
-                        <h4><i class="fas fa-code"></i> معالجة النماذج</h4>
+                        <h4><i class="fas fa-code"></i> معالجة النماذج المتقدمة</h4>
                         <pre><code>&lt;?php
+// بدء الجلسة للأمان
+session_start();
+
+// إنشاء CSRF token للحماية
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// متغيرات لتخزين الأخطاء والبيانات
+$errors = [];
+$success_message = '';
+$form_data = [];
+
 // التحقق من إرسال النموذج
-if ($_POST) {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $message = $_POST['message'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    // التحقق من صحة البيانات
-    if (empty($name)) {
-        echo "الاسم مطلوب&lt;br&gt;";
-    } elseif (empty($email)) {
-        echo "البريد الإلكتروني مطلوب&lt;br&gt;";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "البريد الإلكتروني غير صحيح&lt;br&gt;";
+    // التحقق من CSRF token
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        $errors[] = "خطأ في الأمان. يرجى إعادة المحاولة.";
     } else {
-        echo "تم إرسال البيانات بنجاح!&lt;br&gt;";
-        echo "الاسم: " . htmlspecialchars($name) . "&lt;br&gt;";
-        echo "البريد: " . htmlspecialchars($email) . "&lt;br&gt;";
-        echo "الرسالة: " . htmlspecialchars($message) . "&lt;br&gt;";
+        
+        // تنظيف البيانات المدخلة
+        $name = trim($_POST['name'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $phone = trim($_POST['phone'] ?? '');
+        $message = trim($_POST['message'] ?? '');
+        $age = $_POST['age'] ?? '';
+        $gender = $_POST['gender'] ?? '';
+        $interests = $_POST['interests'] ?? [];
+        
+        // التحقق من صحة البيانات
+        if (empty($name)) {
+            $errors[] = "الاسم مطلوب";
+        } elseif (strlen($name) < 2) {
+            $errors[] = "الاسم يجب أن يكون أكثر من حرفين";
+        } elseif (!preg_match('/^[\p{Arabic}\s]+$/u', $name)) {
+            $errors[] = "الاسم يجب أن يحتوي على أحرف عربية فقط";
+        }
+        
+        if (empty($email)) {
+            $errors[] = "البريد الإلكتروني مطلوب";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "البريد الإلكتروني غير صحيح";
+        }
+        
+        if (empty($phone)) {
+            $errors[] = "رقم الهاتف مطلوب";
+        } elseif (!preg_match('/^(\+963|0)?9[0-9]{8}$/', $phone)) {
+            $errors[] = "رقم الهاتف غير صحيح (يجب أن يكون رقم سوري)";
+        }
+        
+        if (empty($age)) {
+            $errors[] = "العمر مطلوب";
+        } elseif (!is_numeric($age) || $age < 1 || $age > 120) {
+            $errors[] = "العمر يجب أن يكون رقم بين 1 و 120";
+        }
+        
+        if (empty($gender)) {
+            $errors[] = "الجنس مطلوب";
+        }
+        
+        if (empty($message)) {
+            $errors[] = "الرسالة مطلوبة";
+        } elseif (strlen($message) < 10) {
+            $errors[] = "الرسالة يجب أن تكون أكثر من 10 أحرف";
+        }
+        
+        // إذا لم توجد أخطاء، معالجة البيانات
+        if (empty($errors)) {
+            // تنظيف البيانات من HTML tags
+            $name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+            $email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+            $phone = htmlspecialchars($phone, ENT_QUOTES, 'UTF-8');
+            $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+            $gender = htmlspecialchars($gender, ENT_QUOTES, 'UTF-8');
+            
+            // تنظيف مصفوفة الاهتمامات
+            $interests = array_map('htmlspecialchars', $interests);
+            
+            // حفظ البيانات في متغير للعرض
+            $form_data = [
+                'name' => $name,
+                'email' => $email,
+                'phone' => $phone,
+                'age' => $age,
+                'gender' => $gender,
+                'message' => $message,
+                'interests' => $interests
+            ];
+            
+            $success_message = "تم إرسال البيانات بنجاح!";
+            
+            // هنا يمكن حفظ البيانات في قاعدة البيانات أو إرسالها بالبريد
+            // saveToDatabase($form_data);
+            // sendEmail($form_data);
+        }
     }
 }
 ?&gt;
 
-&lt;!-- نموذج HTML --&gt;
-&lt;form method="POST" action=""&gt;
-    &lt;label for="name"&gt;الاسم:&lt;/label&gt;
-    &lt;input type="text" id="name" name="name" required&gt;&lt;br&gt;&lt;br&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ar" dir="rtl"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;نموذج متقدم&lt;/title&gt;
+    &lt;style&gt;
+        .error { color: red; margin: 5px 0; }
+        .success { color: green; margin: 5px 0; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; }
+        .checkbox-item { display: flex; align-items: center; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;نموذج تسجيل متقدم&lt;/h2&gt;
     
-    &lt;label for="email"&gt;البريد الإلكتروني:&lt;/label&gt;
-    &lt;input type="email" id="email" name="email" required&gt;&lt;br&gt;&lt;br&gt;
+    &lt;?php if (!empty($errors)): ?&gt;
+        &lt;div class="error"&gt;
+            &lt;h3&gt;يرجى تصحيح الأخطاء التالية:&lt;/h3&gt;
+            &lt;ul&gt;
+                &lt;?php foreach ($errors as $error): ?&gt;
+                    &lt;li&gt;&lt;?php echo $error; ?&gt;&lt;/li&gt;
+                &lt;?php endforeach; ?&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;?php endif; ?&gt;
     
-    &lt;label for="message"&gt;الرسالة:&lt;/label&gt;
-    &lt;textarea id="message" name="message" rows="4" cols="50"&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+    &lt;?php if ($success_message): ?&gt;
+        &lt;div class="success"&gt;
+            &lt;h3&gt;&lt;?php echo $success_message; ?&gt;&lt;/h3&gt;
+            &lt;?php if (!empty($form_data)): ?&gt;
+                &lt;h4&gt;البيانات المرسلة:&lt;/h4&gt;
+                &lt;p&gt;&lt;strong&gt;الاسم:&lt;/strong&gt; &lt;?php echo $form_data['name']; ?&gt;&lt;/p&gt;
+                &lt;p&gt;&lt;strong&gt;البريد:&lt;/strong&gt; &lt;?php echo $form_data['email']; ?&gt;&lt;/p&gt;
+                &lt;p&gt;&lt;strong&gt;الهاتف:&lt;/strong&gt; &lt;?php echo $form_data['phone']; ?&gt;&lt;/p&gt;
+                &lt;p&gt;&lt;strong&gt;العمر:&lt;/strong&gt; &lt;?php echo $form_data['age']; ?&gt;&lt;/p&gt;
+                &lt;p&gt;&lt;strong&gt;الجنس:&lt;/strong&gt; &lt;?php echo $form_data['gender']; ?&gt;&lt;/p&gt;
+                &lt;p&gt;&lt;strong&gt;الاهتمامات:&lt;/strong&gt; &lt;?php echo implode(', ', $form_data['interests']); ?&gt;&lt;/p&gt;
+                &lt;p&gt;&lt;strong&gt;الرسالة:&lt;/strong&gt; &lt;?php echo $form_data['message']; ?&gt;&lt;/p&gt;
+            &lt;?php endif; ?&gt;
+        &lt;/div&gt;
+    &lt;?php endif; ?&gt;
     
-    &lt;input type="submit" value="إرسال"&gt;
-&lt;/form&gt;</code></pre>
+    &lt;form method="POST" action="" novalidate&gt;
+        &lt;!-- CSRF Token للحماية --&gt;
+        &lt;input type="hidden" name="csrf_token" value="&lt;?php echo $_SESSION['csrf_token']; ?&gt;"&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;label for="name"&gt;الاسم الكامل:&lt;/label&gt;
+            &lt;input type="text" id="name" name="name" 
+                   value="&lt;?php echo htmlspecialchars($_POST['name'] ?? ''); ?&gt;" 
+                   required minlength="2"&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;label for="email"&gt;البريد الإلكتروني:&lt;/label&gt;
+            &lt;input type="email" id="email" name="email" 
+                   value="&lt;?php echo htmlspecialchars($_POST['email'] ?? ''); ?&gt;" 
+                   required&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;label for="phone"&gt;رقم الهاتف:&lt;/label&gt;
+            &lt;input type="tel" id="phone" name="phone" 
+                   value="&lt;?php echo htmlspecialchars($_POST['phone'] ?? ''); ?&gt;" 
+                   placeholder="09xxxxxxxx" required&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;label for="age"&gt;العمر:&lt;/label&gt;
+            &lt;input type="number" id="age" name="age" 
+                   value="&lt;?php echo htmlspecialchars($_POST['age'] ?? ''); ?&gt;" 
+                   min="1" max="120" required&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;label&gt;الجنس:&lt;/label&gt;
+            &lt;input type="radio" id="male" name="gender" value="ذكر" 
+                   &lt;?php echo (($_POST['gender'] ?? '') === 'ذكر') ? 'checked' : ''; ?&gt;&gt;
+            &lt;label for="male"&gt;ذكر&lt;/label&gt;
+            
+            &lt;input type="radio" id="female" name="gender" value="أنثى" 
+                   &lt;?php echo (($_POST['gender'] ?? '') === 'أنثى') ? 'checked' : ''; ?&gt;&gt;
+            &lt;label for="female"&gt;أنثى&lt;/label&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;label&gt;الاهتمامات:&lt;/label&gt;
+            &lt;div class="checkbox-group"&gt;
+                &lt;div class="checkbox-item"&gt;
+                    &lt;input type="checkbox" id="programming" name="interests[]" value="البرمجة"
+                           &lt;?php echo in_array('البرمجة', $_POST['interests'] ?? []) ? 'checked' : ''; ?&gt;&gt;
+                    &lt;label for="programming"&gt;البرمجة&lt;/label&gt;
+                &lt;/div&gt;
+                &lt;div class="checkbox-item"&gt;
+                    &lt;input type="checkbox" id="design" name="interests[]" value="التصميم"
+                           &lt;?php echo in_array('التصميم', $_POST['interests'] ?? []) ? 'checked' : ''; ?&gt;&gt;
+                    &lt;label for="design"&gt;التصميم&lt;/label&gt;
+                &lt;/div&gt;
+                &lt;div class="checkbox-item"&gt;
+                    &lt;input type="checkbox" id="marketing" name="interests[]" value="التسويق"
+                           &lt;?php echo in_array('التسويق', $_POST['interests'] ?? []) ? 'checked' : ''; ?&gt;&gt;
+                    &lt;label for="marketing"&gt;التسويق&lt;/label&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;label for="message"&gt;الرسالة:&lt;/label&gt;
+            &lt;textarea id="message" name="message" rows="4" cols="50" 
+                      required minlength="10"&gt;&lt;?php echo htmlspecialchars($_POST['message'] ?? ''); ?&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;input type="submit" value="إرسال البيانات"&gt;
+            &lt;input type="reset" value="مسح النموذج"&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        
+                        <div class="explanation">
+                            <h4><i class="fas fa-shield-alt"></i> ميزات الأمان المطبقة:</h4>
+                            <ul>
+                                <li><strong>CSRF Protection:</strong> حماية من هجمات Cross-Site Request Forgery</li>
+                                <li><strong>Data Sanitization:</strong> تنظيف البيانات من HTML tags</li>
+                                <li><strong>Input Validation:</strong> التحقق من صحة البيانات المدخلة</li>
+                                <li><strong>SQL Injection Prevention:</strong> استخدام prepared statements</li>
+                                <li><strong>XSS Prevention:</strong> استخدام htmlspecialchars()</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
                 <div class="lesson">
-                    <h3>جلسات المستخدم (Sessions)</h3>
+                    <h3>الجلسات والكوكيز (Sessions & Cookies)</h3>
+                    <div class="learning-objectives">
+                        <h4><i class="fas fa-target"></i> أهداف التعلم</h4>
+                        <ul>
+                            <li>فهم الفرق بين الجلسات والكوكيز</li>
+                            <li>تعلم إدارة الجلسات المتقدمة</li>
+                            <li>استخدام الكوكيز لتخزين البيانات</li>
+                            <li>تطبيق الأمان في الجلسات والكوكيز</li>
+                        </ul>
+                    </div>
+                    
                     <div class="explanation">
-                        <h4><i class="fas fa-lightbulb"></i> الجلسات</h4>
-                        <p>الجلسات تسمح بتخزين معلومات المستخدم عبر عدة صفحات. تبدأ الجلسة بـ session_start() وتستخدم $_SESSION لتخزين البيانات.</p>
+                        <h4><i class="fas fa-lightbulb"></i> الفرق بين الجلسات والكوكيز</h4>
+                        <p><strong>الجلسات (Sessions):</strong> تخزن البيانات على الخادم، آمنة أكثر، تنتهي عند إغلاق المتصفح</p>
+                        <p><strong>الكوكيز (Cookies):</strong> تخزن البيانات على جهاز المستخدم، يمكن تحديد مدة انتهائها، أقل أماناً</p>
                     </div>
                     
                     <div class="code-explanation">
-                        <h4><i class="fas fa-code"></i> استخدام الجلسات</h4>
+                        <h4><i class="fas fa-code"></i> إدارة الجلسات المتقدمة</h4>
                         <pre><code>&lt;?php
+// إعدادات الجلسة المخصصة
+ini_set('session.cookie_lifetime', 3600); // ساعة واحدة
+ini_set('session.gc_maxlifetime', 3600);  // ساعة واحدة
+ini_set('session.cookie_secure', 1);      // HTTPS فقط
+ini_set('session.cookie_httponly', 1);    // منع JavaScript من الوصول
+
 // بدء الجلسة
 session_start();
 
-// تخزين بيانات في الجلسة
-$_SESSION['username'] = "أحمد";
-$_SESSION['user_id'] = 123;
-$_SESSION['login_time'] = date('Y-m-d H:i:s');
+// فئة لإدارة الجلسات
+class SessionManager {
+    
+    // التحقق من صحة الجلسة
+    public static function validateSession() {
+        // التحقق من وجود معرف الجلسة
+        if (!isset($_SESSION['session_id'])) {
+            $_SESSION['session_id'] = session_id();
+        }
+        
+        // التحقق من IP address (حماية إضافية)
+        if (!isset($_SESSION['ip_address'])) {
+            $_SESSION['ip_address'] = $_SERVER['REMOTE_ADDR'];
+        } elseif ($_SESSION['ip_address'] !== $_SERVER['REMOTE_ADDR']) {
+            // IP مختلف - إنهاء الجلسة
+            self::destroySession();
+            return false;
+        }
+        
+        // التحقق من User Agent
+        if (!isset($_SESSION['user_agent'])) {
+            $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+        } elseif ($_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
+            // User Agent مختلف - إنهاء الجلسة
+            self::destroySession();
+            return false;
+        }
+        
+        // تحديث وقت آخر نشاط
+        $_SESSION['last_activity'] = time();
+        
+        // التحقق من انتهاء الجلسة
+        if (isset($_SESSION['last_activity']) && 
+            (time() - $_SESSION['last_activity'] > 3600)) {
+            self::destroySession();
+            return false;
+        }
+        
+        return true;
+    }
+    
+    // تسجيل دخول المستخدم
+    public static function loginUser($user_id, $username, $role = 'user') {
+        $_SESSION['user_id'] = $user_id;
+        $_SESSION['username'] = $username;
+        $_SESSION['role'] = $role;
+        $_SESSION['login_time'] = time();
+        $_SESSION['is_logged_in'] = true;
+        
+        // إنشاء token جديد للجلسة
+        session_regenerate_id(true);
+    }
+    
+    // تسجيل خروج المستخدم
+    public static function logoutUser() {
+        self::destroySession();
+    }
+    
+    // التحقق من تسجيل الدخول
+    public static function isLoggedIn() {
+        return isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true;
+    }
+    
+    // الحصول على بيانات المستخدم
+    public static function getUserData() {
+        if (self::isLoggedIn()) {
+            return [
+                'user_id' => $_SESSION['user_id'] ?? null,
+                'username' => $_SESSION['username'] ?? null,
+                'role' => $_SESSION['role'] ?? 'user',
+                'login_time' => $_SESSION['login_time'] ?? null
+            ];
+        }
+        return null;
+    }
+    
+    // إنهاء الجلسة
+    public static function destroySession() {
+        // مسح جميع متغيرات الجلسة
+        $_SESSION = array();
+        
+        // حذف كوكيز الجلسة
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+        
+        // تدمير الجلسة
+        session_destroy();
+    }
+    
+    // إضافة رسالة فلاش
+    public static function setFlashMessage($type, $message) {
+        $_SESSION['flash_messages'][] = [
+            'type' => $type,
+            'message' => $message,
+            'timestamp' => time()
+        ];
+    }
+    
+    // عرض رسائل الفلاش
+    public static function getFlashMessages() {
+        if (isset($_SESSION['flash_messages'])) {
+            $messages = $_SESSION['flash_messages'];
+            unset($_SESSION['flash_messages']); // حذف الرسائل بعد عرضها
+            return $messages;
+        }
+        return [];
+    }
+}
 
-// عرض بيانات الجلسة
-echo "اسم المستخدم: " . $_SESSION['username'] . "&lt;br&gt;";
-echo "معرف المستخدم: " . $_SESSION['user_id'] . "&lt;br&gt;";
-echo "وقت تسجيل الدخول: " . $_SESSION['login_time'] . "&lt;br&gt;";
-
-// تحديث بيانات الجلسة
-$_SESSION['last_activity'] = date('Y-m-d H:i:s');
-
-// حذف متغير من الجلسة
-unset($_SESSION['last_activity']);
-
-// إنهاء الجلسة
-// session_destroy();
+// استخدام فئة إدارة الجلسات
+if (SessionManager::validateSession()) {
+    echo "الجلسة صحيحة&lt;br&gt;";
+    
+    // مثال على تسجيل الدخول
+    if (isset($_POST['login'])) {
+        $username = $_POST['username'] ?? '';
+        $password = $_POST['password'] ?? '';
+        
+        // التحقق من بيانات الدخول (مثال)
+        if ($username === 'admin' && $password === 'password') {
+            SessionManager::loginUser(1, 'admin', 'admin');
+            SessionManager::setFlashMessage('success', 'تم تسجيل الدخول بنجاح');
+        } else {
+            SessionManager::setFlashMessage('error', 'اسم المستخدم أو كلمة المرور غير صحيحة');
+        }
+    }
+    
+    // عرض رسائل الفلاش
+    $flash_messages = SessionManager::getFlashMessages();
+    foreach ($flash_messages as $flash) {
+        $class = ($flash['type'] === 'success') ? 'success' : 'error';
+        echo "&lt;div class='$class'&gt;{$flash['message']}&lt;/div&gt;";
+    }
+    
+    // عرض بيانات المستخدم
+    if (SessionManager::isLoggedIn()) {
+        $user_data = SessionManager::getUserData();
+        echo "&lt;h3&gt;مرحباً {$user_data['username']}&lt;/h3&gt;";
+        echo "&lt;p&gt;معرف المستخدم: {$user_data['user_id']}&lt;/p&gt;";
+        echo "&lt;p&gt;الدور: {$user_data['role']}&lt;/p&gt;";
+        echo "&lt;p&gt;وقت تسجيل الدخول: " . date('Y-m-d H:i:s', $user_data['login_time']) . "&lt;/p&gt;";
+        
+        echo "&lt;form method='POST'&gt;";
+        echo "&lt;input type='submit' name='logout' value='تسجيل الخروج'&gt;";
+        echo "&lt;/form&gt;";
+    } else {
+        echo "&lt;form method='POST'&gt;";
+        echo "اسم المستخدم: &lt;input type='text' name='username' required&gt;&lt;br&gt;";
+        echo "كلمة المرور: &lt;input type='password' name='password' required&gt;&lt;br&gt;";
+        echo "&lt;input type='submit' name='login' value='تسجيل الدخول'&gt;";
+        echo "&lt;/form&gt;";
+    }
+    
+    // معالجة تسجيل الخروج
+    if (isset($_POST['logout'])) {
+        SessionManager::logoutUser();
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit;
+    }
+    
+} else {
+    echo "الجلسة غير صحيحة أو منتهية الصلاحية&lt;br&gt;";
+}
 ?&gt;</code></pre>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> إدارة الكوكيز المتقدمة</h4>
+                        <pre><code>&lt;?php
+// فئة لإدارة الكوكيز
+class CookieManager {
+    
+    // تعيين كوكي
+    public static function setCookie($name, $value, $expire = 0, $path = '/', $domain = '', $secure = false, $httponly = true) {
+        // تشفير القيمة
+        $encrypted_value = self::encrypt($value);
+        
+        return setcookie($name, $encrypted_value, $expire, $path, $domain, $secure, $httponly);
+    }
+    
+    // الحصول على كوكي
+    public static function getCookie($name, $default = null) {
+        if (isset($_COOKIE[$name])) {
+            return self::decrypt($_COOKIE[$name]);
+        }
+        return $default;
+    }
+    
+    // حذف كوكي
+    public static function deleteCookie($name, $path = '/', $domain = '') {
+        return setcookie($name, '', time() - 3600, $path, $domain);
+    }
+    
+    // تشفير البيانات
+    private static function encrypt($data) {
+        $key = 'your-secret-key-here'; // يجب أن يكون مفتاح سري قوي
+        return base64_encode(openssl_encrypt($data, 'AES-256-CBC', $key, 0, substr(hash('sha256', $key), 0, 16)));
+    }
+    
+    // فك تشفير البيانات
+    private static function decrypt($data) {
+        $key = 'your-secret-key-here';
+        return openssl_decrypt(base64_decode($data), 'AES-256-CBC', $key, 0, substr(hash('sha256', $key), 0, 16));
+    }
+    
+    // حفظ تفضيلات المستخدم
+    public static function saveUserPreferences($preferences) {
+        $expire = time() + (30 * 24 * 60 * 60); // 30 يوم
+        return self::setCookie('user_preferences', json_encode($preferences), $expire);
+    }
+    
+    // الحصول على تفضيلات المستخدم
+    public static function getUserPreferences() {
+        $preferences = self::getCookie('user_preferences');
+        return $preferences ? json_decode($preferences, true) : [];
+    }
+}
+
+// مثال على استخدام الكوكيز
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['save_preferences'])) {
+        $preferences = [
+            'theme' => $_POST['theme'] ?? 'light',
+            'language' => $_POST['language'] ?? 'ar',
+            'notifications' => isset($_POST['notifications']),
+            'timezone' => $_POST['timezone'] ?? 'Asia/Damascus'
+        ];
+        
+        if (CookieManager::saveUserPreferences($preferences)) {
+            echo "&lt;div class='success'&gt;تم حفظ التفضيلات بنجاح&lt;/div&gt;";
+        }
+    }
+}
+
+// الحصول على التفضيلات المحفوظة
+$user_preferences = CookieManager::getUserPreferences();
+$theme = $user_preferences['theme'] ?? 'light';
+$language = $user_preferences['language'] ?? 'ar';
+$notifications = $user_preferences['notifications'] ?? false;
+$timezone = $user_preferences['timezone'] ?? 'Asia/Damascus';
+
+echo "&lt;h3&gt;إدارة تفضيلات المستخدم&lt;/h3&gt;";
+echo "&lt;form method='POST'&gt;";
+echo "&lt;label&gt;الثيم:&lt;/label&gt;";
+echo "&lt;select name='theme'&gt;";
+echo "&lt;option value='light'" . ($theme === 'light' ? ' selected' : '') . "&gt;فاتح&lt;/option&gt;";
+echo "&lt;option value='dark'" . ($theme === 'dark' ? ' selected' : '') . "&gt;داكن&lt;/option&gt;";
+echo "&lt;/select&gt;&lt;br&gt;&lt;br&gt;";
+
+echo "&lt;label&gt;اللغة:&lt;/label&gt;";
+echo "&lt;select name='language'&gt;";
+echo "&lt;option value='ar'" . ($language === 'ar' ? ' selected' : '') . "&gt;العربية&lt;/option&gt;";
+echo "&lt;option value='en'" . ($language === 'en' ? ' selected' : '') . "&gt;English&lt;/option&gt;";
+echo "&lt;/select&gt;&lt;br&gt;&lt;br&gt;";
+
+echo "&lt;label&gt;";
+echo "&lt;input type='checkbox' name='notifications'" . ($notifications ? ' checked' : '') . "&gt;";
+echo "تفعيل الإشعارات";
+echo "&lt;/label&gt;&lt;br&gt;&lt;br&gt;";
+
+echo "&lt;label&gt;المنطقة الزمنية:&lt;/label&gt;";
+echo "&lt;select name='timezone'&gt;";
+echo "&lt;option value='Asia/Damascus'" . ($timezone === 'Asia/Damascus' ? ' selected' : '') . "&gt;دمشق&lt;/option&gt;";
+echo "&lt;option value='UTC'" . ($timezone === 'UTC' ? ' selected' : '') . "&gt;UTC&lt;/option&gt;";
+echo "&lt;/select&gt;&lt;br&gt;&lt;br&gt;";
+
+echo "&lt;input type='submit' name='save_preferences' value='حفظ التفضيلات'&gt;";
+echo "&lt;/form&gt;";
+
+// عرض التفضيلات الحالية
+echo "&lt;h4&gt;التفضيلات الحالية:&lt;/h4&gt;";
+echo "&lt;p&gt;الثيم: $theme&lt;/p&gt;";
+echo "&lt;p&gt;اللغة: $language&lt;/p&gt;";
+echo "&lt;p&gt;الإشعارات: " . ($notifications ? 'مفعلة' : 'معطلة') . "&lt;/p&gt;";
+echo "&lt;p&gt;المنطقة الزمنية: $timezone&lt;/p&gt;";
+?&gt;</code></pre>
+                    </div>
+                </div>
+
+
+                <div class="lesson">
+                    <h3>البرمجة الكائنية (Object-Oriented Programming)</h3>
+                    <div class="learning-objectives">
+                        <h4><i class="fas fa-target"></i> أهداف التعلم</h4>
+                        <ul>
+                            <li>فهم مفاهيم البرمجة الكائنية</li>
+                            <li>تعلم إنشاء واستخدام الكلاسات</li>
+                            <li>فهم الوراثة والتغليف</li>
+                            <li>تعلم الـ Polymorphism والـ Abstraction</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="explanation">
+                        <h4><i class="fas fa-lightbulb"></i> مفاهيم البرمجة الكائنية</h4>
+                        <p><strong>الكلاس (Class):</strong> قالب لإنشاء الكائنات</p>
+                        <p><strong>الكائن (Object):</strong> نسخة من الكلاس</p>
+                        <p><strong>الخصائص (Properties):</strong> المتغيرات في الكلاس</p>
+                        <p><strong>الطرق (Methods):</strong> الدوال في الكلاس</p>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> البرمجة الكائنية المتقدمة</h4>
+                        <pre><code>&lt;?php
+// كلاس أساسي للمستخدم
+abstract class User {
+    // خصائص محمية (يمكن الوصول إليها من الكلاسات الفرعية)
+    protected $id;
+    protected $username;
+    protected $email;
+    protected $created_at;
+    
+    // خصائص خاصة (يمكن الوصول إليها فقط من داخل الكلاس)
+    private $password_hash;
+    
+    // دالة البناء (Constructor)
+    public function __construct($username, $email, $password) {
+        $this->username = $username;
+        $this->email = $email;
+        $this->password_hash = password_hash($password, PASSWORD_DEFAULT);
+        $this->created_at = date('Y-m-d H:i:s');
+    }
+    
+    // Getters (دوال للحصول على القيم)
+    public function getId() {
+        return $this->id;
+    }
+    
+    public function getUsername() {
+        return $this->username;
+    }
+    
+    public function getEmail() {
+        return $this->email;
+    }
+    
+    public function getCreatedAt() {
+        return $this->created_at;
+    }
+    
+    // Setters (دوال لتعديل القيم)
+    public function setUsername($username) {
+        if (strlen($username) >= 3) {
+            $this->username = $username;
+            return true;
+        }
+        return false;
+    }
+    
+    public function setEmail($email) {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->email = $email;
+            return true;
+        }
+        return false;
+    }
+    
+    // دالة للتحقق من كلمة المرور
+    public function verifyPassword($password) {
+        return password_verify($password, $this->password_hash);
+    }
+    
+    // دالة لتغيير كلمة المرور
+    public function changePassword($old_password, $new_password) {
+        if ($this->verifyPassword($old_password)) {
+            $this->password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+            return true;
+        }
+        return false;
+    }
+    
+    // دالة مجردة (يجب تنفيذها في الكلاسات الفرعية)
+    abstract public function getRole();
+    
+    // دالة عامة
+    public function getInfo() {
+        return [
+            'id' => $this->id,
+            'username' => $this->username,
+            'email' => $this->email,
+            'role' => $this->getRole(),
+            'created_at' => $this->created_at
+        ];
+    }
+}
+
+// كلاس المدير (يرث من User)
+class Admin extends User {
+    private $permissions = [];
+    
+    public function __construct($username, $email, $password) {
+        parent::__construct($username, $email, $password);
+        $this->permissions = ['create', 'read', 'update', 'delete', 'manage_users'];
+    }
+    
+    // تنفيذ الدالة المجردة
+    public function getRole() {
+        return 'admin';
+    }
+    
+    // دالة خاصة بالمدير
+    public function addPermission($permission) {
+        if (!in_array($permission, $this->permissions)) {
+            $this->permissions[] = $permission;
+        }
+    }
+    
+    public function removePermission($permission) {
+        $key = array_search($permission, $this->permissions);
+        if ($key !== false) {
+            unset($this->permissions[$key]);
+        }
+    }
+    
+    public function hasPermission($permission) {
+        return in_array($permission, $this->permissions);
+    }
+    
+    public function getPermissions() {
+        return $this->permissions;
+    }
+}
+
+// كلاس المستخدم العادي
+class RegularUser extends User {
+    private $profile_data = [];
+    
+    public function __construct($username, $email, $password) {
+        parent::__construct($username, $email, $password);
+    }
+    
+    // تنفيذ الدالة المجردة
+    public function getRole() {
+        return 'user';
+    }
+    
+    // دوال خاصة بالمستخدم العادي
+    public function setProfileData($key, $value) {
+        $this->profile_data[$key] = $value;
+    }
+    
+    public function getProfileData($key = null) {
+        if ($key === null) {
+            return $this->profile_data;
+        }
+        return $this->profile_data[$key] ?? null;
+    }
+}
+
+// واجهة (Interface) لإدارة الملفات
+interface FileManagerInterface {
+    public function uploadFile($file);
+    public function deleteFile($filename);
+    public function getFileList();
+}
+
+// كلاس لإدارة الملفات
+class FileManager implements FileManagerInterface {
+    private $upload_directory;
+    private $allowed_extensions;
+    
+    public function __construct($upload_directory = 'uploads/') {
+        $this->upload_directory = $upload_directory;
+        $this->allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'txt'];
+        
+        if (!is_dir($this->upload_directory)) {
+            mkdir($this->upload_directory, 0755, true);
+        }
+    }
+    
+    public function uploadFile($file) {
+        if (!isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
+            return false;
+        }
+        
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        
+        if (!in_array($extension, $this->allowed_extensions)) {
+            return false;
+        }
+        
+        $filename = uniqid() . '.' . $extension;
+        $filepath = $this->upload_directory . $filename;
+        
+        if (move_uploaded_file($file['tmp_name'], $filepath)) {
+            return $filename;
+        }
+        
+        return false;
+    }
+    
+    public function deleteFile($filename) {
+        $filepath = $this->upload_directory . $filename;
+        if (file_exists($filepath)) {
+            return unlink($filepath);
+        }
+        return false;
+    }
+    
+    public function getFileList() {
+        $files = [];
+        if (is_dir($this->upload_directory)) {
+            $file_list = scandir($this->upload_directory);
+            foreach ($file_list as $file) {
+                if ($file !== '.' && $file !== '..') {
+                    $files[] = $file;
+                }
+            }
+        }
+        return $files;
+    }
+}
+
+// كلاس لإدارة المستخدمين (Singleton Pattern)
+class UserManager {
+    private static $instance = null;
+    private $users = [];
+    private $file_manager;
+    
+    // منع إنشاء نسخ متعددة
+    private function __construct() {
+        $this->file_manager = new FileManager();
+    }
+    
+    // الحصول على النسخة الوحيدة
+    public static function getInstance() {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+    
+    // إضافة مستخدم
+    public function addUser(User $user) {
+        $this->users[] = $user;
+    }
+    
+    // البحث عن مستخدم
+    public function findUserByUsername($username) {
+        foreach ($this->users as $user) {
+            if ($user->getUsername() === $username) {
+                return $user;
+            }
+        }
+        return null;
+    }
+    
+    // الحصول على جميع المستخدمين
+    public function getAllUsers() {
+        return $this->users;
+    }
+    
+    // الحصول على مدير الملفات
+    public function getFileManager() {
+        return $this->file_manager;
+    }
+}
+
+// استخدام الكلاسات
+echo "&lt;h3&gt;مثال على البرمجة الكائنية&lt;/h3&gt;";
+
+// إنشاء مدير
+$admin = new Admin('admin', 'admin@example.com', 'admin123');
+echo "&lt;p&gt;تم إنشاء مدير: {$admin->getUsername()}&lt;/p&gt;";
+echo "&lt;p&gt;الدور: {$admin->getRole()}&lt;/p&gt;";
+echo "&lt;p&gt;الصلاحيات: " . implode(', ', $admin->getPermissions()) . "&lt;/p&gt;";
+
+// إنشاء مستخدم عادي
+$user = new RegularUser('ahmed', 'ahmed@example.com', 'user123');
+$user->setProfileData('full_name', 'أحمد محمد');
+$user->setProfileData('phone', '0912345678');
+echo "&lt;p&gt;تم إنشاء مستخدم: {$user->getUsername()}&lt;/p&gt;";
+echo "&lt;p&gt;الدور: {$user->getRole()}&lt;/p&gt;";
+echo "&lt;p&gt;الاسم الكامل: {$user->getProfileData('full_name')}&lt;/p&gt;";
+
+// استخدام مدير المستخدمين
+$user_manager = UserManager::getInstance();
+$user_manager->addUser($admin);
+$user_manager->addUser($user);
+
+echo "&lt;p&gt;عدد المستخدمين: " . count($user_manager->getAllUsers()) . "&lt;/p&gt;";
+
+// البحث عن مستخدم
+$found_user = $user_manager->findUserByUsername('admin');
+if ($found_user) {
+    echo "&lt;p&gt;تم العثور على المستخدم: {$found_user->getUsername()}&lt;/p&gt;";
+}
+
+// استخدام مدير الملفات
+$file_manager = $user_manager->getFileManager();
+$files = $file_manager->getFileList();
+echo "&lt;p&gt;الملفات الموجودة: " . count($files) . "&lt;/p&gt;";
+
+// مثال على Polymorphism
+function displayUserInfo(User $user) {
+    $info = $user->getInfo();
+    echo "&lt;div class='user-info'&gt;";
+    echo "&lt;h4&gt;معلومات المستخدم&lt;/h4&gt;";
+    echo "&lt;p&gt;اسم المستخدم: {$info['username']}&lt;/p&gt;";
+    echo "&lt;p&gt;البريد: {$info['email']}&lt;/p&gt;";
+    echo "&lt;p&gt;الدور: {$info['role']}&lt;/p&gt;";
+    echo "&lt;p&gt;تاريخ الإنشاء: {$info['created_at']}&lt;/p&gt;";
+    echo "&lt;/div&gt;";
+}
+
+// استخدام Polymorphism
+displayUserInfo($admin);
+displayUserInfo($user);
+
+// مثال على Traits (PHP 5.4+)
+trait Loggable {
+    public function log($message) {
+        $log_entry = date('Y-m-d H:i:s') . " - " . $message . "\n";
+        file_put_contents('app.log', $log_entry, FILE_APPEND | LOCK_EX);
+    }
+}
+
+trait Timestampable {
+    public function getTimestamp() {
+        return date('Y-m-d H:i:s');
+    }
+}
+
+// كلاس يستخدم Traits
+class Activity {
+    use Loggable, Timestampable;
+    
+    private $description;
+    
+    public function __construct($description) {
+        $this->description = $description;
+    }
+    
+    public function record() {
+        $this->log("Activity recorded: " . $this->description);
+        return $this->getTimestamp();
+    }
+}
+
+// استخدام Traits
+$activity = new Activity("User login");
+$timestamp = $activity->record();
+echo "&lt;p&gt;تم تسجيل النشاط في: $timestamp&lt;/p&gt;";
+?&gt;</code></pre>
+                        
+                        <div class="explanation">
+                            <h4><i class="fas fa-cogs"></i> مفاهيم البرمجة الكائنية المطبقة:</h4>
+                            <ul>
+                                <li><strong>التغليف (Encapsulation):</strong> إخفاء البيانات الداخلية وتوفير واجهة للوصول إليها</li>
+                                <li><strong>الوراثة (Inheritance):</strong> Admin و RegularUser يرثان من User</li>
+                                <li><strong>التعددية (Polymorphism):</strong> دالة displayUserInfo() تعمل مع أي نوع من User</li>
+                                <li><strong>التجريد (Abstraction):</strong> الكلاس المجرد User والدالة المجردة getRole()</li>
+                                <li><strong>الواجهات (Interfaces):</strong> FileManagerInterface تحدد عقد للكلاسات</li>
+                                <li><strong>Singleton Pattern:</strong> UserManager يضمن وجود نسخة واحدة فقط</li>
+                                <li><strong>Traits:</strong> Loggable و Timestampable لإعادة استخدام الكود</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <h3>رفع الملفات - الجزء الأول: الأساسيات (File Upload - Part 1: Basics)</h3>
+                    <div class="learning-objectives">
+                        <h4><i class="fas fa-target"></i> أهداف التعلم</h4>
+                        <ul>
+                            <li>فهم كيفية رفع الملفات في PHP</li>
+                            <li>تعلم استخدام $_FILES</li>
+                            <li>إنشاء نموذج رفع الملفات</li>
+                            <li>معالجة أخطاء الرفع الأساسية</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="explanation">
+                        <h4><i class="fas fa-lightbulb"></i> ما هو رفع الملفات؟</h4>
+                        <p>رفع الملفات يعني إرسال ملف من جهاز المستخدم إلى الخادم. في PHP، نستخدم متغير $_FILES للحصول على معلومات الملف المرفوع.</p>
+                        
+                        <h4><i class="fas fa-cogs"></i> خطوات رفع الملف:</h4>
+                        <ol>
+                            <li><strong>إنشاء النموذج:</strong> يجب استخدام enctype="multipart/form-data"</li>
+                            <li><strong>التحقق من الملف:</strong> فحص $_FILES للتأكد من وجود الملف</li>
+                            <li><strong>فحص الأخطاء:</strong> التحقق من كود الخطأ في $_FILES['file']['error']</li>
+                            <li><strong>حفظ الملف:</strong> استخدام move_uploaded_file() لنقل الملف</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> الخطوة 1: النموذج الأساسي</h4>
+                        <p><strong>شرح:</strong> أولاً ننشئ نموذج HTML بسيط لرفع الملف. المهم هنا استخدام enctype="multipart/form-data"</p>
+                        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ar" dir="rtl"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;رفع ملف&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;رفع ملف&lt;/h2&gt;
+    
+    &lt;!-- المهم: enctype="multipart/form-data" --&gt;
+    &lt;form method="POST" enctype="multipart/form-data"&gt;
+        &lt;input type="file" name="file" required&gt;
+        &lt;input type="submit" value="رفع الملف"&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        
+                        <h4><i class="fas fa-code"></i> الخطوة 2: الكود الأساسي لرفع الملف</h4>
+                        <p><strong>شرح:</strong> هذا هو أبسط كود لرفع ملف. نتحقق من وجود الملف ثم نحفظه</p>
+                        <pre><code>&lt;?php
+// التحقق من إرسال النموذج
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
+    
+    // الحصول على معلومات الملف
+    $file = $_FILES['file'];
+    
+    // التحقق من عدم وجود أخطاء
+    if ($file['error'] === UPLOAD_ERR_OK) {
+        
+        // إنشاء مجلد الرفع إذا لم يكن موجوداً
+        $upload_dir = 'uploads/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+        
+        // حفظ الملف
+        $destination = $upload_dir . $file['name'];
+        if (move_uploaded_file($file['tmp_name'], $destination)) {
+            echo "تم رفع الملف بنجاح: " . $file['name'];
+        } else {
+            echo "فشل في رفع الملف";
+        }
+    } else {
+        echo "حدث خطأ في رفع الملف";
+    }
+}
+?&gt;</code></pre>
+                        
+                        <h4><i class="fas fa-code"></i> الخطوة 3: إضافة معلومات الملف</h4>
+                        <p><strong>شرح:</strong> نضيف عرض معلومات الملف ليفهم الطالب ما يحتويه $_FILES</p>
+                        <pre><code>&lt;?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
+    
+    $file = $_FILES['file'];
+    
+    // عرض معلومات الملف
+    echo "&lt;h3&gt;معلومات الملف:&lt;/h3&gt;";
+    echo "&lt;p&gt;اسم الملف: " . $file['name'] . "&lt;/p&gt;";
+    echo "&lt;p&gt;نوع الملف: " . $file['type'] . "&lt;/p&gt;";
+    echo "&lt;p&gt;حجم الملف: " . $file['size'] . " بايت&lt;/p&gt;";
+    echo "&lt;p&gt;الملف المؤقت: " . $file['tmp_name'] . "&lt;/p&gt;";
+    echo "&lt;p&gt;كود الخطأ: " . $file['error'] . "&lt;/p&gt;";
+    
+    if ($file['error'] === UPLOAD_ERR_OK) {
+        $upload_dir = 'uploads/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+        
+        $destination = $upload_dir . $file['name'];
+        if (move_uploaded_file($file['tmp_name'], $destination)) {
+            echo "&lt;div style='color: green;'&gt;تم رفع الملف بنجاح!&lt;/div&gt;";
+            echo "&lt;p&gt;تم حفظ الملف في: $destination&lt;/p&gt;";
+        } else {
+            echo "&lt;div style='color: red;'&gt;فشل في حفظ الملف&lt;/div&gt;";
+        }
+    } else {
+        echo "&lt;div style='color: red;'&gt;حدث خطأ في رفع الملف&lt;/div&gt;";
+    }
+}
+?&gt;</code></pre>
+                        
+                        <h4><i class="fas fa-code"></i> الخطوة 4: إضافة رسائل الأخطاء</h4>
+                        <p><strong>شرح:</strong> نضيف رسائل خطأ واضحة ليفهم المستخدم ما حدث</p>
+                        <pre><code>&lt;?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
+    
+    $file = $_FILES['file'];
+    
+    if ($file['error'] === UPLOAD_ERR_OK) {
+        // رفع الملف بنجاح
+        $upload_dir = 'uploads/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+        
+        $destination = $upload_dir . $file['name'];
+        if (move_uploaded_file($file['tmp_name'], $destination)) {
+            echo "&lt;div style='color: green; background: #d4edda; padding: 10px;'&gt;تم رفع الملف بنجاح!&lt;/div&gt;";
+        } else {
+            echo "&lt;div style='color: red; background: #f8d7da; padding: 10px;'&gt;فشل في حفظ الملف&lt;/div&gt;";
+        }
+    } else {
+        // رسائل الأخطاء
+        $error_messages = [
+            UPLOAD_ERR_INI_SIZE => 'حجم الملف كبير جداً',
+            UPLOAD_ERR_FORM_SIZE => 'حجم الملف أكبر من المسموح',
+            UPLOAD_ERR_PARTIAL => 'تم رفع جزء من الملف فقط',
+            UPLOAD_ERR_NO_FILE => 'لم يتم اختيار ملف',
+            UPLOAD_ERR_NO_TMP_DIR => 'مجلد الملفات المؤقتة غير موجود',
+            UPLOAD_ERR_CANT_WRITE => 'فشل في كتابة الملف',
+            UPLOAD_ERR_EXTENSION => 'تم إيقاف رفع الملف'
+        ];
+        
+        $error_message = $error_messages[$file['error']] ?? 'خطأ غير معروف';
+        echo "&lt;div style='color: red; background: #f8d7da; padding: 10px;'&gt;خطأ: $error_message&lt;/div&gt;";
+    }
+}
+?&gt;</code></pre>
+                        
+                        <h4><i class="fas fa-code"></i> الكود الكامل مع التنسيق</h4>
+                        <p><strong>شرح:</strong> هذا هو الكود الكامل مع تنسيق جميل وواضح</p>
+                        <pre><code>&lt;?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
+    
+    $file = $_FILES['file'];
+    
+    // عرض معلومات الملف
+    echo "&lt;h3&gt;معلومات الملف:&lt;/h3&gt;";
+    echo "&lt;p&gt;اسم الملف: " . $file['name'] . "&lt;/p&gt;";
+    echo "&lt;p&gt;نوع الملف: " . $file['type'] . "&lt;/p&gt;";
+    echo "&lt;p&gt;حجم الملف: " . $file['size'] . " بايت&lt;/p&gt;";
+    
+    if ($file['error'] === UPLOAD_ERR_OK) {
+        $upload_dir = 'uploads/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+        
+        $destination = $upload_dir . $file['name'];
+        if (move_uploaded_file($file['tmp_name'], $destination)) {
+            echo "&lt;div class='success'&gt;تم رفع الملف بنجاح!&lt;/div&gt;";
+            echo "&lt;p&gt;تم حفظ الملف في: $destination&lt;/p&gt;";
+        } else {
+            echo "&lt;div class='error'&gt;فشل في حفظ الملف&lt;/div&gt;";
+        }
+    } else {
+        $error_messages = [
+            UPLOAD_ERR_INI_SIZE => 'حجم الملف كبير جداً',
+            UPLOAD_ERR_FORM_SIZE => 'حجم الملف أكبر من المسموح',
+            UPLOAD_ERR_PARTIAL => 'تم رفع جزء من الملف فقط',
+            UPLOAD_ERR_NO_FILE => 'لم يتم اختيار ملف',
+            UPLOAD_ERR_NO_TMP_DIR => 'مجلد الملفات المؤقتة غير موجود',
+            UPLOAD_ERR_CANT_WRITE => 'فشل في كتابة الملف',
+            UPLOAD_ERR_EXTENSION => 'تم إيقاف رفع الملف'
+        ];
+        
+        $error_message = $error_messages[$file['error']] ?? 'خطأ غير معروف';
+        echo "&lt;div class='error'&gt;خطأ: $error_message&lt;/div&gt;";
+    }
+}
+?&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ar" dir="rtl"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;رفع ملف بسيط&lt;/title&gt;
+    &lt;style&gt;
+        .success { color: green; background: #d4edda; padding: 10px; border-radius: 5px; }
+        .error { color: red; background: #f8d7da; padding: 10px; border-radius: 5px; }
+        .form-group { margin: 15px 0; }
+        input[type="file"] { padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        input[type="submit"] { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;رفع ملف بسيط&lt;/h2&gt;
+    
+    &lt;form method="POST" enctype="multipart/form-data"&gt;
+        &lt;div class="form-group"&gt;
+            &lt;label for="file"&gt;اختر ملف:&lt;/label&gt;
+            &lt;input type="file" id="file" name="file" required&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;input type="submit" value="رفع الملف"&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        
+                        <div class="explanation">
+                            <h4><i class="fas fa-info-circle"></i> شرح كل خطوة:</h4>
+                            <ul>
+                                <li><strong>الخطوة 1:</strong> إنشاء النموذج مع enctype="multipart/form-data"</li>
+                                <li><strong>الخطوة 2:</strong> الكود الأساسي لرفع الملف</li>
+                                <li><strong>الخطوة 3:</strong> عرض معلومات الملف لفهم $_FILES</li>
+                                <li><strong>الخطوة 4:</strong> إضافة رسائل خطأ واضحة</li>
+                                <li><strong>الخطوة 5:</strong> الكود الكامل مع التنسيق</li>
+                            </ul>
+                            
+                            <h4><i class="fas fa-key"></i> مفاتيح مهمة:</h4>
+                            <ul>
+                                <li><strong>$_FILES:</strong> متغير يحتوي على معلومات الملف المرفوع</li>
+                                <li><strong>move_uploaded_file():</strong> دالة لحفظ الملف في مكان محدد</li>
+                                <li><strong>UPLOAD_ERR_OK:</strong> يعني عدم وجود أخطاء في الرفع</li>
+                                <li><strong>enctype="multipart/form-data":</strong> ضروري لرفع الملفات</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <h3>رفع الملفات - الجزء الثاني: التحقق من الأمان (File Upload - Part 2: Security Validation)</h3>
+                    <div class="learning-objectives">
+                        <h4><i class="fas fa-target"></i> أهداف التعلم</h4>
+                        <ul>
+                            <li>التحقق من نوع الملف</li>
+                            <li>التحقق من حجم الملف</li>
+                            <li>التحقق من محتوى الملف</li>
+                            <li>إنشاء أسماء ملفات آمنة</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="explanation">
+                        <h4><i class="fas fa-lightbulb"></i> أمان رفع الملفات</h4>
+                        <p>يجب التحقق من نوع الملف وحجمه ومحتواه لمنع رفع ملفات ضارة. كما يجب إنشاء أسماء ملفات آمنة لتجنب التضارب.</p>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> التحقق من الأمان</h4>
+                        <pre><code>&lt;?php
+// فئة بسيطة للتحقق من أمان الملفات
+class FileValidator {
+    
+    // أنواع الملفات المسموحة
+    private $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'txt'];
+    
+    // الحد الأقصى لحجم الملف (5MB)
+    private $max_file_size = 5 * 1024 * 1024;
+    
+    // التحقق من نوع الملف
+    public function validateFileType($filename) {
+        $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        return in_array($extension, $this->allowed_extensions);
+    }
+    
+    // التحقق من حجم الملف
+    public function validateFileSize($file_size) {
+        return $file_size <= $this->max_file_size;
+    }
+    
+    // التحقق من محتوى الملف (للملفات الخطيرة)
+    public function validateFileContent($tmp_name) {
+        // قراءة أول 1024 بايت للتحقق من التوقيع
+        $handle = fopen($tmp_name, 'rb');
+        $header = fread($handle, 1024);
+        fclose($handle);
+        
+        // التحقق من توقيعات الملفات الخطيرة
+        $dangerous_signatures = [
+            '&lt;?php',
+            '&lt;script',
+            'javascript:',
+            'vbscript:',
+            'onload=',
+            'onerror='
+        ];
+        
+        foreach ($dangerous_signatures as $signature) {
+            if (strpos($header, $signature) !== false) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    // إنشاء اسم فريد للملف
+    public function generateUniqueFilename($original_name) {
+        $extension = strtolower(pathinfo($original_name, PATHINFO_EXTENSION));
+        $timestamp = date('Y-m-d_H-i-s');
+        $random = substr(md5(uniqid()), 0, 8);
+        
+        return $timestamp . '_' . $random . '.' . $extension;
+    }
+    
+    // تنسيق حجم الملف
+    public function formatBytes($size, $precision = 2) {
+        $units = ['B', 'KB', 'MB', 'GB'];
+        for ($i = 0; $size > 1024 && $i < count($units) - 1; $i++) {
+            $size /= 1024;
+        }
+        return round($size, $precision) . ' ' . $units[$i];
+    }
+}
+
+// استخدام فئة التحقق
+$validator = new FileValidator();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['secure_file'])) {
+    $file = $_FILES['secure_file'];
+    $errors = [];
+    
+    // التحقق من وجود أخطاء في الرفع
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        $errors[] = "خطأ في رفع الملف";
+    }
+    
+    // التحقق من نوع الملف
+    if (!$validator->validateFileType($file['name'])) {
+        $errors[] = "نوع الملف غير مسموح. الأنواع المسموحة: " . implode(', ', $validator->allowed_extensions);
+    }
+    
+    // التحقق من حجم الملف
+    if (!$validator->validateFileSize($file['size'])) {
+        $errors[] = "حجم الملف كبير جداً. الحد الأقصى: " . $validator->formatBytes($validator->max_file_size);
+    }
+    
+    // التحقق من محتوى الملف
+    if (!$validator->validateFileContent($file['tmp_name'])) {
+        $errors[] = "محتوى الملف غير آمن أو خطير";
+    }
+    
+    // إذا لم توجد أخطاء، رفع الملف
+    if (empty($errors)) {
+        $upload_dir = 'uploads/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+        
+        // إنشاء اسم فريد للملف
+        $unique_filename = $validator->generateUniqueFilename($file['name']);
+        $destination = $upload_dir . $unique_filename;
+        
+        if (move_uploaded_file($file['tmp_name'], $destination)) {
+            echo "&lt;div class='success'&gt;تم رفع الملف بنجاح!&lt;/div&gt;";
+            echo "&lt;p&gt;الاسم الأصلي: " . $file['name'] . "&lt;/p&gt;";
+            echo "&lt;p&gt;الاسم الجديد: " . $unique_filename . "&lt;/p&gt;";
+            echo "&lt;p&gt;الحجم: " . $validator->formatBytes($file['size']) . "&lt;/p&gt;";
+            echo "&lt;p&gt;المسار: " . $destination . "&lt;/p&gt;";
+        } else {
+            $errors[] = "فشل في حفظ الملف";
+        }
+    }
+    
+    // عرض الأخطاء
+    if (!empty($errors)) {
+        echo "&lt;div class='error'&gt;";
+        echo "&lt;h4&gt;الأخطاء:&lt;/h4&gt;";
+        foreach ($errors as $error) {
+            echo "&lt;p&gt;• $error&lt;/p&gt;";
+        }
+        echo "&lt;/div&gt;";
+    }
+}
+?&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ar" dir="rtl"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;رفع ملف آمن&lt;/title&gt;
+    &lt;style&gt;
+        .success { color: green; background: #d4edda; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .error { color: red; background: #f8d7da; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .form-group { margin: 15px 0; }
+        input[type="file"] { padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 100%; }
+        input[type="submit"] { padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .info { background: #d1ecf1; padding: 10px; border-radius: 5px; margin: 10px 0; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;رفع ملف آمن&lt;/h2&gt;
+    
+    &lt;div class="info"&gt;
+        &lt;h4&gt;الأنواع المسموحة:&lt;/h4&gt;
+        &lt;p&gt;الصور: JPG, JPEG, PNG, GIF&lt;/p&gt;
+        &lt;p&gt;المستندات: PDF, TXT&lt;/p&gt;
+        &lt;p&gt;الحد الأقصى للحجم: 5MB&lt;/p&gt;
+    &lt;/div&gt;
+    
+    &lt;form method="POST" enctype="multipart/form-data"&gt;
+        &lt;div class="form-group"&gt;
+            &lt;label for="secure_file"&gt;اختر ملف آمن:&lt;/label&gt;
+            &lt;input type="file" id="secure_file" name="secure_file" required&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;input type="submit" value="رفع الملف الآمن"&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <h3>رفع الملفات - الجزء الثالث: فئة متقدمة (File Upload - Part 3: Advanced Class)</h3>
+                    <div class="learning-objectives">
+                        <h4><i class="fas fa-target"></i> أهداف التعلم</h4>
+                        <ul>
+                            <li>إنشاء فئة متقدمة لرفع الملفات</li>
+                            <li>رفع عدة ملفات في مرة واحدة</li>
+                            <li>إدارة الملفات المرفوعة</li>
+                            <li>عرض قائمة الملفات</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="explanation">
+                        <h4><i class="fas fa-lightbulb"></i> فئة متقدمة لرفع الملفات</h4>
+                        <p>بعد تعلم أساسيات OOP، يمكننا إنشاء فئة متقدمة لإدارة رفع الملفات مع ميزات إضافية مثل رفع عدة ملفات وإدارة الملفات المرفوعة.</p>
+                    </div>
+                    
+                    <div class="code-explanation">
+                        <h4><i class="fas fa-code"></i> فئة متقدمة لإدارة الملفات</h4>
+                        <pre><code>&lt;?php
+// فئة متقدمة لإدارة رفع الملفات
+class AdvancedFileManager {
+    
+    private $upload_dir;
+    private $allowed_types;
+    private $max_file_size;
+    private $errors = [];
+    
+    public function __construct($upload_dir = 'uploads/', $max_size = 10 * 1024 * 1024) { // 10MB
+        $this->upload_dir = $upload_dir;
+        $this->max_file_size = $max_size;
+        
+        // أنواع الملفات المسموحة
+        $this->allowed_types = [
+            'image' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+            'document' => ['pdf', 'doc', 'docx', 'txt'],
+            'archive' => ['zip', 'rar', '7z']
+        ];
+        
+        // إنشاء مجلد الرفع إذا لم يكن موجوداً
+        if (!is_dir($this->upload_dir)) {
+            mkdir($this->upload_dir, 0755, true);
+        }
+    }
+    
+    // رفع ملف واحد
+    public function uploadSingleFile($file_input_name, $category = 'image') {
+        if (!isset($_FILES[$file_input_name])) {
+            $this->errors[] = "لم يتم اختيار ملف";
+            return false;
+        }
+        
+        $file = $_FILES[$file_input_name];
+        
+        // التحقق من وجود أخطاء في الرفع
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            $this->errors[] = $this->getUploadErrorMessage($file['error']);
+            return false;
+        }
+        
+        // التحقق من حجم الملف
+        if ($file['size'] > $this->max_file_size) {
+            $this->errors[] = "حجم الملف كبير جداً. الحد الأقصى: " . $this->formatBytes($this->max_file_size);
+            return false;
+        }
+        
+        // الحصول على معلومات الملف
+        $file_info = pathinfo($file['name']);
+        $extension = strtolower($file_info['extension']);
+        $filename = $file_info['filename'];
+        
+        // التحقق من نوع الملف
+        if (!$this->isAllowedType($extension, $category)) {
+            $this->errors[] = "نوع الملف غير مسموح. الأنواع المسموحة: " . implode(', ', $this->allowed_types[$category]);
+            return false;
+        }
+        
+        // التحقق من محتوى الملف
+        if (!$this->validateFileContent($file['tmp_name'], $extension)) {
+            $this->errors[] = "محتوى الملف غير صالح أو خطير";
+            return false;
+        }
+        
+        // إنشاء اسم فريد للملف
+        $unique_filename = $this->generateUniqueFilename($filename, $extension);
+        $upload_path = $this->upload_dir . $unique_filename;
+        
+        // رفع الملف
+        if (move_uploaded_file($file['tmp_name'], $upload_path)) {
+            return [
+                'success' => true,
+                'filename' => $unique_filename,
+                'original_name' => $file['name'],
+                'size' => $file['size'],
+                'type' => $file['type'],
+                'path' => $upload_path,
+                'url' => $this->getFileUrl($unique_filename)
+            ];
+        } else {
+            $this->errors[] = "فشل في رفع الملف";
+            return false;
+        }
+    }
+    
+    // رفع عدة ملفات
+    public function uploadMultipleFiles($file_input_name, $category = 'image') {
+        $results = [];
+        
+        if (!isset($_FILES[$file_input_name])) {
+            $this->errors[] = "لم يتم اختيار ملفات";
+            return $results;
+        }
+        
+        $files = $_FILES[$file_input_name];
+        $file_count = count($files['name']);
+        
+        for ($i = 0; $i < $file_count; $i++) {
+            // إنشاء مصفوفة ملف واحدة
+            $single_file = [
+                'name' => $files['name'][$i],
+                'type' => $files['type'][$i],
+                'tmp_name' => $files['tmp_name'][$i],
+                'error' => $files['error'][$i],
+                'size' => $files['size'][$i]
+            ];
+            
+            // حفظ الملف المؤقت
+            $_FILES['temp_file'] = $single_file;
+            
+            // رفع الملف
+            $result = $this->uploadSingleFile('temp_file', $category);
+            $results[] = $result;
+            
+            // حذف الملف المؤقت من $_FILES
+            unset($_FILES['temp_file']);
+        }
+        
+        return $results;
+    }
+    
+    // الحصول على قائمة الملفات المرفوعة
+    public function getUploadedFiles() {
+        $files = [];
+        if (is_dir($this->upload_dir)) {
+            $file_list = scandir($this->upload_dir);
+            foreach ($file_list as $file) {
+                if ($file !== '.' && $file !== '..') {
+                    $file_path = $this->upload_dir . $file;
+                    $files[] = [
+                        'name' => $file,
+                        'size' => filesize($file_path),
+                        'url' => $this->getFileUrl($file),
+                        'uploaded_at' => date('Y-m-d H:i:s', filemtime($file_path))
+                    ];
+                }
+            }
+        }
+        return $files;
+    }
+    
+    // حذف ملف
+    public function deleteFile($filename) {
+        $file_path = $this->upload_dir . $filename;
+        if (file_exists($file_path)) {
+            return unlink($file_path);
+        }
+        return false;
+    }
+    
+    // التحقق من نوع الملف
+    private function isAllowedType($extension, $category) {
+        return isset($this->allowed_types[$category]) && 
+               in_array($extension, $this->allowed_types[$category]);
+    }
+    
+    // التحقق من محتوى الملف
+    private function validateFileContent($tmp_name, $extension) {
+        // قراءة أول 1024 بايت للتحقق من التوقيع
+        $handle = fopen($tmp_name, 'rb');
+        $header = fread($handle, 1024);
+        fclose($handle);
+        
+        // التحقق من توقيعات الملفات الخطيرة
+        $dangerous_signatures = [
+            '&lt;?php',
+            '&lt;script',
+            'javascript:',
+            'vbscript:',
+            'onload=',
+            'onerror='
+        ];
+        
+        foreach ($dangerous_signatures as $signature) {
+            if (strpos($header, $signature) !== false) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    // إنشاء اسم فريد للملف
+    private function generateUniqueFilename($filename, $extension) {
+        $timestamp = date('Y-m-d_H-i-s');
+        $random = substr(md5(uniqid()), 0, 8);
+        $safe_filename = preg_replace('/[^a-zA-Z0-9_-]/', '_', $filename);
+        
+        return $timestamp . '_' . $random . '_' . $safe_filename . '.' . $extension;
+    }
+    
+    // الحصول على URL الملف
+    private function getFileUrl($filename) {
+        return 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/' . $this->upload_dir . $filename;
+    }
+    
+    // تنسيق حجم الملف
+    private function formatBytes($size, $precision = 2) {
+        $units = ['B', 'KB', 'MB', 'GB'];
+        for ($i = 0; $size > 1024 && $i < count($units) - 1; $i++) {
+            $size /= 1024;
+        }
+        return round($size, $precision) . ' ' . $units[$i];
+    }
+    
+    // رسائل أخطاء الرفع
+    private function getUploadErrorMessage($error_code) {
+        $messages = [
+            UPLOAD_ERR_INI_SIZE => 'حجم الملف أكبر من الحد المسموح في الخادم',
+            UPLOAD_ERR_FORM_SIZE => 'حجم الملف أكبر من الحد المسموح في النموذج',
+            UPLOAD_ERR_PARTIAL => 'تم رفع جزء من الملف فقط',
+            UPLOAD_ERR_NO_FILE => 'لم يتم اختيار ملف',
+            UPLOAD_ERR_NO_TMP_DIR => 'مجلد الملفات المؤقتة غير موجود',
+            UPLOAD_ERR_CANT_WRITE => 'فشل في كتابة الملف على القرص',
+            UPLOAD_ERR_EXTENSION => 'تم إيقاف رفع الملف بواسطة إضافة PHP'
+        ];
+        
+        return $messages[$error_code] ?? 'خطأ غير معروف في رفع الملف';
+    }
+    
+    // الحصول على الأخطاء
+    public function getErrors() {
+        return $this->errors;
+    }
+}
+
+// استخدام الفئة المتقدمة
+$file_manager = new AdvancedFileManager('uploads/', 10 * 1024 * 1024); // 10MB
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['upload_single'])) {
+        $result = $file_manager->uploadSingleFile('single_file', 'image');
+        
+        if ($result && $result['success']) {
+            echo "&lt;div class='success'&gt;تم رفع الملف بنجاح: {$result['original_name']}&lt;/div&gt;";
+            echo "&lt;p&gt;اسم الملف الجديد: {$result['filename']}&lt;/p&gt;";
+            echo "&lt;p&gt;حجم الملف: " . $file_manager->formatBytes($result['size']) . "&lt;/p&gt;";
+            echo "&lt;p&gt;رابط الملف: &lt;a href='{$result['url']}' target='_blank'&gt;عرض الملف&lt;/a&gt;&lt;/p&gt;";
+        } else {
+            echo "&lt;div class='error'&gt;فشل في رفع الملف&lt;/div&gt;";
+            foreach ($file_manager->getErrors() as $error) {
+                echo "&lt;p class='error'&gt;$error&lt;/p&gt;";
+            }
+        }
+    }
+    
+    if (isset($_POST['upload_multiple'])) {
+        $results = $file_manager->uploadMultipleFiles('multiple_files', 'image');
+        
+        $success_count = 0;
+        foreach ($results as $result) {
+            if ($result && $result['success']) {
+                $success_count++;
+                echo "&lt;div class='success'&gt;تم رفع: {$result['original_name']}&lt;/div&gt;";
+            }
+        }
+        
+        if ($success_count > 0) {
+            echo "&lt;div class='success'&gt;تم رفع $success_count ملف بنجاح&lt;/div&gt;";
+        }
+        
+        foreach ($file_manager->getErrors() as $error) {
+            echo "&lt;p class='error'&gt;$error&lt;/p&gt;";
+        }
+    }
+    
+    if (isset($_POST['delete_file'])) {
+        $filename = $_POST['filename'];
+        if ($file_manager->deleteFile($filename)) {
+            echo "&lt;div class='success'&gt;تم حذف الملف: $filename&lt;/div&gt;";
+        } else {
+            echo "&lt;div class='error'&gt;فشل في حذف الملف: $filename&lt;/div&gt;";
+        }
+    }
+}
+
+// عرض النماذج
+echo "&lt;h3&gt;رفع ملف واحد&lt;/h3&gt;";
+echo "&lt;form method='POST' enctype='multipart/form-data'&gt;";
+echo "&lt;input type='file' name='single_file' accept='image/*' required&gt;&lt;br&gt;&lt;br&gt;";
+echo "&lt;input type='submit' name='upload_single' value='رفع الملف'&gt;";
+echo "&lt;/form&gt;";
+
+echo "&lt;h3&gt;رفع عدة ملفات&lt;/h3&gt;";
+echo "&lt;form method='POST' enctype='multipart/form-data'&gt;";
+echo "&lt;input type='file' name='multiple_files[]' accept='image/*' multiple required&gt;&lt;br&gt;&lt;br&gt;";
+echo "&lt;input type='submit' name='upload_multiple' value='رفع الملفات'&gt;";
+echo "&lt;/form&gt;";
+
+// عرض الملفات المرفوعة
+echo "&lt;h3&gt;الملفات المرفوعة&lt;/h3&gt;";
+$uploaded_files = $file_manager->getUploadedFiles();
+
+if (empty($uploaded_files)) {
+    echo "&lt;p&gt;لا توجد ملفات مرفوعة&lt;/p&gt;";
+} else {
+    echo "&lt;div class='file-list'&gt;";
+    foreach ($uploaded_files as $file) {
+        echo "&lt;div class='file-item'&gt;";
+        echo "&lt;p&gt;&lt;strong&gt;الملف:&lt;/strong&gt; {$file['name']}&lt;/p&gt;";
+        echo "&lt;p&gt;&lt;strong&gt;الحجم:&lt;/strong&gt; " . $file_manager->formatBytes($file['size']) . "&lt;/p&gt;";
+        echo "&lt;p&gt;&lt;strong&gt;تاريخ الرفع:&lt;/strong&gt; {$file['uploaded_at']}&lt;/p&gt;";
+        echo "&lt;p&gt;&lt;a href='{$file['url']}' target='_blank'&gt;عرض الملف&lt;/a&gt; | ";
+        echo "&lt;form method='POST' style='display: inline;'&gt;";
+        echo "&lt;input type='hidden' name='filename' value='{$file['name']}'&gt;";
+        echo "&lt;input type='submit' name='delete_file' value='حذف' onclick='return confirm(\"هل أنت متأكد من حذف هذا الملف؟\")'&gt;";
+        echo "&lt;/form&gt;&lt;/p&gt;";
+        echo "&lt;/div&gt;&lt;hr&gt;";
+    }
+    echo "&lt;/div&gt;";
+}
+?&gt;</code></pre>
+                        
+                        <div class="explanation">
+                            <h4><i class="fas fa-cogs"></i> مميزات الفئة المتقدمة:</h4>
+                            <ul>
+                                <li><strong>رفع ملف واحد:</strong> uploadSingleFile() لرفع ملف واحد مع التحقق الكامل</li>
+                                <li><strong>رفع عدة ملفات:</strong> uploadMultipleFiles() لرفع عدة ملفات في مرة واحدة</li>
+                                <li><strong>إدارة الملفات:</strong> getUploadedFiles() لعرض قائمة الملفات</li>
+                                <li><strong>حذف الملفات:</strong> deleteFile() لحذف ملفات محددة</li>
+                                <li><strong>التحقق من الأمان:</strong> التحقق من النوع والحجم والمحتوى</li>
+                                <li><strong>أسماء فريدة:</strong> إنشاء أسماء ملفات فريدة لتجنب التضارب</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </section>
